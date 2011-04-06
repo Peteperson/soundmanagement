@@ -25,7 +25,7 @@ Partial Class Main
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
         Me.SoundsGrid = New DevExpress.XtraGrid.GridControl()
-        Me.FilesBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.FilesJoinedBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.SoundsDataSet = New SoundsManagement.SoundsDataSet()
         Me.GridView1 = New DevExpress.XtraGrid.Views.Grid.GridView()
         Me.colCreator = New DevExpress.XtraGrid.Columns.GridColumn()
@@ -41,21 +41,23 @@ Partial Class Main
         Me.colRating = New DevExpress.XtraGrid.Columns.GridColumn()
         Me.colFilename = New DevExpress.XtraGrid.Columns.GridColumn()
         Me.colTags = New DevExpress.XtraGrid.Columns.GridColumn()
+        Me.FilesBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnSave = New System.Windows.Forms.Button()
         Me.btnLibPath = New System.Windows.Forms.Button()
         Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
         Me.btnPlaySound = New System.Windows.Forms.Button()
         Me.FilesTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesTableAdapter()
-        Me.FilesJoinedBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.FilesJoinedTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedTableAdapter()
+        Me.txtFilter = New System.Windows.Forms.TextBox()
         CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FilesBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.FilesJoinedBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.FilesBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.wmp, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FilesJoinedBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SoundsGrid
@@ -71,10 +73,10 @@ Partial Class Main
         Me.SoundsGrid.TabIndex = 0
         Me.SoundsGrid.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.GridView1})
         '
-        'FilesBindingSource
+        'FilesJoinedBindingSource
         '
-        Me.FilesBindingSource.DataMember = "Files"
-        Me.FilesBindingSource.DataSource = Me.SoundsDataSet
+        Me.FilesJoinedBindingSource.DataMember = "FilesJoined"
+        Me.FilesJoinedBindingSource.DataSource = Me.SoundsDataSet
         '
         'SoundsDataSet
         '
@@ -85,7 +87,9 @@ Partial Class Main
         '
         Me.GridView1.Columns.AddRange(New DevExpress.XtraGrid.Columns.GridColumn() {Me.colCreator, Me.colLibrary, Me.colCD, Me.colYear, Me.colTrack, Me.colIndex, Me.colCategory, Me.colSubCategory, Me.colDescription, Me.colTime, Me.colRating, Me.colFilename, Me.colTags})
         Me.GridView1.GridControl = Me.SoundsGrid
+        Me.GridView1.GroupCount = 1
         Me.GridView1.Name = "GridView1"
+        Me.GridView1.SortInfo.AddRange(New DevExpress.XtraGrid.Columns.GridColumnSortInfo() {New DevExpress.XtraGrid.Columns.GridColumnSortInfo(Me.colCreator, DevExpress.Data.ColumnSortOrder.Ascending)})
         '
         'colCreator
         '
@@ -103,7 +107,7 @@ Partial Class Main
         Me.colLibrary.OptionsColumn.AllowEdit = False
         Me.colLibrary.OptionsColumn.ReadOnly = True
         Me.colLibrary.Visible = True
-        Me.colLibrary.VisibleIndex = 1
+        Me.colLibrary.VisibleIndex = 0
         '
         'colCD
         '
@@ -112,7 +116,7 @@ Partial Class Main
         Me.colCD.OptionsColumn.AllowEdit = False
         Me.colCD.OptionsColumn.ReadOnly = True
         Me.colCD.Visible = True
-        Me.colCD.VisibleIndex = 2
+        Me.colCD.VisibleIndex = 1
         '
         'colYear
         '
@@ -121,7 +125,7 @@ Partial Class Main
         Me.colYear.OptionsColumn.AllowEdit = False
         Me.colYear.OptionsColumn.ReadOnly = True
         Me.colYear.Visible = True
-        Me.colYear.VisibleIndex = 3
+        Me.colYear.VisibleIndex = 2
         '
         'colTrack
         '
@@ -130,7 +134,7 @@ Partial Class Main
         Me.colTrack.OptionsColumn.AllowEdit = False
         Me.colTrack.OptionsColumn.ReadOnly = True
         Me.colTrack.Visible = True
-        Me.colTrack.VisibleIndex = 4
+        Me.colTrack.VisibleIndex = 3
         '
         'colIndex
         '
@@ -139,7 +143,7 @@ Partial Class Main
         Me.colIndex.OptionsColumn.AllowEdit = False
         Me.colIndex.OptionsColumn.ReadOnly = True
         Me.colIndex.Visible = True
-        Me.colIndex.VisibleIndex = 5
+        Me.colIndex.VisibleIndex = 4
         '
         'colCategory
         '
@@ -148,7 +152,7 @@ Partial Class Main
         Me.colCategory.OptionsColumn.AllowEdit = False
         Me.colCategory.OptionsColumn.ReadOnly = True
         Me.colCategory.Visible = True
-        Me.colCategory.VisibleIndex = 6
+        Me.colCategory.VisibleIndex = 5
         '
         'colSubCategory
         '
@@ -158,7 +162,7 @@ Partial Class Main
         Me.colSubCategory.OptionsColumn.AllowEdit = False
         Me.colSubCategory.OptionsColumn.ReadOnly = True
         Me.colSubCategory.Visible = True
-        Me.colSubCategory.VisibleIndex = 7
+        Me.colSubCategory.VisibleIndex = 6
         '
         'colDescription
         '
@@ -170,7 +174,7 @@ Partial Class Main
         Me.colDescription.OptionsFilter.AllowFilterModeChanging = DevExpress.Utils.DefaultBoolean.[True]
         Me.colDescription.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains
         Me.colDescription.Visible = True
-        Me.colDescription.VisibleIndex = 8
+        Me.colDescription.VisibleIndex = 7
         '
         'colTime
         '
@@ -179,14 +183,14 @@ Partial Class Main
         Me.colTime.OptionsColumn.AllowEdit = False
         Me.colTime.OptionsColumn.ReadOnly = True
         Me.colTime.Visible = True
-        Me.colTime.VisibleIndex = 12
+        Me.colTime.VisibleIndex = 11
         '
         'colRating
         '
         Me.colRating.FieldName = "Rating"
         Me.colRating.Name = "colRating"
         Me.colRating.Visible = True
-        Me.colRating.VisibleIndex = 9
+        Me.colRating.VisibleIndex = 8
         '
         'colFilename
         '
@@ -195,14 +199,19 @@ Partial Class Main
         Me.colFilename.OptionsColumn.AllowEdit = False
         Me.colFilename.OptionsColumn.ReadOnly = True
         Me.colFilename.Visible = True
-        Me.colFilename.VisibleIndex = 10
+        Me.colFilename.VisibleIndex = 9
         '
         'colTags
         '
         Me.colTags.FieldName = "Tags"
         Me.colTags.Name = "colTags"
         Me.colTags.Visible = True
-        Me.colTags.VisibleIndex = 11
+        Me.colTags.VisibleIndex = 10
+        '
+        'FilesBindingSource
+        '
+        Me.FilesBindingSource.DataMember = "Files"
+        Me.FilesBindingSource.DataSource = Me.SoundsDataSet
         '
         'FolderBrowserDialog1
         '
@@ -213,6 +222,8 @@ Partial Class Main
         '
         Me.Panel1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel1.Controls.Add(Me.txtFilter)
+        Me.Panel1.Controls.Add(Me.btnSave)
         Me.Panel1.Controls.Add(Me.btnLibPath)
         Me.Panel1.Controls.Add(Me.wmp)
         Me.Panel1.Controls.Add(Me.btnPlaySound)
@@ -220,6 +231,16 @@ Partial Class Main
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(648, 39)
         Me.Panel1.TabIndex = 1
+        '
+        'btnSave
+        '
+        Me.btnSave.Location = New System.Drawing.Point(407, 13)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(75, 23)
+        Me.btnSave.TabIndex = 3
+        Me.btnSave.Text = "Save data"
+        Me.btnSave.UseVisualStyleBackColor = True
+        Me.btnSave.Visible = False
         '
         'btnLibPath
         '
@@ -255,14 +276,17 @@ Partial Class Main
         '
         Me.FilesTableAdapter.ClearBeforeFill = True
         '
-        'FilesJoinedBindingSource
-        '
-        Me.FilesJoinedBindingSource.DataMember = "FilesJoined"
-        Me.FilesJoinedBindingSource.DataSource = Me.SoundsDataSet
-        '
         'FilesJoinedTableAdapter
         '
         Me.FilesJoinedTableAdapter.ClearBeforeFill = True
+        '
+        'txtFilter
+        '
+        Me.txtFilter.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.txtFilter.Location = New System.Drawing.Point(229, 13)
+        Me.txtFilter.Name = "txtFilter"
+        Me.txtFilter.Size = New System.Drawing.Size(100, 20)
+        Me.txtFilter.TabIndex = 4
         '
         'Main
         '
@@ -275,12 +299,13 @@ Partial Class Main
         Me.Text = "Sound Management"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FilesBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.FilesJoinedBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.FilesBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         CType(Me.wmp, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FilesJoinedBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -309,5 +334,7 @@ Partial Class Main
     Friend WithEvents FilesTableAdapter As SoundsManagement.SoundsDataSetTableAdapters.FilesTableAdapter
     Friend WithEvents FilesJoinedBindingSource As System.Windows.Forms.BindingSource
     Friend WithEvents FilesJoinedTableAdapter As SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedTableAdapter
+    Friend WithEvents btnSave As System.Windows.Forms.Button
+    Friend WithEvents txtFilter As System.Windows.Forms.TextBox
 
 End Class

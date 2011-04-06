@@ -1,22 +1,17 @@
 ﻿Imports DevExpress.XtraGrid.Views.Grid
+Imports System.Data.OleDb
 
 Public Class Main
     Private _FilesPath As String = ""
     Public ReadOnly Property FilesPath(Optional ByVal RetrieveFromDB As Boolean = True) As String
         Get
             If _FilesPath = "" Then
-                Dim que As New SoundsDataSetTableAdapters.QueriesTableAdapter
                 Dim pt As New SoundsDataSetTableAdapters.ParametersTableAdapter
-                If RetrieveFromDB Then _FilesPath = que.LibraryPath()
+                If RetrieveFromDB Then _FilesPath = pt.GetData("SoundsLibraryPath").First.ParamValue
                 If _FilesPath <> "" AndAlso My.Computer.FileSystem.DirectoryExists(_FilesPath) Then Return _FilesPath
                 If FolderBrowserDialog1.ShowDialog = vbOK Then
                     _FilesPath = FolderBrowserDialog1.SelectedPath
-                    Try
-                        pt.Update(_FilesPath, "SoundsLibraryPath", "")
-                    Catch ex As Exception
-                        MessageBox.Show(ex.Message)
-                    End Try
-                    SoundsDataSet.AcceptChanges()
+                    pt.Update(_FilesPath, "SoundsLibraryPath")
                 End If
             End If
             Return _FilesPath
@@ -38,7 +33,7 @@ Public Class Main
     End Sub
 
     Private Sub PlaySound()
-        Dim row As SoundsDataSet.FilesJoinedRow 'SoundsManagement.SoundsDataSet.FilesDataTableRow
+        Dim row As SoundsDataSet.FilesJoinedRow
         Dim CurrentFile As String
         Dim tr As System.Data.DataRowView
         tr = SoundsGrid.FocusedView.GetRow(CType(SoundsGrid.FocusedView, DevExpress.XtraGrid.Views.Grid.GridView).FocusedRowHandle)
@@ -54,5 +49,11 @@ Public Class Main
     Private Sub btnLibPath_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLibPath.Click
         _FilesPath = ""
         Dim s As String = FilesPath(False)
+    End Sub
+
+    Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
+        'Validate()
+        FilesJoinedBindingSource.EndEdit()
+        FilesJoinedTableAdapter.Update(SoundsDataSet.FilesJoined)
     End Sub
 End Class
