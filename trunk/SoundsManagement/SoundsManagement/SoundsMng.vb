@@ -34,10 +34,10 @@
         End Set
     End Property
 
-
     Private Sub FilesJoinedNewBindingNavigatorSaveItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilesJoinedNewBindingNavigatorSaveItem.Click
         Me.Validate()
         Me.FilesJoinedNewBindingSource.EndEdit()
+        'Me.FilesJoinedNewTableAdapter.Adapter.UpdateCommand.Parameters(
         Me.TableAdapterManager.UpdateAll(Me.SoundsDataSet)
     End Sub
 
