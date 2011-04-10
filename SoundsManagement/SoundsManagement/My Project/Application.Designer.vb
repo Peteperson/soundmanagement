@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.SoundsManagement.Main
+            Me.MainForm = Global.SoundsManagement.SoundsMng
         End Sub
     End Class
 End Namespace
