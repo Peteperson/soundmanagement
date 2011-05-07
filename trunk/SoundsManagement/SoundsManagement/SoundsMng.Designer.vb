@@ -46,12 +46,6 @@ Partial Class SoundsMng
         Me.BindingNavigatorSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.FilesJoinedNewBindingNavigatorSaveItem = New System.Windows.Forms.ToolStripButton()
         Me.SoundsGrid = New System.Windows.Forms.DataGridView()
-        Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
-        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.btnLibPath = New System.Windows.Forms.Button()
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.FilesJoinedNewTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter()
-        Me.TableAdapterManager = New SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager()
         Me.ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -66,6 +60,12 @@ Partial Class SoundsMng
         Me.DataGridViewTextBoxColumn11 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn12 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn13 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.btnLibPath = New System.Windows.Forms.Button()
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.FilesJoinedNewTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter()
+        Me.TableAdapterManager = New SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager()
         CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.FilesJoinedNewBindingNavigator.SuspendLayout()
         CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -252,47 +252,6 @@ Partial Class SoundsMng
         Me.SoundsGrid.Size = New System.Drawing.Size(766, 494)
         Me.SoundsGrid.TabIndex = 2
         '
-        'wmp
-        '
-        Me.wmp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.wmp.Enabled = True
-        Me.wmp.Location = New System.Drawing.Point(0, 528)
-        Me.wmp.Name = "wmp"
-        Me.wmp.OcxState = CType(resources.GetObject("wmp.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.wmp.Size = New System.Drawing.Size(222, 45)
-        Me.wmp.TabIndex = 3
-        '
-        'btnLibPath
-        '
-        Me.btnLibPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnLibPath.Location = New System.Drawing.Point(228, 550)
-        Me.btnLibPath.Name = "btnLibPath"
-        Me.btnLibPath.Size = New System.Drawing.Size(75, 23)
-        Me.btnLibPath.TabIndex = 4
-        Me.btnLibPath.Text = "Set Lib Path"
-        Me.btnLibPath.UseVisualStyleBackColor = True
-        '
-        'Timer1
-        '
-        Me.Timer1.Interval = 1000
-        '
-        'FilesJoinedNewTableAdapter
-        '
-        Me.FilesJoinedNewTableAdapter.ClearBeforeFill = True
-        '
-        'TableAdapterManager
-        '
-        Me.TableAdapterManager.BackupDataSetBeforeUpdate = False
-        Me.TableAdapterManager.CategoriesTableAdapter = Nothing
-        Me.TableAdapterManager.CDsTableAdapter = Nothing
-        Me.TableAdapterManager.CreatorsTableAdapter = Nothing
-        Me.TableAdapterManager.FilesJoinedNewTableAdapter = Me.FilesJoinedNewTableAdapter
-        Me.TableAdapterManager.FilesTableAdapter = Nothing
-        Me.TableAdapterManager.LibrariesTableAdapter = Nothing
-        Me.TableAdapterManager.ParametersTableAdapter = Nothing
-        Me.TableAdapterManager.SubcategoriesTableAdapter = Nothing
-        Me.TableAdapterManager.UpdateOrder = SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
-        '
         'ID
         '
         Me.ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
@@ -404,6 +363,47 @@ Partial Class SoundsMng
         Me.DataGridViewTextBoxColumn13.HeaderText = "Tags"
         Me.DataGridViewTextBoxColumn13.Name = "DataGridViewTextBoxColumn13"
         Me.DataGridViewTextBoxColumn13.Width = 56
+        '
+        'wmp
+        '
+        Me.wmp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.wmp.Enabled = True
+        Me.wmp.Location = New System.Drawing.Point(0, 528)
+        Me.wmp.Name = "wmp"
+        Me.wmp.OcxState = CType(resources.GetObject("wmp.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.wmp.Size = New System.Drawing.Size(222, 45)
+        Me.wmp.TabIndex = 3
+        '
+        'btnLibPath
+        '
+        Me.btnLibPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnLibPath.Location = New System.Drawing.Point(228, 550)
+        Me.btnLibPath.Name = "btnLibPath"
+        Me.btnLibPath.Size = New System.Drawing.Size(75, 23)
+        Me.btnLibPath.TabIndex = 4
+        Me.btnLibPath.Text = "Set Lib Path"
+        Me.btnLibPath.UseVisualStyleBackColor = True
+        '
+        'Timer1
+        '
+        Me.Timer1.Interval = 1000
+        '
+        'FilesJoinedNewTableAdapter
+        '
+        Me.FilesJoinedNewTableAdapter.ClearBeforeFill = True
+        '
+        'TableAdapterManager
+        '
+        Me.TableAdapterManager.BackupDataSetBeforeUpdate = False
+        Me.TableAdapterManager.CategoriesTableAdapter = Nothing
+        Me.TableAdapterManager.CDsTableAdapter = Nothing
+        Me.TableAdapterManager.CreatorsTableAdapter = Nothing
+        Me.TableAdapterManager.FilesJoinedNewTableAdapter = Me.FilesJoinedNewTableAdapter
+        Me.TableAdapterManager.FilesTableAdapter = Nothing
+        Me.TableAdapterManager.LibrariesTableAdapter = Nothing
+        Me.TableAdapterManager.ParametersTableAdapter = Nothing
+        Me.TableAdapterManager.SubcategoriesTableAdapter = Nothing
+        Me.TableAdapterManager.UpdateOrder = SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
         '
         'SoundsMng
         '
