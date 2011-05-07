@@ -46,12 +46,11 @@
         Dim s As String = FilesPath
         FillGrid()
         WindowState = FormWindowState.Maximized
-        ToolStripFilter.Focus()
     End Sub
 
     Private Sub PlaySound()
         Dim row As SoundsDataSet.FilesJoinedNewRow
-        Dim CurrentFile As String
+        Dim CurrentFile As String = ""
         Dim tr As System.Data.DataRowView
         tr = SoundsGrid.CurrentRow.DataBoundItem
         row = tr.Row
@@ -67,8 +66,20 @@
 
     Private Sub FillGrid()
         Try
-            Dim fltr As String = ToolStripFilter.Text
-            FilesJoinedNewTableAdapter.Fill(Me.SoundsDataSet.FilesJoinedNew, fltr, fltr, fltr, fltr)
+            Dim fltr() As String = ToolStripFilter.Text.Split(" ")
+            If fltr.Length > 4 Then
+                ToolStripFilter.Text = fltr(0) & " " & fltr(1) & " " & fltr(2) & " " & fltr(3)
+                MessageBox.Show("Unable to handle more than 4 words")
+                Exit Sub
+            End If
+            Dim fltrprm() As String = {"", "", "", ""}
+            For i = 0 To fltr.Length - 1
+                fltrprm(i) = fltr(i)
+            Next
+            FilesJoinedNewTableAdapter.Fill(SoundsDataSet.FilesJoinedNew, fltrprm(0), fltrprm(0), fltrprm(0), fltrprm(0) _
+                                            , fltrprm(1), fltrprm(1), fltrprm(1), fltrprm(1) _
+                                            , fltrprm(2), fltrprm(2), fltrprm(2), fltrprm(2) _
+                                            , fltrprm(3), fltrprm(3), fltrprm(3), fltrprm(3))
         Catch ex As System.Exception
             System.Windows.Forms.MessageBox.Show(ex.Message)
         End Try
@@ -94,5 +105,9 @@
     Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
         FillGrid()
         Timer1.Enabled = False
+    End Sub
+
+    Private Sub SoundsMng_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
+        ToolStripFilter.Focus()
     End Sub
 End Class
