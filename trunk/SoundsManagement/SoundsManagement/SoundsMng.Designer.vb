@@ -115,7 +115,7 @@ Partial Class SoundsMng
         'BindingNavigatorCountItem
         '
         Me.BindingNavigatorCountItem.Name = "BindingNavigatorCountItem"
-        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(35, 22)
+        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(36, 22)
         Me.BindingNavigatorCountItem.Text = "of {0}"
         Me.BindingNavigatorCountItem.ToolTipText = "Total number of items"
         '
@@ -132,13 +132,13 @@ Partial Class SoundsMng
         'ToolStripLabel1
         '
         Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(36, 22)
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(35, 22)
         Me.ToolStripLabel1.Text = "Filter:"
         '
         'ToolStripFilter
         '
         Me.ToolStripFilter.Name = "ToolStripFilter"
-        Me.ToolStripFilter.Size = New System.Drawing.Size(100, 25)
+        Me.ToolStripFilter.Size = New System.Drawing.Size(200, 25)
         '
         'ToolStripSeparator1
         '
@@ -217,8 +217,8 @@ Partial Class SoundsMng
         '
         Me.SoundsGrid.AllowUserToOrderColumns = True
         Me.SoundsGrid.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SoundsGrid.AutoGenerateColumns = False
         DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
