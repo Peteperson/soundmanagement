@@ -1,4 +1,6 @@
-﻿Public Class SoundsMng
+﻿Imports FileHelpers
+
+Public Class SoundsMng
 
     Private _FilesPath As String = ""
     Public ReadOnly Property FilesPath(Optional ByVal RetrieveFromDB As Boolean = True) As String
@@ -109,5 +111,43 @@
 
     Private Sub SoundsMng_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         ToolStripFilter.Focus()
+    End Sub
+
+    Private Sub btnImport_Click(sender As System.Object, e As System.EventArgs) Handles btnImport.Click
+        OpenFileDialog1.InitialDirectory = "c:\"
+        OpenFileDialog1.Filter = "tsv files (*.tab)|*.tab|All files (*.*)|*.*"
+        OpenFileDialog1.FilterIndex = 0
+        OpenFileDialog1.Multiselect = False
+        openFileDialog1.RestoreDirectory = True
+
+        If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            Try
+                Dim engine As New FileHelperEngine(Of SoundRecord)()
+                engine.ErrorManager.ErrorMode = ErrorMode.SaveAndContinue
+
+                Dim res As SoundRecord() = engine.ReadFile(OpenFileDialog1.FileName)
+                Dim fta As New SoundsDataSetTableAdapters.FilesForImportTableAdapter
+                If engine.ErrorManager.ErrorCount > 0 Then
+                    engine.ErrorManager.SaveErrors("Errors.txt")
+                End If
+                Dim tmpRet As Integer
+                For Each snd As SoundRecord In res
+                    tmpRet = fta.Insert(snd.Creator, snd.Library, snd.Year, snd.CD, snd.Track, snd.Index, snd.Category,
+                               snd.SubCategory, snd.Description, snd.Time, snd.Rating, snd.Filename, snd.Tags)
+                Next
+
+                Dim qry As New SoundsDataSetTableAdapters.QueriesTableAdapter
+                tmpRet = qry.ImportCreators
+                tmpRet = qry.ImportLibraries
+                tmpRet = qry.ImportCDs
+                tmpRet = qry.ImportCategories
+                tmpRet = qry.ImportSubCategories
+                tmpRet = qry.ImportFiles
+            Catch Ex As Exception
+                MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)
+            Finally
+
+            End Try
+        End If
     End Sub
 End Class

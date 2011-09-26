@@ -49,6 +49,9 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FileHelpers">
+      <HintPath>..\..\..\..\..\Downloads\FileHelpers\Binaries\DotNet 2.0\FileHelpers.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -86,9 +89,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SoundRecord.vb" />
     <Compile Include="SoundsDataSet.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>SoundsDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="SoundsDataSet.vb">
       <DependentUpon>SoundsDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="SoundsMng.Designer.vb">
