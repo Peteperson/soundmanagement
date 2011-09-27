@@ -29,6 +29,8 @@ Partial Class SoundsMng
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.FilesJoinedNewBindingNavigator = New System.Windows.Forms.BindingNavigator(Me.components)
         Me.BindingNavigatorAddNewItem = New System.Windows.Forms.ToolStripButton()
+        Me.FilesJoinedNewBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.SoundsDataSet = New SoundsManagement.SoundsDataSet()
         Me.BindingNavigatorCountItem = New System.Windows.Forms.ToolStripLabel()
         Me.BindingNavigatorDeleteItem = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
@@ -49,10 +51,6 @@ Partial Class SoundsMng
         Me.prgBar = New System.Windows.Forms.ToolStripProgressBar()
         Me.SoundsGrid = New System.Windows.Forms.DataGridView()
         Me.ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
-        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -66,16 +64,18 @@ Partial Class SoundsMng
         Me.DataGridViewTextBoxColumn11 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn12 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn13 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FilesJoinedNewBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.SoundsDataSet = New SoundsManagement.SoundsDataSet()
+        Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.FilesJoinedNewTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter()
         Me.TableAdapterManager = New SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager()
         CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.FilesJoinedNewBindingNavigator.SuspendLayout()
-        CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.wmp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.wmp, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'FilesJoinedNewBindingNavigator
@@ -105,6 +105,16 @@ Partial Class SoundsMng
         Me.BindingNavigatorAddNewItem.Size = New System.Drawing.Size(23, 22)
         Me.BindingNavigatorAddNewItem.Text = "Add new"
         Me.BindingNavigatorAddNewItem.Visible = False
+        '
+        'FilesJoinedNewBindingSource
+        '
+        Me.FilesJoinedNewBindingSource.DataMember = "FilesJoinedNew"
+        Me.FilesJoinedNewBindingSource.DataSource = Me.SoundsDataSet
+        '
+        'SoundsDataSet
+        '
+        Me.SoundsDataSet.DataSetName = "SoundsDataSet"
+        Me.SoundsDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'BindingNavigatorCountItem
         '
@@ -212,6 +222,7 @@ Partial Class SoundsMng
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
         Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripSeparator2.Visible = False
         '
         'btnSetLibPath
         '
@@ -241,6 +252,8 @@ Partial Class SoundsMng
         '
         'SoundsGrid
         '
+        Me.SoundsGrid.AllowUserToAddRows = False
+        Me.SoundsGrid.AllowUserToDeleteRows = False
         Me.SoundsGrid.AllowUserToOrderColumns = True
         Me.SoundsGrid.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
@@ -285,24 +298,6 @@ Partial Class SoundsMng
         Me.ID.HeaderText = "ID"
         Me.ID.Name = "ID"
         Me.ID.Width = 43
-        '
-        'wmp
-        '
-        Me.wmp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.wmp.Enabled = True
-        Me.wmp.Location = New System.Drawing.Point(0, 528)
-        Me.wmp.Name = "wmp"
-        Me.wmp.OcxState = CType(resources.GetObject("wmp.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.wmp.Size = New System.Drawing.Size(222, 45)
-        Me.wmp.TabIndex = 3
-        '
-        'Timer1
-        '
-        Me.Timer1.Interval = 1000
-        '
-        'OpenFileDialog1
-        '
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
         'DataGridViewTextBoxColumn1
         '
@@ -408,15 +403,23 @@ Partial Class SoundsMng
         Me.DataGridViewTextBoxColumn13.Name = "DataGridViewTextBoxColumn13"
         Me.DataGridViewTextBoxColumn13.Width = 56
         '
-        'FilesJoinedNewBindingSource
+        'wmp
         '
-        Me.FilesJoinedNewBindingSource.DataMember = "FilesJoinedNew"
-        Me.FilesJoinedNewBindingSource.DataSource = Me.SoundsDataSet
+        Me.wmp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.wmp.Enabled = True
+        Me.wmp.Location = New System.Drawing.Point(0, 528)
+        Me.wmp.Name = "wmp"
+        Me.wmp.OcxState = CType(resources.GetObject("wmp.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.wmp.Size = New System.Drawing.Size(222, 45)
+        Me.wmp.TabIndex = 3
         '
-        'SoundsDataSet
+        'Timer1
         '
-        Me.SoundsDataSet.DataSetName = "SoundsDataSet"
-        Me.SoundsDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
+        Me.Timer1.Interval = 1000
+        '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
         'FilesJoinedNewTableAdapter
         '
@@ -449,10 +452,10 @@ Partial Class SoundsMng
         CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).EndInit()
         Me.FilesJoinedNewBindingNavigator.ResumeLayout(False)
         Me.FilesJoinedNewBindingNavigator.PerformLayout()
-        CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.wmp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.wmp, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

@@ -423,9 +423,8 @@ WHERE        (ParamName = ?)</CommandText>
               <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>SELECT     TOP 500 Files.ID, Files.Creators_ID, Creators.Creator, Files.Libraries_ID, Libraries.Library, Files.CDs_ID, CDs.CD, Files.[Year], Files.Track, 
-                      Files.[Index], Files.Categories_ID, Categories.Category, Files.Subcategories_ID, Subcategories.SubCategory, Files.Description, Files.[Time], 
-                      Files.Rating, Files.Filename, Files.Tags
+                    <CommandText>SELECT     TOP 500 Files.ID, Creators.Creator, Libraries.Library, CDs.CD, Files.[Year], Files.Track, Files.[Index], Categories.Category, Subcategories.SubCategory, 
+                      Files.Description, Files.[Time], Files.Rating, Files.Filename, Files.Tags
 FROM         (((((Categories INNER JOIN
                       Files ON Categories.ID = Files.Categories_ID) INNER JOIN
                       CDs ON Files.CDs_ID = CDs.ID) INNER JOIN
@@ -484,7 +483,6 @@ WHERE        (ID = ?)</CommandText>
               <Mapping SourceColumn="Library" DataSetColumn="Library" />
               <Mapping SourceColumn="CD" DataSetColumn="CD" />
               <Mapping SourceColumn="Year" DataSetColumn="Year" />
-              <Mapping SourceColumn="Index" DataSetColumn="Index" />
               <Mapping SourceColumn="Category" DataSetColumn="Category" />
               <Mapping SourceColumn="SubCategory" DataSetColumn="SubCategory" />
               <Mapping SourceColumn="Description" DataSetColumn="Description" />
@@ -493,11 +491,8 @@ WHERE        (ID = ?)</CommandText>
               <Mapping SourceColumn="Filename" DataSetColumn="Filename" />
               <Mapping SourceColumn="Tags" DataSetColumn="Tags" />
               <Mapping SourceColumn="ID" DataSetColumn="ID" />
-              <Mapping SourceColumn="Creators_ID" DataSetColumn="Creators_ID" />
-              <Mapping SourceColumn="Libraries_ID" DataSetColumn="Libraries_ID" />
-              <Mapping SourceColumn="CDs_ID" DataSetColumn="CDs_ID" />
-              <Mapping SourceColumn="Categories_ID" DataSetColumn="Categories_ID" />
-              <Mapping SourceColumn="Subcategories_ID" DataSetColumn="Subcategories_ID" />
+              <Mapping SourceColumn="Track" DataSetColumn="Track" />
+              <Mapping SourceColumn="Index" DataSetColumn="Index1" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -923,11 +918,7 @@ WHERE        (ParamName = 'SoundsLibraryPath')</CommandText>
                 </xs:simpleType>
               </xs:element>
               <xs:element name="ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" minOccurs="0" />
-              <xs:element name="Creators_ID" msprop:Generator_ColumnVarNameInTable="columnCreators_ID" msprop:Generator_ColumnPropNameInRow="Creators_ID" msprop:Generator_ColumnPropNameInTable="Creators_IDColumn" msprop:Generator_UserColumnName="Creators_ID" type="xs:int" minOccurs="0" />
-              <xs:element name="Libraries_ID" msprop:Generator_ColumnVarNameInTable="columnLibraries_ID" msprop:Generator_ColumnPropNameInRow="Libraries_ID" msprop:Generator_ColumnPropNameInTable="Libraries_IDColumn" msprop:Generator_UserColumnName="Libraries_ID" type="xs:int" minOccurs="0" />
-              <xs:element name="CDs_ID" msprop:Generator_ColumnVarNameInTable="columnCDs_ID" msprop:Generator_ColumnPropNameInRow="CDs_ID" msprop:Generator_ColumnPropNameInTable="CDs_IDColumn" msprop:Generator_UserColumnName="CDs_ID" type="xs:int" minOccurs="0" />
-              <xs:element name="Categories_ID" msprop:Generator_ColumnVarNameInTable="columnCategories_ID" msprop:Generator_ColumnPropNameInRow="Categories_ID" msprop:Generator_ColumnPropNameInTable="Categories_IDColumn" msprop:Generator_UserColumnName="Categories_ID" type="xs:int" minOccurs="0" />
-              <xs:element name="Subcategories_ID" msprop:Generator_ColumnVarNameInTable="columnSubcategories_ID" msprop:Generator_ColumnPropNameInRow="Subcategories_ID" msprop:Generator_ColumnPropNameInTable="Subcategories_IDColumn" msprop:Generator_UserColumnName="Subcategories_ID" type="xs:int" minOccurs="0" />
+              <xs:element name="Index1" msdata:Caption="Index" msprop:Generator_ColumnVarNameInTable="columnIndex1" msprop:Generator_ColumnPropNameInRow="Index1" msprop:Generator_ColumnPropNameInTable="Index1Column" msprop:Generator_UserColumnName="Index1" type="xs:short" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -1042,11 +1033,11 @@ WHERE        (ParamName = 'SoundsLibraryPath')</CommandText>
   </xs:element>
   <xs:annotation>
     <xs:appinfo>
-      <msdata:Relationship name="NormRel1" msdata:parent="Creators" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Creators_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_ParentPropName="CreatorsRow" msprop:Generator_UserRelationName="NormRel1" msprop:Generator_RelationVarName="relationNormRel1" msprop:Generator_UserParentTable="Creators" />
-      <msdata:Relationship name="NormRel2" msdata:parent="Libraries" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Libraries_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_ParentPropName="LibrariesRow" msprop:Generator_UserRelationName="NormRel2" msprop:Generator_RelationVarName="relationNormRel2" msprop:Generator_UserParentTable="Libraries" />
-      <msdata:Relationship name="NormRel3" msdata:parent="CDs" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="CDs_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_ParentPropName="CDsRow" msprop:Generator_UserRelationName="NormRel3" msprop:Generator_RelationVarName="relationNormRel3" msprop:Generator_UserParentTable="CDs" />
-      <msdata:Relationship name="NormRel4" msdata:parent="Categories" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Categories_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_ParentPropName="CategoriesRow" msprop:Generator_UserRelationName="NormRel4" msprop:Generator_RelationVarName="relationNormRel4" msprop:Generator_UserParentTable="Categories" />
-      <msdata:Relationship name="NormRel5" msdata:parent="Subcategories" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Subcategories_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_ParentPropName="SubcategoriesRow" msprop:Generator_UserRelationName="NormRel5" msprop:Generator_RelationVarName="relationNormRel5" msprop:Generator_UserParentTable="Subcategories" />
+      <msdata:Relationship name="NormRel1" msdata:parent="Creators" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Creators_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_UserParentTable="Creators" msprop:Generator_UserRelationName="NormRel1" msprop:Generator_RelationVarName="relationNormRel1" msprop:Generator_ParentPropName="CreatorsRow" />
+      <msdata:Relationship name="NormRel2" msdata:parent="Libraries" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Libraries_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_UserParentTable="Libraries" msprop:Generator_UserRelationName="NormRel2" msprop:Generator_RelationVarName="relationNormRel2" msprop:Generator_ParentPropName="LibrariesRow" />
+      <msdata:Relationship name="NormRel3" msdata:parent="CDs" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="CDs_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_UserParentTable="CDs" msprop:Generator_UserRelationName="NormRel3" msprop:Generator_RelationVarName="relationNormRel3" msprop:Generator_ParentPropName="CDsRow" />
+      <msdata:Relationship name="NormRel4" msdata:parent="Categories" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Categories_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_UserParentTable="Categories" msprop:Generator_UserRelationName="NormRel4" msprop:Generator_RelationVarName="relationNormRel4" msprop:Generator_ParentPropName="CategoriesRow" />
+      <msdata:Relationship name="NormRel5" msdata:parent="Subcategories" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Subcategories_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_UserParentTable="Subcategories" msprop:Generator_UserRelationName="NormRel5" msprop:Generator_RelationVarName="relationNormRel5" msprop:Generator_ParentPropName="SubcategoriesRow" />
     </xs:appinfo>
   </xs:annotation>
 </xs:schema>
