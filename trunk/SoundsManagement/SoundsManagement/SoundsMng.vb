@@ -37,10 +37,14 @@ Public Class SoundsMng
     End Property
 
     Private Sub FilesJoinedNewBindingNavigatorSaveItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilesJoinedNewBindingNavigatorSaveItem.Click
-        Me.Validate()
-        Me.FilesJoinedNewBindingSource.EndEdit()
-        'Me.FilesJoinedNewTableAdapter.Adapter.UpdateCommand.Parameters(
-        Me.TableAdapterManager.UpdateAll(Me.SoundsDataSet)
+        'Me.Validate()
+        'Me.FilesJoinedNewBindingSource.EndEdit()
+        ''Me.FilesJoinedNewTableAdapter.Adapter.UpdateCommand.Parameters(
+        'Me.TableAdapterManager.UpdateAll(Me.SoundsDataSet)
+        Dim dt As DataTable
+        dt = SoundsDataSet.Tables("FilesJoinedNew")
+
+        TableAdapterManager.FilesTableAdapter.Update(dt)
     End Sub
 
     Private Sub SoundsMng_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -68,6 +72,7 @@ Public Class SoundsMng
 
     Private Sub FillGrid()
         Try
+            Me.Cursor = Cursors.WaitCursor
             Dim fltr() As String = ToolStripFilter.Text.Split(" ")
             If fltr.Length > 4 Then
                 ToolStripFilter.Text = fltr(0) & " " & fltr(1) & " " & fltr(2) & " " & fltr(3)
@@ -84,16 +89,13 @@ Public Class SoundsMng
                                             , fltrprm(3), fltrprm(3), fltrprm(3), fltrprm(3))
         Catch ex As System.Exception
             System.Windows.Forms.MessageBox.Show(ex.Message)
+        Finally
+            Me.Cursor = Cursors.Default
         End Try
     End Sub
 
     Private Sub SoundsGrid_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SoundsGrid.DoubleClick
         PlaySound()
-    End Sub
-
-    Private Sub btnLibPath_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLibPath.Click
-        _FilesPath = ""
-        Dim s As String = FilesPath(False)
     End Sub
 
     Private Sub ToolStripFilter_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ToolStripFilter.KeyDown
@@ -113,41 +115,74 @@ Public Class SoundsMng
         ToolStripFilter.Focus()
     End Sub
 
-    Private Sub btnImport_Click(sender As System.Object, e As System.EventArgs) Handles btnImport.Click
+    Private Sub btnSetLibPath_Click(sender As System.Object, e As System.EventArgs) Handles btnSetLibPath.Click
+        _FilesPath = ""
+        Dim s As String = FilesPath(False)
+    End Sub
+
+    Private Sub btnImportData_Click(sender As System.Object, e As System.EventArgs) Handles btnImportData.Click
         OpenFileDialog1.InitialDirectory = "c:\"
         OpenFileDialog1.Filter = "tsv files (*.tab)|*.tab|All files (*.*)|*.*"
         OpenFileDialog1.FilterIndex = 0
         OpenFileDialog1.Multiselect = False
-        openFileDialog1.RestoreDirectory = True
+        OpenFileDialog1.RestoreDirectory = True
 
-        If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+        If OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             Try
                 Dim engine As New FileHelperEngine(Of SoundRecord)()
                 engine.ErrorManager.ErrorMode = ErrorMode.SaveAndContinue
-
+                Me.Cursor = Cursors.WaitCursor
+                WriteToLogFile("Reading file '" & OpenFileDialog1.FileName & "'")
                 Dim res As SoundRecord() = engine.ReadFile(OpenFileDialog1.FileName)
+                WriteToLogFile("File read")
                 Dim fta As New SoundsDataSetTableAdapters.FilesForImportTableAdapter
                 If engine.ErrorManager.ErrorCount > 0 Then
                     engine.ErrorManager.SaveErrors("Errors.txt")
+                    MessageBox.Show("Error while reading file, please check 'Errors.txt'")
                 End If
                 Dim tmpRet As Integer
+                prgBar.Maximum = res.Count
+                prgBar.Value = 0
+                Application.DoEvents()
                 For Each snd As SoundRecord In res
-                    tmpRet = fta.Insert(snd.Creator, snd.Library, snd.Year, snd.CD, snd.Track, snd.Index, snd.Category,
-                               snd.SubCategory, snd.Description, snd.Time, snd.Rating, snd.Filename, snd.Tags)
+                    If fta.Insert(snd.Creator, snd.Library, snd.Year, snd.CD, snd.Track, snd.Index, snd.Category,
+                               snd.SubCategory, snd.Description, snd.Time, snd.Rating, snd.Filename, snd.Tags) <> 1 Then
+                        WriteToLogFile("Unable to insert line: " & snd.Creator & " " & snd.Library & " " & snd.Year & " " &
+                                       snd.CD & " " & snd.Track & " " & snd.Index & " " & snd.Category & " " &
+                                       snd.SubCategory & " " & snd.Description & " " & snd.Time & " " & snd.Rating & " " &
+                                       snd.Filename & " " & snd.Tags)
+                    End If
+                    prgBar.Value += 1
                 Next
+                prgBar.Value = 0
 
                 Dim qry As New SoundsDataSetTableAdapters.QueriesTableAdapter
+                WriteToLogFile("Executing queries")
                 tmpRet = qry.ImportCreators
+                WriteToLogFile("Imported Creators")
                 tmpRet = qry.ImportLibraries
+                WriteToLogFile("Imported Libraries")
                 tmpRet = qry.ImportCDs
+                WriteToLogFile("Imported CDs")
                 tmpRet = qry.ImportCategories
+                WriteToLogFile("Imported Categories")
                 tmpRet = qry.ImportSubCategories
+                WriteToLogFile("Imported Subcategories")
                 tmpRet = qry.ImportFiles
+                WriteToLogFile("Imported Files")
+                tmpRet = qry.DeleteFilesForImport
+                WriteToLogFile("Deleting imported records")
+                Me.Cursor = Cursors.Default
+                FillGrid()
             Catch Ex As Exception
                 MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)
             Finally
 
             End Try
         End If
+    End Sub
+
+    Private Sub WriteToLogFile(msg As String)
+        System.IO.File.WriteAllText("LogFile.txt", Date.Now.ToString("dd/MM/yyyy HH:mm:ss") & " = " & msg & "\n")
     End Sub
 End Class
