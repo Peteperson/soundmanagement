@@ -36,17 +36,6 @@ Public Class SoundsMng
         End Set
     End Property
 
-    Private Sub FilesJoinedNewBindingNavigatorSaveItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilesJoinedNewBindingNavigatorSaveItem.Click
-        'Me.Validate()
-        'Me.FilesJoinedNewBindingSource.EndEdit()
-        ''Me.FilesJoinedNewTableAdapter.Adapter.UpdateCommand.Parameters(
-        'Me.TableAdapterManager.UpdateAll(Me.SoundsDataSet)
-        Dim dt As DataTable
-        dt = SoundsDataSet.Tables("FilesJoinedNew")
-
-        TableAdapterManager.FilesTableAdapter.Update(dt)
-    End Sub
-
     Private Sub SoundsMng_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         wmp.settings.autoStart = True
         Dim s As String = FilesPath
