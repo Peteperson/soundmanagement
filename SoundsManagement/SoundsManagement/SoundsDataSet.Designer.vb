@@ -2735,6 +2735,16 @@ Partial Public Class SoundsDataSet
         
         Private columnID As Global.System.Data.DataColumn
         
+        Private columnCreators_ID As Global.System.Data.DataColumn
+        
+        Private columnLibraries_ID As Global.System.Data.DataColumn
+        
+        Private columnCDs_ID As Global.System.Data.DataColumn
+        
+        Private columnCategories_ID As Global.System.Data.DataColumn
+        
+        Private columnSubcategories_ID As Global.System.Data.DataColumn
+        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -2883,6 +2893,46 @@ Partial Public Class SoundsDataSet
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Creators_IDColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnCreators_ID
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Libraries_IDColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnLibraries_ID
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property CDs_IDColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnCDs_ID
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Categories_IDColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnCategories_ID
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Subcategories_IDColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnSubcategories_ID
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -2919,9 +2969,27 @@ Partial Public Class SoundsDataSet
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddFilesJoinedNewRow(ByVal Creator As String, ByVal Library As String, ByVal CD As String, ByVal Year As String, ByVal Track As Short, ByVal Index As Byte, ByVal Category As String, ByVal SubCategory As String, ByVal Description As String, ByVal Time As String, ByVal Rating As Byte, ByVal Filename As String, ByVal Tags As String) As FilesJoinedNewRow
+        Public Overloads Function AddFilesJoinedNewRow( _
+                    ByVal Creator As String,  _
+                    ByVal Library As String,  _
+                    ByVal CD As String,  _
+                    ByVal Year As String,  _
+                    ByVal Track As Short,  _
+                    ByVal Index As Byte,  _
+                    ByVal Category As String,  _
+                    ByVal SubCategory As String,  _
+                    ByVal Description As String,  _
+                    ByVal Time As String,  _
+                    ByVal Rating As Byte,  _
+                    ByVal Filename As String,  _
+                    ByVal Tags As String,  _
+                    ByVal Creators_ID As Integer,  _
+                    ByVal Libraries_ID As Integer,  _
+                    ByVal CDs_ID As Integer,  _
+                    ByVal Categories_ID As Integer,  _
+                    ByVal Subcategories_ID As Integer) As FilesJoinedNewRow
             Dim rowFilesJoinedNewRow As FilesJoinedNewRow = CType(Me.NewRow,FilesJoinedNewRow)
-            Dim columnValuesArray() As Object = New Object() {Creator, Library, CD, Year, Track, Index, Category, SubCategory, Description, Time, Rating, Filename, Tags, Nothing}
+            Dim columnValuesArray() As Object = New Object() {Creator, Library, CD, Year, Track, Index, Category, SubCategory, Description, Time, Rating, Filename, Tags, Nothing, Creators_ID, Libraries_ID, CDs_ID, Categories_ID, Subcategories_ID}
             rowFilesJoinedNewRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowFilesJoinedNewRow)
             Return rowFilesJoinedNewRow
@@ -2958,6 +3026,11 @@ Partial Public Class SoundsDataSet
             Me.columnFilename = MyBase.Columns("Filename")
             Me.columnTags = MyBase.Columns("Tags")
             Me.columnID = MyBase.Columns("ID")
+            Me.columnCreators_ID = MyBase.Columns("Creators_ID")
+            Me.columnLibraries_ID = MyBase.Columns("Libraries_ID")
+            Me.columnCDs_ID = MyBase.Columns("CDs_ID")
+            Me.columnCategories_ID = MyBase.Columns("Categories_ID")
+            Me.columnSubcategories_ID = MyBase.Columns("Subcategories_ID")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -2991,6 +3064,16 @@ Partial Public Class SoundsDataSet
             MyBase.Columns.Add(Me.columnTags)
             Me.columnID = New Global.System.Data.DataColumn("ID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnID)
+            Me.columnCreators_ID = New Global.System.Data.DataColumn("Creators_ID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnCreators_ID)
+            Me.columnLibraries_ID = New Global.System.Data.DataColumn("Libraries_ID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnLibraries_ID)
+            Me.columnCDs_ID = New Global.System.Data.DataColumn("CDs_ID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnCDs_ID)
+            Me.columnCategories_ID = New Global.System.Data.DataColumn("Categories_ID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnCategories_ID)
+            Me.columnSubcategories_ID = New Global.System.Data.DataColumn("Subcategories_ID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnSubcategories_ID)
             Me.columnCreator.MaxLength = 255
             Me.columnLibrary.MaxLength = 255
             Me.columnCD.MaxLength = 255
@@ -4609,6 +4692,81 @@ Partial Public Class SoundsDataSet
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Creators_ID() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tableFilesJoinedNew.Creators_IDColumn),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Creators_ID' in table 'FilesJoinedNew' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableFilesJoinedNew.Creators_IDColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Libraries_ID() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tableFilesJoinedNew.Libraries_IDColumn),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Libraries_ID' in table 'FilesJoinedNew' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableFilesJoinedNew.Libraries_IDColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property CDs_ID() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tableFilesJoinedNew.CDs_IDColumn),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'CDs_ID' in table 'FilesJoinedNew' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableFilesJoinedNew.CDs_IDColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Categories_ID() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tableFilesJoinedNew.Categories_IDColumn),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Categories_ID' in table 'FilesJoinedNew' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableFilesJoinedNew.Categories_IDColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Subcategories_ID() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tableFilesJoinedNew.Subcategories_IDColumn),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Subcategories_ID' in table 'FilesJoinedNew' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableFilesJoinedNew.Subcategories_IDColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function IsCreatorNull() As Boolean
             Return Me.IsNull(Me.tableFilesJoinedNew.CreatorColumn)
         End Function
@@ -4773,6 +4931,66 @@ Partial Public Class SoundsDataSet
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetIDNull()
             Me(Me.tableFilesJoinedNew.IDColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsCreators_IDNull() As Boolean
+            Return Me.IsNull(Me.tableFilesJoinedNew.Creators_IDColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetCreators_IDNull()
+            Me(Me.tableFilesJoinedNew.Creators_IDColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsLibraries_IDNull() As Boolean
+            Return Me.IsNull(Me.tableFilesJoinedNew.Libraries_IDColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetLibraries_IDNull()
+            Me(Me.tableFilesJoinedNew.Libraries_IDColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsCDs_IDNull() As Boolean
+            Return Me.IsNull(Me.tableFilesJoinedNew.CDs_IDColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetCDs_IDNull()
+            Me(Me.tableFilesJoinedNew.CDs_IDColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsCategories_IDNull() As Boolean
+            Return Me.IsNull(Me.tableFilesJoinedNew.Categories_IDColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetCategories_IDNull()
+            Me(Me.tableFilesJoinedNew.Categories_IDColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsSubcategories_IDNull() As Boolean
+            Return Me.IsNull(Me.tableFilesJoinedNew.Subcategories_IDColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetSubcategories_IDNull()
+            Me(Me.tableFilesJoinedNew.Subcategories_IDColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     
@@ -8220,7 +8438,6 @@ Namespace SoundsDataSetTableAdapters
             tableMapping.ColumnMappings.Add("Library", "Library")
             tableMapping.ColumnMappings.Add("CD", "CD")
             tableMapping.ColumnMappings.Add("Year", "Year")
-            tableMapping.ColumnMappings.Add("Track", "Track")
             tableMapping.ColumnMappings.Add("Index", "Index")
             tableMapping.ColumnMappings.Add("Category", "Category")
             tableMapping.ColumnMappings.Add("SubCategory", "SubCategory")
@@ -8230,6 +8447,11 @@ Namespace SoundsDataSetTableAdapters
             tableMapping.ColumnMappings.Add("Filename", "Filename")
             tableMapping.ColumnMappings.Add("Tags", "Tags")
             tableMapping.ColumnMappings.Add("ID", "ID")
+            tableMapping.ColumnMappings.Add("Creators_ID", "Creators_ID")
+            tableMapping.ColumnMappings.Add("Libraries_ID", "Libraries_ID")
+            tableMapping.ColumnMappings.Add("CDs_ID", "CDs_ID")
+            tableMapping.ColumnMappings.Add("Categories_ID", "Categories_ID")
+            tableMapping.ColumnMappings.Add("Subcategories_ID", "Subcategories_ID")
             Me._adapter.TableMappings.Add(tableMapping)
             Me._adapter.UpdateCommand = New Global.System.Data.OleDb.OleDbCommand()
             Me._adapter.UpdateCommand.Connection = Me.Connection
@@ -8254,28 +8476,28 @@ Namespace SoundsDataSetTableAdapters
             Me._commandCollection = New Global.System.Data.OleDb.OleDbCommand(0) {}
             Me._commandCollection(0) = New Global.System.Data.OleDb.OleDbCommand()
             Me._commandCollection(0).Connection = Me.Connection
-            Me._commandCollection(0).CommandText = "SELECT        Creators.Creator, Libraries.Library, CDs.CD, Files.[Year], Files.Tr"& _ 
-                "ack, Files.[Index], Categories.Category, Subcategories.SubCategory, Files.Descri"& _ 
-                "ption, Files.[Time], "&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         Files.Rating, Files.Filename, Fi"& _ 
-                "les.Tags, Files.ID"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"FROM            (((((Categories INNER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                "& _ 
-                "         Files ON Categories.ID = Files.Categories_ID) INNER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"             "& _ 
-                "            CDs ON Files.CDs_ID = CDs.ID) INNER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         C"& _ 
-                "reators ON Files.Creators_ID = Creators.ID) INNER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                        "& _ 
-                " Libraries ON Files.Libraries_ID = Libraries.ID) INNER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                   "& _ 
-                "      Subcategories ON Files.Subcategories_ID = Subcategories.ID)"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"WHERE        "& _ 
-                "(Files.Description LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         Categories.Ca"& _ 
-                "tegory LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         Subcategories.SubCategory"& _ 
-                " LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         Files.Tags LIKE '%' & ? & '%') "& _ 
-                "AND (Files.Description LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         Categorie"& _ 
-                "s.Category LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         Subcategories.SubCate"& _ 
-                "gory LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         Files.Tags LIKE '%' & ? & '"& _ 
-                "%') AND (Files.Description LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         Categ"& _ 
-                "ories.Category LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         Subcategories.Sub"& _ 
-                "Category LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         Files.Tags LIKE '%' & ?"& _ 
-                " & '%') AND (Files.Description LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         C"& _ 
-                "ategories.Category LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         Subcategories"& _ 
-                ".SubCategory LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                         Files.Tags LIKE '%'"& _ 
-                " & ? & '%')"
+            Me._commandCollection(0).CommandText = "SELECT     TOP 500 Files.ID, Files.Creators_ID, Creators.Creator, Files.Libraries"& _ 
+                "_ID, Libraries.Library, Files.CDs_ID, CDs.CD, Files.[Year], Files.Track, "&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"     "& _ 
+                "                 Files.[Index], Files.Categories_ID, Categories.Category, Files."& _ 
+                "Subcategories_ID, Subcategories.SubCategory, Files.Description, Files.[Time], "&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)& _ 
+                "                      Files.Rating, Files.Filename, Files.Tags"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"FROM         ((("& _ 
+                "((Categories INNER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Files ON Categories.ID = Files.Ca"& _ 
+                "tegories_ID) INNER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      CDs ON Files.CDs_ID = CDs.ID) INN"& _ 
+                "ER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Creators ON Files.Creators_ID = Creators.ID) INNE"& _ 
+                "R JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Libraries ON Files.Libraries_ID = Libraries.ID) IN"& _ 
+                "NER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Subcategories ON Files.Subcategories_ID = Subcat"& _ 
+                "egories.ID)"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"WHERE     (Files.Description LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"               "& _ 
+                "       Categories.Category LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Subcateg"& _ 
+                "ories.SubCategory LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Files.Tags LIKE '"& _ 
+                "%' & ? & '%') AND (Files.Description LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                    "& _ 
+                "  Categories.Category LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Subcategories"& _ 
+                ".SubCategory LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Files.Tags LIKE '%' & "& _ 
+                "? & '%') AND (Files.Description LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Cat"& _ 
+                "egories.Category LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Subcategories.SubC"& _ 
+                "ategory LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Files.Tags LIKE '%' & ? & '"& _ 
+                "%') AND (Files.Description LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Categori"& _ 
+                "es.Category LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Subcategories.SubCatego"& _ 
+                "ry LIKE '%' & ? & '%' OR"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Files.Tags LIKE '%' & ? & '%')"
             Me._commandCollection(0).CommandType = Global.System.Data.CommandType.Text
             Me._commandCollection(0).Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Description", Global.System.Data.OleDb.OleDbType.WChar, 255, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Description", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._commandCollection(0).Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Category", Global.System.Data.OleDb.OleDbType.WChar, 255, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Category", Global.System.Data.DataRowVersion.Current, false, Nothing))
@@ -8738,7 +8960,7 @@ Namespace SoundsDataSetTableAdapters
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Category", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Category", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("SubCategory", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "SubCategory", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Description", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Description", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Time", Global.System.Data.OleDb.OleDbType.[Date], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Time", Global.System.Data.DataRowVersion.Current, false, Nothing))
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Time", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Time", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Rating", Global.System.Data.OleDb.OleDbType.UnsignedTinyInt, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Rating", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Filename", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Filename", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Tags", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Tags", Global.System.Data.DataRowVersion.Current, false, Nothing))
@@ -8985,7 +9207,7 @@ Namespace SoundsDataSetTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Insert, true)>  _
-        Public Overloads Overridable Function Insert(ByVal Creator As String, ByVal Library As String, ByVal Year As String, ByVal CD As String, ByVal Track As Global.System.Nullable(Of Short), ByVal Index As Global.System.Nullable(Of Byte), ByVal Category As String, ByVal SubCategory As String, ByVal Description As String, ByVal Time As Global.System.Nullable(Of Date), ByVal Rating As Global.System.Nullable(Of Byte), ByVal Filename As String, ByVal Tags As String) As Integer
+        Public Overloads Overridable Function Insert(ByVal Creator As String, ByVal Library As String, ByVal Year As String, ByVal CD As String, ByVal Track As Global.System.Nullable(Of Short), ByVal Index As Global.System.Nullable(Of Byte), ByVal Category As String, ByVal SubCategory As String, ByVal Description As String, ByVal Time As String, ByVal Rating As Global.System.Nullable(Of Byte), ByVal Filename As String, ByVal Tags As String) As Integer
             If (Creator Is Nothing) Then
                 Me.Adapter.InsertCommand.Parameters(0).Value = Global.System.DBNull.Value
             Else
@@ -9031,10 +9253,10 @@ Namespace SoundsDataSetTableAdapters
             Else
                 Me.Adapter.InsertCommand.Parameters(8).Value = CType(Description,String)
             End If
-            If (Time.HasValue = true) Then
-                Me.Adapter.InsertCommand.Parameters(9).Value = CType(Time.Value,Date)
-            Else
+            If (Time Is Nothing) Then
                 Me.Adapter.InsertCommand.Parameters(9).Value = Global.System.DBNull.Value
+            Else
+                Me.Adapter.InsertCommand.Parameters(9).Value = CType(Time,String)
             End If
             If (Rating.HasValue = true) Then
                 Me.Adapter.InsertCommand.Parameters(10).Value = CType(Rating.Value,Byte)
@@ -9299,7 +9521,7 @@ Namespace SoundsDataSetTableAdapters
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Private Sub InitCommandCollection()
-            Me._commandCollection = New Global.System.Data.IDbCommand(6) {}
+            Me._commandCollection = New Global.System.Data.IDbCommand(7) {}
             Me._commandCollection(0) = New Global.System.Data.OleDb.OleDbCommand()
             CType(Me._commandCollection(0),Global.System.Data.OleDb.OleDbCommand).Connection = New Global.System.Data.OleDb.OleDbConnection(Global.SoundsManagement.My.MySettings.Default.SoundsConnectionString)
             CType(Me._commandCollection(0),Global.System.Data.OleDb.OleDbCommand).CommandText = "SELECT        ParamValue"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"FROM            [Parameters]"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"WHERE        (ParamName ="& _ 
@@ -9329,6 +9551,10 @@ Namespace SoundsDataSetTableAdapters
             CType(Me._commandCollection(6),Global.System.Data.OleDb.OleDbCommand).Connection = New Global.System.Data.OleDb.OleDbConnection(Global.SoundsManagement.My.MySettings.Default.SoundsConnectionString)
             CType(Me._commandCollection(6),Global.System.Data.OleDb.OleDbCommand).CommandText = "ImportSubCategories"
             CType(Me._commandCollection(6),Global.System.Data.OleDb.OleDbCommand).CommandType = Global.System.Data.CommandType.StoredProcedure
+            Me._commandCollection(7) = New Global.System.Data.OleDb.OleDbCommand()
+            CType(Me._commandCollection(7),Global.System.Data.OleDb.OleDbCommand).Connection = New Global.System.Data.OleDb.OleDbConnection(Global.SoundsManagement.My.MySettings.Default.SoundsConnectionString)
+            CType(Me._commandCollection(7),Global.System.Data.OleDb.OleDbCommand).CommandText = "DeleteFilesForImport"
+            CType(Me._commandCollection(7),Global.System.Data.OleDb.OleDbCommand).CommandType = Global.System.Data.CommandType.StoredProcedure
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -9467,6 +9693,27 @@ Namespace SoundsDataSetTableAdapters
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
         Public Overloads Overridable Function ImportSubCategories() As Integer
             Dim command As Global.System.Data.OleDb.OleDbCommand = CType(Me.CommandCollection(6),Global.System.Data.OleDb.OleDbCommand)
+            Dim previousConnectionState As Global.System.Data.ConnectionState = command.Connection.State
+            If ((command.Connection.State And Global.System.Data.ConnectionState.Open)  _
+                        <> Global.System.Data.ConnectionState.Open) Then
+                command.Connection.Open
+            End If
+            Dim returnValue As Integer
+            Try 
+                returnValue = command.ExecuteNonQuery
+            Finally
+                If (previousConnectionState = Global.System.Data.ConnectionState.Closed) Then
+                    command.Connection.Close
+                End If
+            End Try
+            Return returnValue
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
+        Public Overloads Overridable Function DeleteFilesForImport() As Integer
+            Dim command As Global.System.Data.OleDb.OleDbCommand = CType(Me.CommandCollection(7),Global.System.Data.OleDb.OleDbCommand)
             Dim previousConnectionState As Global.System.Data.ConnectionState = command.Connection.State
             If ((command.Connection.State And Global.System.Data.ConnectionState.Open)  _
                         <> Global.System.Data.ConnectionState.Open) Then
