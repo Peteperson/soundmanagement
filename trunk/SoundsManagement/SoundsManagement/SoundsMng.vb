@@ -49,7 +49,7 @@ Public Class SoundsMng
         Dim dt As SoundsDataSet.ParametersDataTable
         dt = pt.GetData("ColumnInfo")
         Dim cols() As String
-        If Not dt.First.IsParamValueNull Then
+        If dt.Count > 0 And Not dt.First.IsParamValueNull Then
             cols = dt.First.ParamValue.Split("|")
             For i As Int16 = 0 To SoundsGrid.Columns.Count - 1
                 SoundsGrid.Columns(i).Visible = cols(i).Split(";")(0) = "1"
