@@ -9,7 +9,7 @@
     <Shape ID="DesignTable:Categories" ZOrder="15" X="304" Y="522" Height="115" Width="206" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="64" />
     <Shape ID="DesignTable:CDs" ZOrder="14" X="317" Y="375" Height="115" Width="167" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="64" />
     <Shape ID="DesignTable:Creators" ZOrder="13" X="309" Y="70" Height="115" Width="193" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="64" />
-    <Shape ID="DesignTable:Files" ZOrder="12" X="70" Y="70" Height="305" Width="170" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="254" />
+    <Shape ID="DesignTable:Files" ZOrder="12" X="69" Y="70" Height="301" Width="167" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="254" />
     <Shape ID="DesignTable:Libraries" ZOrder="11" X="306" Y="217" Height="115" Width="194" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="64" />
     <Shape ID="DesignTable:Parameters" ZOrder="10" X="526" Y="73" Height="115" Width="210" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="64" />
     <Shape ID="DesignTable:Subcategories" ZOrder="9" X="28" Y="550" Height="115" Width="226" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="64" />
@@ -25,7 +25,7 @@
           <Y>127</Y>
         </Point>
         <Point>
-          <X>240</X>
+          <X>236</X>
           <Y>127</Y>
         </Point>
       </RoutePoints>
@@ -37,7 +37,7 @@
           <Y>274</Y>
         </Point>
         <Point>
-          <X>240</X>
+          <X>236</X>
           <Y>274</Y>
         </Point>
       </RoutePoints>
@@ -46,15 +46,15 @@
       <RoutePoints>
         <Point>
           <X>317</X>
-          <Y>392</Y>
+          <Y>413</Y>
         </Point>
         <Point>
-          <X>223</X>
-          <Y>392</Y>
+          <X>222</X>
+          <Y>413</Y>
         </Point>
         <Point>
-          <X>223</X>
-          <Y>375</Y>
+          <X>222</X>
+          <Y>371</Y>
         </Point>
       </RoutePoints>
     </Connector>
@@ -65,24 +65,24 @@
           <Y>539</Y>
         </Point>
         <Point>
-          <X>215</X>
+          <X>214</X>
           <Y>539</Y>
         </Point>
         <Point>
-          <X>215</X>
-          <Y>375</Y>
+          <X>214</X>
+          <Y>371</Y>
         </Point>
       </RoutePoints>
     </Connector>
     <Connector ID="DesignRelation:NormRel5" ZOrder="4" LineWidth="11">
       <RoutePoints>
         <Point>
-          <X>155</X>
+          <X>154</X>
           <Y>550</Y>
         </Point>
         <Point>
-          <X>155</X>
-          <Y>375</Y>
+          <X>154</X>
+          <Y>371</Y>
         </Point>
       </RoutePoints>
     </Connector>

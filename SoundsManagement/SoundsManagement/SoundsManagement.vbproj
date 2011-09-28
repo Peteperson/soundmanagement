@@ -74,6 +74,13 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColumnMetaData.vb" />
+    <Compile Include="DlgSetColumns.Designer.vb">
+      <DependentUpon>DlgSetColumns.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DlgSetColumns.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -112,6 +119,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DlgSetColumns.resx">
+      <DependentUpon>DlgSetColumns.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>

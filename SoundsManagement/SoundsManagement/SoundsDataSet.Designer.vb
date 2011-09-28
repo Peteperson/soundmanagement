@@ -6655,60 +6655,11 @@ Namespace SoundsDataSetTableAdapters
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Tags", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Tags", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand = New Global.System.Data.OleDb.OleDbCommand()
             Me._adapter.UpdateCommand.Connection = Me.Connection
-            Me._adapter.UpdateCommand.CommandText = "UPDATE `Files` SET `Creators_ID` = ?, `Libraries_ID` = ?, `CDs_ID` = ?, `Year` = "& _ 
-                "?, `Track` = ?, `Index` = ?, `Categories_ID` = ?, `Subcategories_ID` = ?, `Descr"& _ 
-                "iption` = ?, `Time` = ?, `Rating` = ?, `Filename` = ?, `Tags` = ? WHERE ((`ID` ="& _ 
-                " ?) AND ((? = 1 AND `Creators_ID` IS NULL) OR (`Creators_ID` = ?)) AND ((? = 1 A"& _ 
-                "ND `Libraries_ID` IS NULL) OR (`Libraries_ID` = ?)) AND ((? = 1 AND `CDs_ID` IS "& _ 
-                "NULL) OR (`CDs_ID` = ?)) AND ((? = 1 AND `Year` IS NULL) OR (`Year` = ?)) AND (("& _ 
-                "? = 1 AND `Track` IS NULL) OR (`Track` = ?)) AND ((? = 1 AND `Index` IS NULL) OR"& _ 
-                " (`Index` = ?)) AND ((? = 1 AND `Categories_ID` IS NULL) OR (`Categories_ID` = ?"& _ 
-                ")) AND ((? = 1 AND `Subcategories_ID` IS NULL) OR (`Subcategories_ID` = ?)) AND "& _ 
-                "((? = 1 AND `Description` IS NULL) OR (`Description` = ?)) AND ((? = 1 AND `Time"& _ 
-                "` IS NULL) OR (`Time` = ?)) AND ((? = 1 AND `Rating` IS NULL) OR (`Rating` = ?))"& _ 
-                " AND ((? = 1 AND `Filename` IS NULL) OR (`Filename` = ?)) AND ((? = 1 AND `Tags`"& _ 
-                " IS NULL) OR (`Tags` = ?)))"
+            Me._adapter.UpdateCommand.CommandText = "UPDATE    Files"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"SET              Rating = ?, Tags = ?"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"WHERE     (ID = ?)"
             Me._adapter.UpdateCommand.CommandType = Global.System.Data.CommandType.Text
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Creators_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Creators_ID", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Libraries_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Libraries_ID", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("CDs_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "CDs_ID", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Year", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Year", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Track", Global.System.Data.OleDb.OleDbType.SmallInt, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Track", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Index", Global.System.Data.OleDb.OleDbType.UnsignedTinyInt, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Index", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Categories_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Categories_ID", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Subcategories_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Subcategories_ID", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Description", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Description", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Time", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Time", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Rating", Global.System.Data.OleDb.OleDbType.UnsignedTinyInt, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Rating", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Filename", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Filename", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Tags", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Tags", Global.System.Data.DataRowVersion.Current, false, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Tags", Global.System.Data.OleDb.OleDbType.WChar, 255, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Tags", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "ID", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_Creators_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Creators_ID", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_Creators_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Creators_ID", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_Libraries_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Libraries_ID", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_Libraries_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Libraries_ID", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_CDs_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "CDs_ID", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_CDs_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "CDs_ID", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_Year", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Year", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_Year", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Year", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_Track", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Track", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_Track", Global.System.Data.OleDb.OleDbType.SmallInt, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Track", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_Index", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Index", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_Index", Global.System.Data.OleDb.OleDbType.UnsignedTinyInt, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Index", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_Categories_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Categories_ID", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_Categories_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Categories_ID", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_Subcategories_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Subcategories_ID", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_Subcategories_ID", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Subcategories_ID", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_Description", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Description", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_Description", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Description", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_Time", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Time", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_Time", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Time", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_Rating", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Rating", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_Rating", Global.System.Data.OleDb.OleDbType.UnsignedTinyInt, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Rating", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_Filename", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Filename", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_Filename", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Filename", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_Tags", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Tags", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_Tags", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Tags", Global.System.Data.DataRowVersion.Original, false, Nothing))
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -6982,191 +6933,18 @@ Namespace SoundsDataSetTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Update, true)>  _
-        Public Overloads Overridable Function Update( _
-                    ByVal Creators_ID As Global.System.Nullable(Of Integer),  _
-                    ByVal Libraries_ID As Global.System.Nullable(Of Integer),  _
-                    ByVal CDs_ID As Global.System.Nullable(Of Integer),  _
-                    ByVal Year As String,  _
-                    ByVal Track As Global.System.Nullable(Of Short),  _
-                    ByVal Index As Global.System.Nullable(Of Byte),  _
-                    ByVal Categories_ID As Global.System.Nullable(Of Integer),  _
-                    ByVal Subcategories_ID As Global.System.Nullable(Of Integer),  _
-                    ByVal Description As String,  _
-                    ByVal Time As String,  _
-                    ByVal Rating As Global.System.Nullable(Of Byte),  _
-                    ByVal Filename As String,  _
-                    ByVal Tags As String,  _
-                    ByVal Original_ID As Integer,  _
-                    ByVal Original_Creators_ID As Global.System.Nullable(Of Integer),  _
-                    ByVal Original_Libraries_ID As Global.System.Nullable(Of Integer),  _
-                    ByVal Original_CDs_ID As Global.System.Nullable(Of Integer),  _
-                    ByVal Original_Year As String,  _
-                    ByVal Original_Track As Global.System.Nullable(Of Short),  _
-                    ByVal Original_Index As Global.System.Nullable(Of Byte),  _
-                    ByVal Original_Categories_ID As Global.System.Nullable(Of Integer),  _
-                    ByVal Original_Subcategories_ID As Global.System.Nullable(Of Integer),  _
-                    ByVal Original_Description As String,  _
-                    ByVal Original_Time As String,  _
-                    ByVal Original_Rating As Global.System.Nullable(Of Byte),  _
-                    ByVal Original_Filename As String,  _
-                    ByVal Original_Tags As String) As Integer
-            If (Creators_ID.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(0).Value = CType(Creators_ID.Value,Integer)
+        Public Overloads Overridable Function Update(ByVal Rating As Global.System.Nullable(Of Byte), ByVal Tags As String, ByVal Original_ID As Integer) As Integer
+            If (Rating.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(0).Value = CType(Rating.Value,Byte)
             Else
                 Me.Adapter.UpdateCommand.Parameters(0).Value = Global.System.DBNull.Value
             End If
-            If (Libraries_ID.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(1).Value = CType(Libraries_ID.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(1).Value = Global.System.DBNull.Value
-            End If
-            If (CDs_ID.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(2).Value = CType(CDs_ID.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(2).Value = Global.System.DBNull.Value
-            End If
-            If (Year Is Nothing) Then
-                Me.Adapter.UpdateCommand.Parameters(3).Value = Global.System.DBNull.Value
-            Else
-                Me.Adapter.UpdateCommand.Parameters(3).Value = CType(Year,String)
-            End If
-            If (Track.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(4).Value = CType(Track.Value,Short)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(4).Value = Global.System.DBNull.Value
-            End If
-            If (Index.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(5).Value = CType(Index.Value,Byte)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(5).Value = Global.System.DBNull.Value
-            End If
-            If (Categories_ID.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(6).Value = CType(Categories_ID.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(6).Value = Global.System.DBNull.Value
-            End If
-            If (Subcategories_ID.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(7).Value = CType(Subcategories_ID.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(7).Value = Global.System.DBNull.Value
-            End If
-            If (Description Is Nothing) Then
-                Me.Adapter.UpdateCommand.Parameters(8).Value = Global.System.DBNull.Value
-            Else
-                Me.Adapter.UpdateCommand.Parameters(8).Value = CType(Description,String)
-            End If
-            If (Time Is Nothing) Then
-                Me.Adapter.UpdateCommand.Parameters(9).Value = Global.System.DBNull.Value
-            Else
-                Me.Adapter.UpdateCommand.Parameters(9).Value = CType(Time,String)
-            End If
-            If (Rating.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(10).Value = CType(Rating.Value,Byte)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(10).Value = Global.System.DBNull.Value
-            End If
-            If (Filename Is Nothing) Then
-                Me.Adapter.UpdateCommand.Parameters(11).Value = Global.System.DBNull.Value
-            Else
-                Me.Adapter.UpdateCommand.Parameters(11).Value = CType(Filename,String)
-            End If
             If (Tags Is Nothing) Then
-                Me.Adapter.UpdateCommand.Parameters(12).Value = Global.System.DBNull.Value
+                Me.Adapter.UpdateCommand.Parameters(1).Value = Global.System.DBNull.Value
             Else
-                Me.Adapter.UpdateCommand.Parameters(12).Value = CType(Tags,String)
+                Me.Adapter.UpdateCommand.Parameters(1).Value = CType(Tags,String)
             End If
-            Me.Adapter.UpdateCommand.Parameters(13).Value = CType(Original_ID,Integer)
-            If (Original_Creators_ID.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(14).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(15).Value = CType(Original_Creators_ID.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(14).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(15).Value = Global.System.DBNull.Value
-            End If
-            If (Original_Libraries_ID.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(16).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(17).Value = CType(Original_Libraries_ID.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(16).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(17).Value = Global.System.DBNull.Value
-            End If
-            If (Original_CDs_ID.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(18).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(19).Value = CType(Original_CDs_ID.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(18).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(19).Value = Global.System.DBNull.Value
-            End If
-            If (Original_Year Is Nothing) Then
-                Me.Adapter.UpdateCommand.Parameters(20).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(21).Value = Global.System.DBNull.Value
-            Else
-                Me.Adapter.UpdateCommand.Parameters(20).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(21).Value = CType(Original_Year,String)
-            End If
-            If (Original_Track.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(22).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(23).Value = CType(Original_Track.Value,Short)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(22).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(23).Value = Global.System.DBNull.Value
-            End If
-            If (Original_Index.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(24).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(25).Value = CType(Original_Index.Value,Byte)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(24).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(25).Value = Global.System.DBNull.Value
-            End If
-            If (Original_Categories_ID.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(26).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(27).Value = CType(Original_Categories_ID.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(26).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(27).Value = Global.System.DBNull.Value
-            End If
-            If (Original_Subcategories_ID.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(28).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(29).Value = CType(Original_Subcategories_ID.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(28).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(29).Value = Global.System.DBNull.Value
-            End If
-            If (Original_Description Is Nothing) Then
-                Me.Adapter.UpdateCommand.Parameters(30).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(31).Value = Global.System.DBNull.Value
-            Else
-                Me.Adapter.UpdateCommand.Parameters(30).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(31).Value = CType(Original_Description,String)
-            End If
-            If (Original_Time Is Nothing) Then
-                Me.Adapter.UpdateCommand.Parameters(32).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(33).Value = Global.System.DBNull.Value
-            Else
-                Me.Adapter.UpdateCommand.Parameters(32).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(33).Value = CType(Original_Time,String)
-            End If
-            If (Original_Rating.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(34).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(35).Value = CType(Original_Rating.Value,Byte)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(34).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(35).Value = Global.System.DBNull.Value
-            End If
-            If (Original_Filename Is Nothing) Then
-                Me.Adapter.UpdateCommand.Parameters(36).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(37).Value = Global.System.DBNull.Value
-            Else
-                Me.Adapter.UpdateCommand.Parameters(36).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(37).Value = CType(Original_Filename,String)
-            End If
-            If (Original_Tags Is Nothing) Then
-                Me.Adapter.UpdateCommand.Parameters(38).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(39).Value = Global.System.DBNull.Value
-            Else
-                Me.Adapter.UpdateCommand.Parameters(38).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(39).Value = CType(Original_Tags,String)
-            End If
+            Me.Adapter.UpdateCommand.Parameters(2).Value = CType(Original_ID,Integer)
             Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.UpdateCommand.Connection.State
             If ((Me.Adapter.UpdateCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
                         <> Global.System.Data.ConnectionState.Open) Then

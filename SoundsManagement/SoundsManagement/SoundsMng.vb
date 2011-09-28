@@ -41,6 +41,21 @@ Public Class SoundsMng
         Dim s As String = FilesPath
         FillGrid()
         WindowState = FormWindowState.Maximized
+        SetColumns()
+    End Sub
+
+    Private Sub SetColumns()
+        Dim pt As New SoundsDataSetTableAdapters.ParametersTableAdapter
+        Dim dt As SoundsDataSet.ParametersDataTable
+        dt = pt.GetData("ColumnInfo")
+        Dim cols() As String
+        If Not dt.First.IsParamValueNull Then
+            cols = dt.First.ParamValue.Split("|")
+            For i As Int16 = 0 To SoundsGrid.Columns.Count - 1
+                SoundsGrid.Columns(i).Visible = cols(i).Split(";")(0) = "1"
+                SoundsGrid.Columns(i).Width = cols(i).Split(";")(1)
+            Next
+        End If
     End Sub
 
     Private Sub PlaySound()
@@ -172,6 +187,42 @@ Public Class SoundsMng
     End Sub
 
     Private Sub WriteToLogFile(msg As String)
-        System.IO.File.WriteAllText("LogFile.txt", Date.Now.ToString("dd/MM/yyyy HH:mm:ss") & " = " & msg & "\n")
+        System.IO.File.WriteAllText(My.Application.Info.DirectoryPath & "\LogFile.txt", Date.Now.ToString("dd/MM/yyyy HH:mm:ss") & " = " & msg & "\n")
     End Sub
+
+    Private Sub btnPlaySound_Click(sender As System.Object, e As System.EventArgs) Handles btnPlaySound.Click
+        PlaySound()
+    End Sub
+
+    Private Sub btnManageColumns_Click(sender As System.Object, e As System.EventArgs) Handles btnManageColumns.Click
+        Dim dlg As New DlgSetColumns
+        Dim ci As New List(Of ColumnMetaData)
+        Dim cmd As ColumnMetaData
+        For i As Int16 = 0 To SoundsGrid.Columns.Count - 1
+            cmd = New ColumnMetaData
+            cmd.ColumnName = SoundsGrid.Columns(i).HeaderText
+            cmd.ColumnVisible = SoundsGrid.Columns(i).Visible
+            cmd.ColumnWidth = SoundsGrid.Columns(i).Width
+            ci.Add(cmd)
+        Next
+        dlg.ColumnsInfo = ci
+        If dlg.ShowDialog() = Windows.Forms.DialogResult.OK Then SetColumns()
+    End Sub
+
+    Private Sub SoundsGrid_CellEndEdit(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles SoundsGrid.CellEndEdit
+        ValueChanged = True
+    End Sub
+
+    Private ValueChanged As Boolean = False
+    Private Sub SoundsGrid_CellValueChanged(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles SoundsGrid.CellValueChanged
+        If ValueChanged Then
+            Dim pt As New SoundsDataSetTableAdapters.FilesTableAdapter
+            Dim dgc1 As String = SoundsGrid("Rating", e.RowIndex).Value.ToString
+            Dim dgc2 As String = SoundsGrid("Tags", e.RowIndex).Value.ToString
+            Dim dgc3 As String = SoundsGrid("ID", e.RowIndex).Value.ToString
+            pt.Update(dgc1, dgc2, dgc3)
+            ValueChanged = False
+        End If
+    End Sub
+
 End Class
