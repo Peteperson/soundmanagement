@@ -126,7 +126,7 @@ Partial Class SoundsMng
         'BindingNavigatorCountItem
         '
         Me.BindingNavigatorCountItem.Name = "BindingNavigatorCountItem"
-        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(36, 22)
+        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(35, 22)
         Me.BindingNavigatorCountItem.Text = "of {0}"
         Me.BindingNavigatorCountItem.ToolTipText = "Total number of items"
         '
@@ -143,7 +143,7 @@ Partial Class SoundsMng
         'ToolStripLabel1
         '
         Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(35, 22)
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(36, 22)
         Me.ToolStripLabel1.Text = "Filter:"
         '
         'ToolStripFilter
@@ -503,6 +503,7 @@ Partial Class SoundsMng
         Me.Controls.Add(Me.wmp)
         Me.Controls.Add(Me.SoundsGrid)
         Me.Controls.Add(Me.FilesJoinedNewBindingNavigator)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "SoundsMng"
         Me.Text = "SoundsMng"
         CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).EndInit()
