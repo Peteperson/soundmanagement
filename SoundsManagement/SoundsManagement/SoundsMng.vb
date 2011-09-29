@@ -1,7 +1,6 @@
 ﻿Imports FileHelpers
 
 Public Class SoundsMng
-
     Private _FilesPath As String = ""
     Public ReadOnly Property FilesPath(Optional ByVal RetrieveFromDB As Boolean = True) As String
         Get
@@ -71,7 +70,7 @@ Public Class SoundsMng
                 Return
             End If
         Next
-        MessageBox.Show("File: " & CurrentFile & " does not exist")
+        WriteToLogFile("File: " & CurrentFile & " does not exist", True)
     End Sub
 
     Private Sub FillGrid()
@@ -92,7 +91,7 @@ Public Class SoundsMng
                                             , fltrprm(2), fltrprm(2), fltrprm(2), fltrprm(2) _
                                             , fltrprm(3), fltrprm(3), fltrprm(3), fltrprm(3))
         Catch ex As System.Exception
-            System.Windows.Forms.MessageBox.Show(ex.Message)
+            WriteToLogFile(ex.Message, True)
         Finally
             Me.Cursor = Cursors.Default
         End Try
@@ -133,61 +132,39 @@ Public Class SoundsMng
 
         If OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             Try
-                Dim engine As New FileHelperEngine(Of SoundRecord)()
-                engine.ErrorManager.ErrorMode = ErrorMode.SaveAndContinue
-                Me.Cursor = Cursors.WaitCursor
-                WriteToLogFile("Reading file '" & OpenFileDialog1.FileName & "'")
-                Dim res As SoundRecord() = engine.ReadFile(OpenFileDialog1.FileName)
-                WriteToLogFile("File read")
-                Dim fta As New SoundsDataSetTableAdapters.FilesForImportTableAdapter
-                If engine.ErrorManager.ErrorCount > 0 Then
-                    engine.ErrorManager.SaveErrors("Errors.txt")
-                    MessageBox.Show("Error while reading file, please check 'Errors.txt'")
-                End If
-                Dim tmpRet As Integer
-                prgBar.Maximum = res.Count
-                prgBar.Value = 0
-                Application.DoEvents()
-                For Each snd As SoundRecord In res
-                    If fta.Insert(snd.Creator, snd.Library, snd.Year, snd.CD, snd.Track, snd.Index, snd.Category,
-                               snd.SubCategory, snd.Description, snd.Time, snd.Rating, snd.Filename, snd.Tags) <> 1 Then
-                        WriteToLogFile("Unable to insert line: " & snd.Creator & " " & snd.Library & " " & snd.Year & " " &
-                                       snd.CD & " " & snd.Track & " " & snd.Index & " " & snd.Category & " " &
-                                       snd.SubCategory & " " & snd.Description & " " & snd.Time & " " & snd.Rating & " " &
-                                       snd.Filename & " " & snd.Tags)
+                Dim at As New SoundsDataSetTableAdapters.ArchivesTableAdapter
+                Dim ar As SoundsDataSet.ArchivesDataTable
+                Dim fname As String = OpenFileDialog1.FileName.Split("\").Last
+                ar = at.GetDataBy(fname)
+                If ar.Rows.Count = 0 Then
+                    Dim engine As New FileHelperEngine(Of SoundRecord)()
+                    engine.ErrorManager.ErrorMode = ErrorMode.SaveAndContinue
+                    Me.Cursor = Cursors.WaitCursor
+                    WriteToLogFile("Reading file '" & OpenFileDialog1.FileName & "'", False)
+                    Dim res As SoundRecord() = engine.ReadFile(OpenFileDialog1.FileName)
+                    If engine.ErrorManager.ErrorCount > 0 Then
+                        engine.ErrorManager.SaveErrors("Errors.txt")
+                        WriteToLogFile("Error while reading file, please check 'Errors.txt'", True)
+                        Exit Try
                     End If
-                    prgBar.Value += 1
-                Next
-                prgBar.Value = 0
-
-                Dim qry As New SoundsDataSetTableAdapters.QueriesTableAdapter
-                WriteToLogFile("Executing queries")
-                tmpRet = qry.ImportCreators
-                WriteToLogFile("Imported Creators")
-                tmpRet = qry.ImportLibraries
-                WriteToLogFile("Imported Libraries")
-                tmpRet = qry.ImportCDs
-                WriteToLogFile("Imported CDs")
-                tmpRet = qry.ImportCategories
-                WriteToLogFile("Imported Categories")
-                tmpRet = qry.ImportSubCategories
-                WriteToLogFile("Imported Subcategories")
-                tmpRet = qry.ImportFiles
-                WriteToLogFile("Imported Files")
-                tmpRet = qry.DeleteFilesForImport
-                WriteToLogFile("Deleting imported records")
-                Me.Cursor = Cursors.Default
-                FillGrid()
+                    WriteToLogFile("File read successfully", False)
+                    ImportFiles(res, fname)
+                    ExecuteQueries()
+                    FillGrid()
+                Else
+                    WriteToLogFile("File '" & OpenFileDialog1.FileName & "' has been imported before", True)
+                End If
             Catch Ex As Exception
-                MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)
+                WriteToLogFile("Cannot read file from disk. Original error: " & Ex.Message, True)
             Finally
-
+                Me.Cursor = Cursors.Default
             End Try
         End If
     End Sub
 
-    Private Sub WriteToLogFile(msg As String)
-        System.IO.File.WriteAllText(My.Application.Info.DirectoryPath & "\LogFile.txt", Date.Now.ToString("dd/MM/yyyy HH:mm:ss") & " = " & msg & "\n")
+    Private Sub WriteToLogFile(msg As String, ShowMessage As Boolean)
+        If ShowMessage Then MessageBox.Show(msg)
+        System.IO.File.AppendAllText(My.Application.Info.DirectoryPath & "\LogFile.txt", Date.Now.ToString("dd/MM/yyyy HH:mm:ss") & " = " & msg & Environment.NewLine)
     End Sub
 
     Private Sub btnPlaySound_Click(sender As System.Object, e As System.EventArgs) Handles btnPlaySound.Click
@@ -209,20 +186,60 @@ Public Class SoundsMng
         If dlg.ShowDialog() = Windows.Forms.DialogResult.OK Then SetColumns()
     End Sub
 
-    Private Sub SoundsGrid_CellEndEdit(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles SoundsGrid.CellEndEdit
-        ValueChanged = True
+    Private OldValue As String
+    Private Sub SoundsGrid_CellBeginEdit(sender As Object, e As System.Windows.Forms.DataGridViewCellCancelEventArgs) Handles SoundsGrid.CellBeginEdit
+        OldValue = SoundsGrid.CurrentCell.Value.ToString
     End Sub
 
-    Private ValueChanged As Boolean = False
-    Private Sub SoundsGrid_CellValueChanged(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles SoundsGrid.CellValueChanged
-        If ValueChanged Then
+    Private Sub SoundsGrid_CellEndEdit(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles SoundsGrid.CellEndEdit
+        Dim NewValue = SoundsGrid.CurrentCell.Value.ToString
+        If NewValue <> OldValue Then
             Dim pt As New SoundsDataSetTableAdapters.FilesTableAdapter
             Dim dgc1 As String = SoundsGrid("Rating", e.RowIndex).Value.ToString
             Dim dgc2 As String = SoundsGrid("Tags", e.RowIndex).Value.ToString
             Dim dgc3 As String = SoundsGrid("ID", e.RowIndex).Value.ToString
             pt.Update(dgc1, dgc2, dgc3)
-            ValueChanged = False
         End If
+    End Sub
+
+    Private Sub ExecuteQueries()
+        Dim qry As New SoundsDataSetTableAdapters.QueriesTableAdapter
+        Dim tmpRet As Integer
+        WriteToLogFile("Executing queries", False)
+        tmpRet = qry.ImportArchives
+        WriteToLogFile("Imported " & tmpRet & " Archives", False)
+        tmpRet = qry.ImportCreators
+        WriteToLogFile("Imported " & tmpRet & " Creators", False)
+        tmpRet = qry.ImportLibraries
+        WriteToLogFile("Imported " & tmpRet & " Libraries", False)
+        tmpRet = qry.ImportCDs
+        WriteToLogFile("Imported " & tmpRet & " CDs", False)
+        tmpRet = qry.ImportCategories
+        WriteToLogFile("Imported " & tmpRet & " Categories", False)
+        tmpRet = qry.ImportSubCategories
+        WriteToLogFile("Imported " & tmpRet & " Subcategories", False)
+        tmpRet = qry.ImportFiles
+        WriteToLogFile("Imported " & tmpRet & " Files", True)
+        tmpRet = qry.DeleteFilesForImport
+        WriteToLogFile("Deleted " & tmpRet & " imported records", False)
+    End Sub
+
+    Private Sub ImportFiles(res As SoundRecord(), fname As String)
+        Dim fta As New SoundsDataSetTableAdapters.FilesForImportTableAdapter
+        prgBar.Maximum = res.Count
+        prgBar.Value = 0
+        Application.DoEvents()
+        For Each snd As SoundRecord In res
+            If fta.Insert(fname, snd.Creator, snd.Library, snd.Year, snd.CD, snd.Track, snd.Index, snd.Category,
+                                snd.SubCategory, snd.Description, snd.Time, snd.Rating, snd.Filename, snd.Tags) <> 1 Then
+                WriteToLogFile("Unable to insert line: " & fname & " " & snd.Creator & " " & snd.Library & " " & snd.Year & " " &
+                               snd.CD & " " & snd.Track & " " & snd.Index & " " & snd.Category & " " &
+                               snd.SubCategory & " " & snd.Description & " " & snd.Time & " " & snd.Rating & " " &
+                               snd.Filename & " " & snd.Tags, False)
+            End If
+            prgBar.Value += 1
+        Next
+        prgBar.Value = 0
     End Sub
 
 End Class
