@@ -242,4 +242,36 @@ Public Class SoundsMng
         prgBar.Value = 0
     End Sub
 
+    Private Sub btnExport_Click(sender As System.Object, e As System.EventArgs) Handles btnExport.Click
+        SaveFileDialog1.Filter = "Tab Files (*.tab)|*.tab|All Files (*.*)|*.*"
+        SaveFileDialog1.FilterIndex = 0
+        If SaveFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            Dim ft As New SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter
+            Dim dt As SoundsDataSet.FilesJoinedNewDataTable
+            dt = ft.GetDataBy()
+            'Dim res() As SoundRecord = (From tmp In dt.AsEnumerable Select New SoundRecord With {.Creator = tmp.Creator,
+            '        .Year = tmp.Year, .CD = tmp.CD, .Track = tmp.Track, .Index = tmp.Index1, .Category = tmp.Category,
+            '        .SubCategory = tmp.SubCategory, .Description = tmp.Description, .Time = tmp.Time, .Library = tmp.Library,
+            '        .Rating = tmp.Rating, .Filename = tmp.Filename, .Tags = tmp.Tags}).ToArray()
+            'Dim engine As New FileHelperEngine(Of SoundRecord)()
+            'engine.WriteFile(SaveFileDialog1.FileName, res)
+            Dim str As System.Text.StringBuilder = New System.Text.StringBuilder()
+            For i As Int16 = 0 To dt.Columns.Count - 3
+                str.Append(dt.Columns(i).ColumnName)
+                If i < dt.Columns.Count - 3 Then str.Append(vbTab)
+            Next
+            str.Append(Environment.NewLine)
+            For i As Int16 = 0 To dt.Rows.Count - 1
+                For j As Int16 = 0 To dt.Columns.Count - 3
+                    str.Append(dt.Rows(i)(j).ToString())
+                    If j < dt.Columns.Count - 3 Then str.Append(vbTab)
+                Next
+                If i < dt.Rows.Count - 1 Then str.Append(Environment.NewLine)
+            Next
+
+            Dim myStream As New IO.StreamWriter(SaveFileDialog1.FileName, False)
+            myStream.Write(str.ToString())
+            myStream.Close()
+        End If
+    End Sub
 End Class

@@ -8666,7 +8666,7 @@ Namespace SoundsDataSetTableAdapters
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Private Sub InitCommandCollection()
-            Me._commandCollection = New Global.System.Data.OleDb.OleDbCommand(0) {}
+            Me._commandCollection = New Global.System.Data.OleDb.OleDbCommand(1) {}
             Me._commandCollection(0) = New Global.System.Data.OleDb.OleDbCommand()
             Me._commandCollection(0).Connection = Me.Connection
             Me._commandCollection(0).CommandText = "SELECT     TOP 500 Files.ID, Creators.Creator, Libraries.Library, CDs.CD, Files.["& _ 
@@ -8707,6 +8707,20 @@ Namespace SoundsDataSetTableAdapters
             Me._commandCollection(0).Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Category3", Global.System.Data.OleDb.OleDbType.WChar, 255, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Category", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._commandCollection(0).Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("SubCategory3", Global.System.Data.OleDb.OleDbType.WChar, 255, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "SubCategory", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._commandCollection(0).Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Tags3", Global.System.Data.OleDb.OleDbType.WChar, 255, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "Tags", Global.System.Data.DataRowVersion.Current, false, Nothing))
+            Me._commandCollection(1) = New Global.System.Data.OleDb.OleDbCommand()
+            Me._commandCollection(1).Connection = Me.Connection
+            Me._commandCollection(1).CommandText = "SELECT     Creators.Creator, Libraries.Library, CDs.CD, Files.[Year], Files.Track"& _ 
+                ", Files.[Index], Categories.Category, Subcategories.SubCategory, "&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"             "& _ 
+                "         Files.Description, Files.[Time], Files.Rating, Files.Filename, Files.Ta"& _ 
+                "gs"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"FROM         (((((Categories INNER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Files ON Cate"& _ 
+                "gories.ID = Files.Categories_ID) INNER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      CDs ON Files."& _ 
+                "CDs_ID = CDs.ID) INNER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Creators ON Files.Creators_ID"& _ 
+                " = Creators.ID) INNER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Libraries ON Files.Libraries_I"& _ 
+                "D = Libraries.ID) INNER JOIN"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Subcategories ON Files.Subca"& _ 
+                "tegories_ID = Subcategories.ID)"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"ORDER BY Creators.Creator, Libraries.Library, C"& _ 
+                "Ds.CD, Files.[Year], Files.Track, Files.[Index], Categories.Category, Subcategor"& _ 
+                "ies.SubCategory, "&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                      Files.Description"
+            Me._commandCollection(1).CommandType = Global.System.Data.CommandType.Text
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -8921,6 +8935,17 @@ Namespace SoundsDataSetTableAdapters
             Else
                 Me.Adapter.SelectCommand.Parameters(15).Value = CType(Tags3,String)
             End If
+            Dim dataTable As SoundsDataSet.FilesJoinedNewDataTable = New SoundsDataSet.FilesJoinedNewDataTable()
+            Me.Adapter.Fill(dataTable)
+            Return dataTable
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
+         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.[Select], false)>  _
+        Public Overloads Overridable Function GetDataBy() As SoundsDataSet.FilesJoinedNewDataTable
+            Me.Adapter.SelectCommand = Me.CommandCollection(1)
             Dim dataTable As SoundsDataSet.FilesJoinedNewDataTable = New SoundsDataSet.FilesJoinedNewDataTable()
             Me.Adapter.Fill(dataTable)
             Return dataTable
