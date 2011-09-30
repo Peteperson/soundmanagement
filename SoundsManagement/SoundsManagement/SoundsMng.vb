@@ -272,6 +272,8 @@ Public Class SoundsMng
             Dim myStream As New IO.StreamWriter(SaveFileDialog1.FileName, False)
             myStream.Write(str.ToString())
             myStream.Close()
+
+            WriteToLogFile("Exported " & dt.Rows.Count & " records to: " & SaveFileDialog1.FileName, True)
         End If
     End Sub
 End Class
