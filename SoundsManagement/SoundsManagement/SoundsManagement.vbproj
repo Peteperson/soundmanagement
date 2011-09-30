@@ -28,7 +28,9 @@
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://localhost/SoundsManagement/</InstallUrl>
     <PublisherName>Pete</PublisherName>
-    <ApplicationRevision>2</ApplicationRevision>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>Publish.htm</WebPage>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
