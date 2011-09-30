@@ -248,6 +248,7 @@ Public Class SoundsMng
         If SaveFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
             Dim ft As New SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter
             Dim dt As SoundsDataSet.FilesJoinedNewDataTable
+            Me.Cursor = Cursors.WaitCursor
             dt = ft.GetDataBy()
             'Dim res() As SoundRecord = (From tmp In dt.AsEnumerable Select New SoundRecord With {.Creator = tmp.Creator,
             '        .Year = tmp.Year, .CD = tmp.CD, .Track = tmp.Track, .Index = tmp.Index1, .Category = tmp.Category,
@@ -255,6 +256,8 @@ Public Class SoundsMng
             '        .Rating = tmp.Rating, .Filename = tmp.Filename, .Tags = tmp.Tags}).ToArray()
             'Dim engine As New FileHelperEngine(Of SoundRecord)()
             'engine.WriteFile(SaveFileDialog1.FileName, res)
+            prgBar.Maximum = dt.Rows.Count
+            prgBar.Value = 0
             Dim str As System.Text.StringBuilder = New System.Text.StringBuilder()
             For i As Int16 = 0 To dt.Columns.Count - 3
                 str.Append(dt.Columns(i).ColumnName)
@@ -267,12 +270,14 @@ Public Class SoundsMng
                     If j < dt.Columns.Count - 3 Then str.Append(vbTab)
                 Next
                 If i < dt.Rows.Count - 1 Then str.Append(Environment.NewLine)
+                prgBar.Value += 1
             Next
 
             Dim myStream As New IO.StreamWriter(SaveFileDialog1.FileName, False)
             myStream.Write(str.ToString())
             myStream.Close()
-
+            prgBar.Value = 0
+            Me.Cursor = Cursors.Default
             WriteToLogFile("Exported " & dt.Rows.Count & " records to: " & SaveFileDialog1.FileName, True)
         End If
     End Sub
