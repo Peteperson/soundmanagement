@@ -77,8 +77,8 @@ Partial Class SoundsMng
         Me.Rating = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Filename = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Tags = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
+        Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
         CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.FilesJoinedNewBindingNavigator.SuspendLayout()
         CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -101,6 +101,7 @@ Partial Class SoundsMng
         Me.FilesJoinedNewBindingNavigator.MovePreviousItem = Me.BindingNavigatorMovePreviousItem
         Me.FilesJoinedNewBindingNavigator.Name = "FilesJoinedNewBindingNavigator"
         Me.FilesJoinedNewBindingNavigator.PositionItem = Me.BindingNavigatorPositionItem
+        Me.FilesJoinedNewBindingNavigator.RenderMode = System.Windows.Forms.ToolStripRenderMode.System
         Me.FilesJoinedNewBindingNavigator.Size = New System.Drawing.Size(766, 25)
         Me.FilesJoinedNewBindingNavigator.TabIndex = 0
         Me.FilesJoinedNewBindingNavigator.Text = "BindingNavigator1"
@@ -387,7 +388,7 @@ Partial Class SoundsMng
         DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
         DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.SoundsGrid.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
-        Me.SoundsGrid.Size = New System.Drawing.Size(766, 494)
+        Me.SoundsGrid.Size = New System.Drawing.Size(766, 496)
         Me.SoundsGrid.TabIndex = 2
         '
         'ID
@@ -499,19 +500,20 @@ Partial Class SoundsMng
         '
         'wmp
         '
-        Me.wmp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.wmp.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.wmp.Enabled = True
-        Me.wmp.Location = New System.Drawing.Point(0, 528)
+        Me.wmp.Location = New System.Drawing.Point(0, 525)
         Me.wmp.Name = "wmp"
         Me.wmp.OcxState = CType(resources.GetObject("wmp.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.wmp.Size = New System.Drawing.Size(222, 45)
+        Me.wmp.Size = New System.Drawing.Size(766, 45)
         Me.wmp.TabIndex = 3
         '
         'SoundsMng
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(766, 577)
+        Me.ClientSize = New System.Drawing.Size(766, 572)
         Me.Controls.Add(Me.wmp)
         Me.Controls.Add(Me.SoundsGrid)
         Me.Controls.Add(Me.FilesJoinedNewBindingNavigator)
@@ -551,7 +553,6 @@ Partial Class SoundsMng
     Friend WithEvents ToolStripLabel1 As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripFilter As System.Windows.Forms.ToolStripTextBox
     Friend WithEvents Timer1 As System.Windows.Forms.Timer
-    Friend WithEvents wmp As AxWMPLib.AxWindowsMediaPlayer
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents btnSetLibPath As System.Windows.Forms.ToolStripButton
@@ -581,4 +582,5 @@ Partial Class SoundsMng
     Friend WithEvents Tags As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents btnExport As System.Windows.Forms.ToolStripButton
     Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents wmp As AxWMPLib.AxWindowsMediaPlayer
 End Class
