@@ -1,4 +1,5 @@
 ﻿Imports FileHelpers
+Imports System.Text
 
 Public Class SoundsMng
     Private _FilesPath As String = ""
@@ -34,6 +35,18 @@ Public Class SoundsMng
             _AudioFileTypes = value
         End Set
     End Property
+
+    Private Sub SoundsMng_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        If ChangedColunmSettings Then
+            Dim AllValues As New StringBuilder
+            For i As Int16 = 0 To SoundsGrid.Columns.Count - 1
+                AllValues.Append(IIf(SoundsGrid.Columns(i).Visible, "1", "0") & ";" & SoundsGrid.Columns(i).Width & "|")
+            Next
+            AllValues.Remove(AllValues.Length - 1, 1)
+            Dim pt As New SoundsDataSetTableAdapters.ParametersTableAdapter
+            pt.Update(AllValues.ToString, "ColumnInfo")
+        End If
+    End Sub
 
     Private Sub SoundsMng_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         wmp.settings.autoStart = True
@@ -171,6 +184,7 @@ Public Class SoundsMng
         PlaySound()
     End Sub
 
+    Private ChangedColunmSettings As Boolean = False
     Private Sub btnManageColumns_Click(sender As System.Object, e As System.EventArgs) Handles btnManageColumns.Click
         Dim dlg As New DlgSetColumns
         Dim ci As New List(Of ColumnMetaData)
@@ -183,7 +197,13 @@ Public Class SoundsMng
             ci.Add(cmd)
         Next
         dlg.ColumnsInfo = ci
-        If dlg.ShowDialog() = Windows.Forms.DialogResult.OK Then SetColumns()
+        If dlg.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            For i As Int16 = 0 To SoundsGrid.Columns.Count - 1
+                SoundsGrid.Columns(i).Visible = dlg.ColumnsInfo(i).ColumnVisible
+            Next
+            ChangedColunmSettings = True
+        End If
+        dlg.Close()
     End Sub
 
     Private OldValue As String
@@ -280,5 +300,19 @@ Public Class SoundsMng
             Me.Cursor = Cursors.Default
             WriteToLogFile("Exported " & dt.Rows.Count & " records to: " & SaveFileDialog1.FileName, True)
         End If
+    End Sub
+
+    Private Sub lstNoOfSelRecs_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles lstNoOfSelRecs.SelectedIndexChanged
+        Dim str As String = FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText
+        Dim regex As New RegularExpressions.Regex("SELECT.+Files\.ID")
+        Select Case lstNoOfSelRecs.SelectedIndex
+            Case 0
+                FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText = regex.Replace(str, "SELECT TOP 50 Files.ID")
+            Case 1
+                FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText = regex.Replace(str, "SELECT TOP 500 Files.ID")
+            Case 2
+                FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText = regex.Replace(str, "SELECT Files.ID")
+        End Select
+        FillGrid()
     End Sub
 End Class

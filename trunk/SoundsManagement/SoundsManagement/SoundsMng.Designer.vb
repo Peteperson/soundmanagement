@@ -24,9 +24,9 @@ Partial Class SoundsMng
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SoundsMng))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.FilesJoinedNewBindingNavigator = New System.Windows.Forms.BindingNavigator(Me.components)
         Me.BindingNavigatorAddNewItem = New System.Windows.Forms.ToolStripButton()
         Me.FilesJoinedNewBindingSource = New System.Windows.Forms.BindingSource(Me.components)
@@ -63,6 +63,8 @@ Partial Class SoundsMng
         Me.LeftToolStripPanel = New System.Windows.Forms.ToolStripPanel()
         Me.ContentPanel = New System.Windows.Forms.ToolStripContentPanel()
         Me.SoundsGrid = New System.Windows.Forms.DataGridView()
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
+        Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
         Me.ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Creator = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Library = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -75,10 +77,9 @@ Partial Class SoundsMng
         Me.Description = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Time = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Rating = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Filename = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Tags = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
-        Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
+        Me.Filename = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.lstNoOfSelRecs = New System.Windows.Forms.ToolStripComboBox()
         CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.FilesJoinedNewBindingNavigator.SuspendLayout()
         CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,7 +94,7 @@ Partial Class SoundsMng
         Me.FilesJoinedNewBindingNavigator.BindingSource = Me.FilesJoinedNewBindingSource
         Me.FilesJoinedNewBindingNavigator.CountItem = Me.BindingNavigatorCountItem
         Me.FilesJoinedNewBindingNavigator.DeleteItem = Me.BindingNavigatorDeleteItem
-        Me.FilesJoinedNewBindingNavigator.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripFilter, Me.ToolStripSeparator1, Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorMoveNextItem, Me.btnPlaySound, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator2, Me.BindingNavigatorAddNewItem, Me.BindingNavigatorDeleteItem, Me.FilesJoinedNewBindingNavigatorSaveItem, Me.ToolStripSeparator2, Me.btnSetLibPath, Me.btnExport, Me.btnImportData, Me.prgBar, Me.btnManageColumns})
+        Me.FilesJoinedNewBindingNavigator.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.lstNoOfSelRecs, Me.ToolStripLabel1, Me.ToolStripFilter, Me.ToolStripSeparator1, Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorMoveNextItem, Me.btnPlaySound, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator2, Me.BindingNavigatorAddNewItem, Me.BindingNavigatorDeleteItem, Me.FilesJoinedNewBindingNavigatorSaveItem, Me.ToolStripSeparator2, Me.btnSetLibPath, Me.btnExport, Me.btnImportData, Me.prgBar, Me.btnManageColumns})
         Me.FilesJoinedNewBindingNavigator.Location = New System.Drawing.Point(0, 0)
         Me.FilesJoinedNewBindingNavigator.MoveFirstItem = Me.BindingNavigatorMoveFirstItem
         Me.FilesJoinedNewBindingNavigator.MoveLastItem = Me.BindingNavigatorMoveLastItem
@@ -129,7 +130,7 @@ Partial Class SoundsMng
         'BindingNavigatorCountItem
         '
         Me.BindingNavigatorCountItem.Name = "BindingNavigatorCountItem"
-        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(35, 22)
+        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(36, 22)
         Me.BindingNavigatorCountItem.Text = "of {0}"
         Me.BindingNavigatorCountItem.ToolTipText = "Total number of items"
         '
@@ -146,7 +147,7 @@ Partial Class SoundsMng
         'ToolStripLabel1
         '
         Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(36, 22)
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(35, 22)
         Me.ToolStripLabel1.Text = "Filter:"
         '
         'ToolStripFilter
@@ -284,7 +285,7 @@ Partial Class SoundsMng
         Me.btnManageColumns.Image = CType(resources.GetObject("btnManageColumns.Image"), System.Drawing.Image)
         Me.btnManageColumns.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnManageColumns.Name = "btnManageColumns"
-        Me.btnManageColumns.Size = New System.Drawing.Size(23, 22)
+        Me.btnManageColumns.Size = New System.Drawing.Size(23, 20)
         Me.btnManageColumns.ToolTipText = "Manage grid columns"
         '
         'Timer1
@@ -359,37 +360,48 @@ Partial Class SoundsMng
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SoundsGrid.AutoGenerateColumns = False
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.SoundsGrid.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle16.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
+        DataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.SoundsGrid.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle16
         Me.SoundsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.SoundsGrid.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ID, Me.Creator, Me.Library, Me.CD, Me.Year, Me.Track, Me.Index1, Me.Category, Me.SubCategory, Me.Description, Me.Time, Me.Rating, Me.Filename, Me.Tags})
+        Me.SoundsGrid.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ID, Me.Creator, Me.Library, Me.CD, Me.Year, Me.Track, Me.Index1, Me.Category, Me.SubCategory, Me.Description, Me.Time, Me.Rating, Me.Tags, Me.Filename})
         Me.SoundsGrid.DataSource = Me.FilesJoinedNewBindingSource
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.SoundsGrid.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle17.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
+        DataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.SoundsGrid.DefaultCellStyle = DataGridViewCellStyle17
         Me.SoundsGrid.Location = New System.Drawing.Point(0, 28)
         Me.SoundsGrid.Name = "SoundsGrid"
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.SoundsGrid.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle18.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
+        DataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.SoundsGrid.RowHeadersDefaultCellStyle = DataGridViewCellStyle18
         Me.SoundsGrid.Size = New System.Drawing.Size(766, 496)
         Me.SoundsGrid.TabIndex = 2
+        '
+        'wmp
+        '
+        Me.wmp.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.wmp.Enabled = True
+        Me.wmp.Location = New System.Drawing.Point(0, 525)
+        Me.wmp.Name = "wmp"
+        Me.wmp.OcxState = CType(resources.GetObject("wmp.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.wmp.Size = New System.Drawing.Size(766, 45)
+        Me.wmp.TabIndex = 3
         '
         'ID
         '
@@ -483,6 +495,13 @@ Partial Class SoundsMng
         Me.Rating.Name = "Rating"
         Me.Rating.Width = 52
         '
+        'Tags
+        '
+        Me.Tags.DataPropertyName = "Tags"
+        Me.Tags.HeaderText = "Tags"
+        Me.Tags.Name = "Tags"
+        Me.Tags.Width = 52
+        '
         'Filename
         '
         Me.Filename.DataPropertyName = "Filename"
@@ -491,23 +510,13 @@ Partial Class SoundsMng
         Me.Filename.ReadOnly = True
         Me.Filename.Width = 51
         '
-        'Tags
+        'lstNoOfSelRecs
         '
-        Me.Tags.DataPropertyName = "Tags"
-        Me.Tags.HeaderText = "Tags"
-        Me.Tags.Name = "Tags"
-        Me.Tags.Width = 52
-        '
-        'wmp
-        '
-        Me.wmp.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.wmp.Enabled = True
-        Me.wmp.Location = New System.Drawing.Point(0, 525)
-        Me.wmp.Name = "wmp"
-        Me.wmp.OcxState = CType(resources.GetObject("wmp.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.wmp.Size = New System.Drawing.Size(766, 45)
-        Me.wmp.TabIndex = 3
+        Me.lstNoOfSelRecs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.lstNoOfSelRecs.Items.AddRange(New Object() {"Show TOP 50 records", "Show TOP 500 records", "Show ALL records"})
+        Me.lstNoOfSelRecs.Name = "lstNoOfSelRecs"
+        Me.lstNoOfSelRecs.Size = New System.Drawing.Size(130, 25)
+        Me.lstNoOfSelRecs.ToolTipText = "Select the number of displayed records"
         '
         'SoundsMng
         '
@@ -566,6 +575,9 @@ Partial Class SoundsMng
     Friend WithEvents LeftToolStripPanel As System.Windows.Forms.ToolStripPanel
     Friend WithEvents ContentPanel As System.Windows.Forms.ToolStripContentPanel
     Friend WithEvents SoundsGrid As System.Windows.Forms.DataGridView
+    Friend WithEvents btnExport As System.Windows.Forms.ToolStripButton
+    Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents wmp As AxWMPLib.AxWindowsMediaPlayer
     Friend WithEvents ID As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Creator As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Library As System.Windows.Forms.DataGridViewTextBoxColumn
@@ -578,9 +590,7 @@ Partial Class SoundsMng
     Friend WithEvents Description As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Time As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Rating As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Filename As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Tags As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents btnExport As System.Windows.Forms.ToolStripButton
-    Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
-    Friend WithEvents wmp As AxWMPLib.AxWindowsMediaPlayer
+    Friend WithEvents Filename As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents lstNoOfSelRecs As System.Windows.Forms.ToolStripComboBox
 End Class
