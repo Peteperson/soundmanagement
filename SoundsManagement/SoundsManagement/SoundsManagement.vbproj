@@ -28,8 +28,9 @@
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://peteperson.homeip.net/SoundsManagement/</InstallUrl>
     <PublisherName>Pete</PublisherName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>Publish.htm</WebPage>
-    <ApplicationRevision>25</ApplicationRevision>
+    <ApplicationRevision>27</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
