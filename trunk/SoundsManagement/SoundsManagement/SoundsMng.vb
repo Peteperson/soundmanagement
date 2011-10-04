@@ -51,9 +51,10 @@ Public Class SoundsMng
     Private Sub SoundsMng_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         wmp.settings.autoStart = True
         Dim s As String = FilesPath
-        FillGrid()
-        WindowState = FormWindowState.Maximized
-        SetColumns()
+		WindowState = FormWindowState.Maximized
+		FillGrid()
+		SetColumns()
+		lstNoOfSelRecs.SelectedIndex = 1
     End Sub
 
     Private Sub SetColumns()
@@ -180,9 +181,9 @@ Public Class SoundsMng
         System.IO.File.AppendAllText(My.Application.Info.DirectoryPath & "\LogFile.txt", Date.Now.ToString("dd/MM/yyyy HH:mm:ss") & " = " & msg & Environment.NewLine)
     End Sub
 
-    Private Sub btnPlaySound_Click(sender As System.Object, e As System.EventArgs) Handles btnPlaySound.Click
-        PlaySound()
-    End Sub
+	Private Sub btnPlaySound_Click(sender As System.Object, e As System.EventArgs)
+		PlaySound()
+	End Sub
 
     Private ChangedColunmSettings As Boolean = False
     Private Sub btnManageColumns_Click(sender As System.Object, e As System.EventArgs) Handles btnManageColumns.Click
@@ -303,16 +304,20 @@ Public Class SoundsMng
     End Sub
 
     Private Sub lstNoOfSelRecs_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles lstNoOfSelRecs.SelectedIndexChanged
-        Dim str As String = FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText
-        Dim regex As New RegularExpressions.Regex("SELECT.+Files\.ID")
-        Select Case lstNoOfSelRecs.SelectedIndex
-            Case 0
-                FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText = regex.Replace(str, "SELECT TOP 50 Files.ID")
-            Case 1
-                FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText = regex.Replace(str, "SELECT TOP 500 Files.ID")
-            Case 2
-                FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText = regex.Replace(str, "SELECT Files.ID")
-        End Select
-        FillGrid()
-    End Sub
+		Dim prevval As String = FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText
+		Dim newval As String = FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText
+		Dim regex As New RegularExpressions.Regex("SELECT.+Files\.ID")
+		Select Case lstNoOfSelRecs.SelectedIndex
+			Case 0
+				newval = regex.Replace(prevval, "SELECT TOP 50 Files.ID")
+			Case 1
+				newval = regex.Replace(prevval, "SELECT     TOP 500 Files.ID")
+			Case 2
+				newval = regex.Replace(prevval, "SELECT Files.ID")
+		End Select
+		If prevval <> newval Then
+			FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText = newval
+			FillGrid()
+		End If
+	End Sub
 End Class
