@@ -134,8 +134,8 @@ Public Class SoundsMng
 
     Private Sub btnSetLibPath_Click(sender As System.Object, e As System.EventArgs) Handles btnSetLibPath.Click
         _FilesPath = ""
-        Dim s As String = FilesPath(False)
-    End Sub
+		Dim s As String = FilesPath(False)
+	End Sub
 
     Private Sub btnImportData_Click(sender As System.Object, e As System.EventArgs) Handles btnImportData.Click
         OpenFileDialog1.InitialDirectory = "c:\"
@@ -319,5 +319,9 @@ Public Class SoundsMng
 			FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText = newval
 			FillGrid()
 		End If
+	End Sub
+
+	Private Sub prgBar_DoubleClick(sender As System.Object, e As System.EventArgs) Handles prgBar.DoubleClick
+		MessageBox.Show(My.Application.Info.DirectoryPath)
 	End Sub
 End Class
