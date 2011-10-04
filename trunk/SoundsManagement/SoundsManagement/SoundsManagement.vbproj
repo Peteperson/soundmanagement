@@ -28,7 +28,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://peteperson.homeip.net/SoundsManagement/</InstallUrl>
     <PublisherName>Pete</PublisherName>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>Publish.htm</WebPage>
     <ApplicationRevision>25</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
@@ -119,6 +118,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>MusicFolder.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FileHelpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
@@ -254,6 +256,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="MusicFolder.ico" />
     <Content Include="Sounds.accdb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
