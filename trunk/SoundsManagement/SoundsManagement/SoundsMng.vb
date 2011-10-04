@@ -321,7 +321,7 @@ Public Class SoundsMng
 		End If
 	End Sub
 
-	Private Sub prgBar_DoubleClick(sender As System.Object, e As System.EventArgs) Handles prgBar.DoubleClick
-		MessageBox.Show(My.Application.Info.DirectoryPath)
-	End Sub
+    Private Sub btnPath_Click(sender As System.Object, e As System.EventArgs) Handles btnPath.Click
+        MessageBox.Show(My.Application.Info.DirectoryPath)
+    End Sub
 End Class
