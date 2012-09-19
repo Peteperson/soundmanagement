@@ -1,6 +1,7 @@
 ﻿Imports FileHelpers
 Imports System.Windows.Forms
 Imports System.Text
+Imports System.IO
 
 Public Class SoundsMng
 	Private _FilesPath As String = ""
@@ -187,7 +188,7 @@ Public Class SoundsMng
 
 	Private Sub WriteToLogFile(msg As String, ShowMessage As Boolean)
 		If ShowMessage Then MessageBox.Show(msg)
-		System.IO.File.AppendAllText(My.Application.Info.DirectoryPath & "\LogFile.txt", Date.Now.ToString("dd/MM/yyyy HH:mm:ss") & " = " & msg & Environment.NewLine)
+		File.AppendAllText(My.Application.Info.DirectoryPath & "\LogFile.txt", Date.Now.ToString("dd/MM/yyyy HH:mm:ss") & " = " & msg & Environment.NewLine)
 	End Sub
 
 	Private Sub btnPlaySound_Click(sender As System.Object, e As System.EventArgs)
@@ -207,7 +208,7 @@ Public Class SoundsMng
 			ci.Add(cmd)
 		Next
 		dlg.ColumnsInfo = ci
-		If dlg.ShowDialog() = Windows.Forms.DialogResult.OK Then
+		If dlg.ShowDialog() = DialogResult.OK Then
 			For i As Int16 = 0 To SoundsGrid.Columns.Count - 1
 				SoundsGrid.Columns(i).Visible = dlg.ColumnsInfo(i).ColumnVisible
 			Next
@@ -254,38 +255,32 @@ Public Class SoundsMng
 		WriteToLogFile("Deleted " & tmpRet & " imported records", False)
 	End Sub
 
-    Private Sub ImportFiles(res As SoundRecord(), fname As String)
-        Dim fta As New SoundsDataSetTableAdapters.FilesForImportTableAdapter
-        prgBar.Maximum = res.Count
-        prgBar.Value = 0
-        Application.DoEvents()
-        For Each snd As SoundRecord In res
-            If fta.Insert(fname, snd.Creator, snd.Library, snd.Year, snd.CD, snd.Track, snd.Index, snd.Category,
-                                snd.SubCategory, snd.Description, snd.Time, snd.Rating, snd.Filename, snd.Tags) <> 1 Then
-                WriteToLogFile("Unable to insert line: " & fname & " " & snd.Creator & " " & snd.Library & " " & snd.Year & " " &
-                               snd.CD & " " & snd.Track & " " & snd.Index & " " & snd.Category & " " &
-                               snd.SubCategory & " " & snd.Description & " " & snd.Time & " " & snd.Rating & " " &
-                               snd.Filename & " " & snd.Tags, False)
-            End If
-            prgBar.Value += 1
-        Next
-        prgBar.Value = 0
-    End Sub
+	Private Sub ImportFiles(res As SoundRecord(), fname As String)
+		Dim fta As New SoundsDataSetTableAdapters.FilesForImportTableAdapter
+		prgBar.Maximum = res.Count
+		prgBar.Value = 0
+		Application.DoEvents()
+		For Each snd As SoundRecord In res
+			If fta.Insert(fname, snd.Creator, snd.Library, snd.Year, snd.CD, snd.Track, snd.Index, snd.Category,
+				 snd.SubCategory, snd.Description, snd.Time, snd.Rating, snd.Filename, snd.Tags) <> 1 Then
+				WriteToLogFile("Unable to insert line: " & fname & " " & snd.Creator & " " & snd.Library & " " & snd.Year & " " &
+					  snd.CD & " " & snd.Track & " " & snd.Index & " " & snd.Category & " " &
+					  snd.SubCategory & " " & snd.Description & " " & snd.Time & " " & snd.Rating & " " &
+					  snd.Filename & " " & snd.Tags, False)
+			End If
+			prgBar.Value += 1
+		Next
+		prgBar.Value = 0
+	End Sub
 
 	Private Sub btnExport_Click(sender As System.Object, e As System.EventArgs) Handles btnExport.Click
 		SaveFileDialog1.Filter = "Tab Files (*.tab)|*.tab|All Files (*.*)|*.*"
 		SaveFileDialog1.FilterIndex = 0
-		If SaveFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
+		If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
 			Dim ft As New SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter
 			Dim dt As SoundsDataSet.FilesJoinedNewDataTable
 			Me.Cursor = Cursors.WaitCursor
 			dt = ft.GetDataBy()
-			'Dim res() As SoundRecord = (From tmp In dt.AsEnumerable Select New SoundRecord With {.Creator = tmp.Creator,
-			'        .Year = tmp.Year, .CD = tmp.CD, .Track = tmp.Track, .Index = tmp.Index1, .Category = tmp.Category,
-			'        .SubCategory = tmp.SubCategory, .Description = tmp.Description, .Time = tmp.Time, .Library = tmp.Library,
-			'        .Rating = tmp.Rating, .Filename = tmp.Filename, .Tags = tmp.Tags}).ToArray()
-			'Dim engine As New FileHelperEngine(Of SoundRecord)()
-			'engine.WriteFile(SaveFileDialog1.FileName, res)
 			prgBar.Maximum = dt.Rows.Count
 			prgBar.Value = 0
 			Dim str As System.Text.StringBuilder = New System.Text.StringBuilder()
@@ -371,5 +366,60 @@ Public Class SoundsMng
 				Next
 			End If
 		End If
+	End Sub
+
+	Private Sub btnExpNotExFiles_Click(sender As System.Object, e As System.EventArgs) Handles btnExpNotExFiles.Click
+		SaveFileDialog1.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*"
+		SaveFileDialog1.FilterIndex = 0
+		If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
+			Dim fname As String = SaveFileDialog1.FileName
+			Dim row As SoundsDataSet.FilesJoinedNewRow
+			Dim CurrentFile As String = ""
+			Dim finalText As New StringBuilder
+			Dim count As Integer = 0
+			Dim fileExists As Boolean
+			Dim tr As DataGridViewRow
+
+			prgBar.Maximum = SoundsGrid.Rows.Count
+			prgBar.Value = 0
+			finalText.Append("Exporting not existing files" & Environment.NewLine)
+			finalText.Append(DateTime.Now.ToString("dd/MM/yyyy HH:mm") & Environment.NewLine)
+			finalText.Append("FileNames:" & Environment.NewLine)
+			For Each tr In SoundsGrid.Rows
+				prgBar.Value += 1
+				row = tr.DataBoundItem.Row
+				fileExists = False
+				For Each ext In AudioFileTypes
+					CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
+					If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
+						fileExists = True
+						Exit For
+					End If
+				Next
+				If Not fileExists Then
+					count += 1
+					finalText.Append(count.ToString() & ") " & CurrentFile & Environment.NewLine)
+				End If
+			Next
+			File.WriteAllText(fname, finalText.ToString())
+			prgBar.Value = 0
+			MessageBox.Show("From " & SoundsGrid.Rows.Count & " files shown in DataGrid, " & count & " does not exist.")
+		End If
+	End Sub
+
+	Private Sub SoundsGrid_RowPrePaint(sender As System.Object, e As System.Windows.Forms.DataGridViewRowPrePaintEventArgs) Handles SoundsGrid.RowPrePaint
+		Dim row As SoundsDataSet.FilesJoinedNewRow
+		Dim fileExists As Boolean
+		Dim CurrentFile As String = ""
+		row = SoundsGrid.Rows(e.RowIndex).DataBoundItem.Row
+		fileExists = False
+		For Each ext In AudioFileTypes
+			CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
+			If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
+				fileExists = True
+				Exit For
+			End If
+		Next
+		If Not fileExists Then SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.Gray
 	End Sub
 End Class
