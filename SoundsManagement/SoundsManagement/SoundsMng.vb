@@ -262,11 +262,11 @@ Public Class SoundsMng
 		Application.DoEvents()
 		For Each snd As SoundRecord In res
 			If fta.Insert(fname, snd.Creator, snd.Library, snd.Year, snd.CD, snd.Track, snd.Index, snd.Category,
-				 snd.SubCategory, snd.Description, snd.Time, snd.Rating, snd.Filename, snd.Tags) <> 1 Then
+			  snd.SubCategory, snd.Description, snd.Time, snd.Rating, snd.Filename, snd.Tags) <> 1 Then
 				WriteToLogFile("Unable to insert line: " & fname & " " & snd.Creator & " " & snd.Library & " " & snd.Year & " " &
-					  snd.CD & " " & snd.Track & " " & snd.Index & " " & snd.Category & " " &
-					  snd.SubCategory & " " & snd.Description & " " & snd.Time & " " & snd.Rating & " " &
-					  snd.Filename & " " & snd.Tags, False)
+				   snd.CD & " " & snd.Track & " " & snd.Index & " " & snd.Category & " " &
+				   snd.SubCategory & " " & snd.Description & " " & snd.Time & " " & snd.Rating & " " &
+				   snd.Filename & " " & snd.Tags, False)
 			End If
 			prgBar.Value += 1
 		Next
@@ -331,7 +331,7 @@ Public Class SoundsMng
 
 	Private Sub SoundsGrid_KeyUp(sender As System.Object, e As KeyEventArgs) Handles SoundsGrid.KeyUp
 		If (e.KeyCode = 46 Or e.KeyCode = 8) Then
-			If SoundsGrid.SelectedRows.Count > 0 And MessageBox.Show("Really delete those records ?", "Confirmation", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+			If SoundsGrid.SelectedRows.Count > 0 AndAlso MessageBox.Show("Really delete those records ?", "Confirmation", MessageBoxButtons.YesNo) = DialogResult.Yes Then
 				Dim id As Integer
 				Dim pt As New SoundsDataSetTableAdapters.FilesTableAdapter
 				For Each row In SoundsGrid.SelectedRows
@@ -356,7 +356,7 @@ Public Class SoundsMng
 	Private Sub ShowTagsDialog()
 		Dim frmTags As New TagDialog
 		If frmTags.ShowDialog() = DialogResult.OK Then
-			If SoundsGrid.SelectedRows.Count > 0 And MessageBox.Show("Really update those records ?", "Confirmation", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+			If SoundsGrid.SelectedRows.Count > 0 AndAlso MessageBox.Show("Really update those records ?", "Confirmation", MessageBoxButtons.YesNo) = DialogResult.Yes Then
 				Dim id As Integer
 				Dim pt As New SoundsDataSetTableAdapters.FilesTableAdapter
 				For Each row In SoundsGrid.SelectedRows
@@ -420,9 +420,9 @@ Public Class SoundsMng
 				Exit For
 			End If
 		Next
-        If Not fileExists Then
-            SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.Font = New Font(Me.Font, FontStyle.Italic)
-            SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(100, 80, 80)
-        End If
-    End Sub
+		If Not fileExists Then
+			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.Font = New Font(Me.Font, FontStyle.Italic)
+			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(100, 80, 80)
+		End If
+	End Sub
 End Class
