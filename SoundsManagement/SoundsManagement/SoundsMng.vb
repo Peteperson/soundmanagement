@@ -422,7 +422,7 @@ Public Class SoundsMng
 		Next
 		If Not fileExists Then
 			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.Font = New Font(Me.Font, FontStyle.Italic)
-			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(100, 80, 80)
+			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(90, 80, 80)
 		End If
 	End Sub
 End Class
