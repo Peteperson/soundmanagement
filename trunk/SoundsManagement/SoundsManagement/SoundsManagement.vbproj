@@ -159,6 +159,12 @@
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="ColumnMetaData.vb" />
+    <Compile Include="dlgEditForm.Designer.vb">
+      <DependentUpon>dlgEditForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dlgEditForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="DlgSetColumns.Designer.vb">
       <DependentUpon>DlgSetColumns.vb</DependentUpon>
     </Compile>
@@ -209,6 +215,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="dlgEditForm.resx">
+      <DependentUpon>dlgEditForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DlgSetColumns.resx">
       <DependentUpon>DlgSetColumns.vb</DependentUpon>
     </EmbeddedResource>

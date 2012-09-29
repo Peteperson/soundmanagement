@@ -425,4 +425,8 @@ Public Class SoundsMng
 			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(90, 80, 80)
 		End If
 	End Sub
+
+	Private Sub btnEditRecs_Click(sender As System.Object, e As System.EventArgs) Handles btnEditRecs.Click
+
+	End Sub
 End Class
