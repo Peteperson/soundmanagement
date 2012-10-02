@@ -447,7 +447,6 @@ Public Class SoundsMng
 			query = query.Remove(query.Length - 2) & " WHERE (`ID` = ?)"
 			Dim command As New OleDbCommand(query, New OleDbConnection(My.Settings.SoundsConnectionString))
 
-
 			For Each elm In frmEdit.ChangedItems
 				Select Case elm.Key
 					Case "Creators_ID"

@@ -211,8 +211,20 @@ Partial Class dlgEditForm
 		Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
 		Me.TableLayoutPanel1.RowCount = 1
 		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
 		Me.TableLayoutPanel1.Size = New System.Drawing.Size(146, 29)
-		Me.TableLayoutPanel1.TabIndex = 0
+		Me.TableLayoutPanel1.TabIndex = 12
 		'
 		'OK_Button
 		'
@@ -332,6 +344,8 @@ Partial Class dlgEditForm
 		'
 		Me.Creators_IDComboBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
 				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.Creators_IDComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+		Me.Creators_IDComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
 		Me.Creators_IDComboBox.DataSource = Me.CreatorsBindingSource
 		Me.Creators_IDComboBox.DisplayMember = "Creator"
 		Me.Creators_IDComboBox.FormattingEnabled = True
@@ -350,6 +364,8 @@ Partial Class dlgEditForm
 		'
 		Me.Libraries_IDComboBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
 				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.Libraries_IDComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+		Me.Libraries_IDComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
 		Me.Libraries_IDComboBox.DataSource = Me.LibrariesBindingSource
 		Me.Libraries_IDComboBox.DisplayMember = "Library"
 		Me.Libraries_IDComboBox.FormattingEnabled = True
@@ -368,6 +384,8 @@ Partial Class dlgEditForm
 		'
 		Me.CDs_IDComboBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
 				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.CDs_IDComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+		Me.CDs_IDComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
 		Me.CDs_IDComboBox.DataSource = Me.CDsBindingSource
 		Me.CDs_IDComboBox.DisplayMember = "CD"
 		Me.CDs_IDComboBox.FormattingEnabled = True
@@ -386,6 +404,8 @@ Partial Class dlgEditForm
 		'
 		Me.Categories_IDComboBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
 				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.Categories_IDComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+		Me.Categories_IDComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
 		Me.Categories_IDComboBox.DataSource = Me.CategoriesBindingSource
 		Me.Categories_IDComboBox.DisplayMember = "Category"
 		Me.Categories_IDComboBox.FormattingEnabled = True
@@ -404,6 +424,8 @@ Partial Class dlgEditForm
 		'
 		Me.Subcategories_IDComboBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
 				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.Subcategories_IDComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+		Me.Subcategories_IDComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
 		Me.Subcategories_IDComboBox.DataSource = Me.SubcategoriesBindingSource
 		Me.Subcategories_IDComboBox.DisplayMember = "SubCategory"
 		Me.Subcategories_IDComboBox.FormattingEnabled = True
