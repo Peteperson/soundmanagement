@@ -47,6 +47,7 @@ Partial Class SoundsMng
 		Me.btnImportData = New System.Windows.Forms.ToolStripButton()
 		Me.btnTags = New System.Windows.Forms.ToolStripButton()
 		Me.btnExpNotExFiles = New System.Windows.Forms.ToolStripButton()
+		Me.btnEditRecs = New System.Windows.Forms.ToolStripButton()
 		Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
 		Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
 		Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
@@ -56,10 +57,6 @@ Partial Class SoundsMng
 		Me.LeftToolStripPanel = New System.Windows.Forms.ToolStripPanel()
 		Me.ContentPanel = New System.Windows.Forms.ToolStripContentPanel()
 		Me.SoundsGrid = New System.Windows.Forms.DataGridView()
-		Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
-		Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
-		Me.FilesJoinedNewTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter()
-		Me.TableAdapterManager = New SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager()
 		Me.ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.Creator = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.Library = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -74,7 +71,10 @@ Partial Class SoundsMng
 		Me.Rating = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.Tags = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.Filename = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.btnEditRecs = New System.Windows.Forms.ToolStripButton()
+		Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
+		Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
+		Me.FilesJoinedNewTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter()
+		Me.TableAdapterManager = New SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager()
 		CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.FilesJoinedNewBindingNavigator.SuspendLayout()
 		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -239,7 +239,7 @@ Partial Class SoundsMng
 		Me.btnTags.Image = CType(resources.GetObject("btnTags.Image"), System.Drawing.Image)
 		Me.btnTags.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.btnTags.Name = "btnTags"
-		Me.btnTags.Size = New System.Drawing.Size(23, 20)
+		Me.btnTags.Size = New System.Drawing.Size(23, 22)
 		Me.btnTags.Text = "Add tags"
 		Me.btnTags.Visible = False
 		'
@@ -250,9 +250,20 @@ Partial Class SoundsMng
 		Me.btnExpNotExFiles.Image = CType(resources.GetObject("btnExpNotExFiles.Image"), System.Drawing.Image)
 		Me.btnExpNotExFiles.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.btnExpNotExFiles.Name = "btnExpNotExFiles"
-		Me.btnExpNotExFiles.Size = New System.Drawing.Size(23, 20)
+		Me.btnExpNotExFiles.Size = New System.Drawing.Size(23, 22)
 		Me.btnExpNotExFiles.Text = "ToolStripButton1"
 		Me.btnExpNotExFiles.ToolTipText = "Export not existing files list"
+		'
+		'btnEditRecs
+		'
+		Me.btnEditRecs.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+		Me.btnEditRecs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+		Me.btnEditRecs.Image = CType(resources.GetObject("btnEditRecs.Image"), System.Drawing.Image)
+		Me.btnEditRecs.ImageTransparentColor = System.Drawing.Color.Magenta
+		Me.btnEditRecs.Name = "btnEditRecs"
+		Me.btnEditRecs.Size = New System.Drawing.Size(23, 22)
+		Me.btnEditRecs.Text = "ToolStripButton1"
+		Me.btnEditRecs.ToolTipText = "Edit records"
 		'
 		'Timer1
 		'
@@ -338,37 +349,6 @@ Partial Class SoundsMng
 		Me.SoundsGrid.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
 		Me.SoundsGrid.Size = New System.Drawing.Size(766, 494)
 		Me.SoundsGrid.TabIndex = 2
-		'
-		'wmp
-		'
-		Me.wmp.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-		Me.wmp.Enabled = True
-		Me.wmp.Location = New System.Drawing.Point(0, 525)
-		Me.wmp.Name = "wmp"
-		Me.wmp.OcxState = CType(resources.GetObject("wmp.OcxState"), System.Windows.Forms.AxHost.State)
-		Me.wmp.Size = New System.Drawing.Size(766, 45)
-		Me.wmp.TabIndex = 3
-		'
-		'FilesJoinedNewTableAdapter
-		'
-		Me.FilesJoinedNewTableAdapter.ClearBeforeFill = True
-		'
-		'TableAdapterManager
-		'
-		Me.TableAdapterManager.ArchivesTableAdapter = Nothing
-		Me.TableAdapterManager.BackupDataSetBeforeUpdate = False
-		Me.TableAdapterManager.CategoriesTableAdapter = Nothing
-		Me.TableAdapterManager.CDsTableAdapter = Nothing
-		Me.TableAdapterManager.CreatorsTableAdapter = Nothing
-		Me.TableAdapterManager.FilesForImportTableAdapter = Nothing
-		Me.TableAdapterManager.FilesJoinedNewTableAdapter = Me.FilesJoinedNewTableAdapter
-		Me.TableAdapterManager.FilesTableAdapter = Nothing
-		Me.TableAdapterManager.LibrariesTableAdapter = Nothing
-		Me.TableAdapterManager.ParametersTableAdapter = Nothing
-		Me.TableAdapterManager.SubcategoriesTableAdapter = Nothing
-		Me.TableAdapterManager.TagsTableAdapter = Nothing
-		Me.TableAdapterManager.UpdateOrder = SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
 		'
 		'ID
 		'
@@ -477,16 +457,36 @@ Partial Class SoundsMng
 		Me.Filename.ReadOnly = True
 		Me.Filename.Width = 51
 		'
-		'btnEditRecs
+		'wmp
 		'
-		Me.btnEditRecs.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
-		Me.btnEditRecs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-		Me.btnEditRecs.Image = CType(resources.GetObject("btnEditRecs.Image"), System.Drawing.Image)
-		Me.btnEditRecs.ImageTransparentColor = System.Drawing.Color.Magenta
-		Me.btnEditRecs.Name = "btnEditRecs"
-		Me.btnEditRecs.Size = New System.Drawing.Size(23, 20)
-		Me.btnEditRecs.Text = "ToolStripButton1"
-		Me.btnEditRecs.ToolTipText = "Edit records"
+		Me.wmp.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.wmp.Enabled = True
+		Me.wmp.Location = New System.Drawing.Point(0, 525)
+		Me.wmp.Name = "wmp"
+		Me.wmp.OcxState = CType(resources.GetObject("wmp.OcxState"), System.Windows.Forms.AxHost.State)
+		Me.wmp.Size = New System.Drawing.Size(766, 45)
+		Me.wmp.TabIndex = 3
+		'
+		'FilesJoinedNewTableAdapter
+		'
+		Me.FilesJoinedNewTableAdapter.ClearBeforeFill = True
+		'
+		'TableAdapterManager
+		'
+		Me.TableAdapterManager.ArchivesTableAdapter = Nothing
+		Me.TableAdapterManager.BackupDataSetBeforeUpdate = False
+		Me.TableAdapterManager.CategoriesTableAdapter = Nothing
+		Me.TableAdapterManager.CDsTableAdapter = Nothing
+		Me.TableAdapterManager.CreatorsTableAdapter = Nothing
+		Me.TableAdapterManager.FilesForImportTableAdapter = Nothing
+		Me.TableAdapterManager.FilesJoinedNewTableAdapter = Me.FilesJoinedNewTableAdapter
+		Me.TableAdapterManager.FilesTableAdapter = Nothing
+		Me.TableAdapterManager.LibrariesTableAdapter = Nothing
+		Me.TableAdapterManager.ParametersTableAdapter = Nothing
+		Me.TableAdapterManager.SubcategoriesTableAdapter = Nothing
+		Me.TableAdapterManager.TagsTableAdapter = Nothing
+		Me.TableAdapterManager.UpdateOrder = SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
 		'
 		'SoundsMng
 		'

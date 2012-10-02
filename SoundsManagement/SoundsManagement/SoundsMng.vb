@@ -2,6 +2,7 @@
 Imports System.Windows.Forms
 Imports System.Text
 Imports System.IO
+Imports System.Data.OleDb
 
 Public Class SoundsMng
 	Private _FilesPath As String = ""
@@ -345,7 +346,7 @@ Public Class SoundsMng
 			PlaySound()
 		End If
 		If (e.KeyCode = 107) Then
-			ShowTagsDialog()
+			EditRecords()
 		End If
 	End Sub
 
@@ -427,6 +428,86 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub btnEditRecs_Click(sender As System.Object, e As System.EventArgs) Handles btnEditRecs.Click
+		EditRecords()
+	End Sub
 
+	Private Sub EditRecords()
+		Dim frmEdit As New dlgEditForm
+		Dim dataList As New List(Of SoundsDataSet.FilesJoinedNewRow)
+		Dim n As Int16
+		For Each row In SoundsGrid.SelectedRows
+			dataList.Add(CType(CType(CType(row, DataGridViewRow).DataBoundItem, DataRowView).Row, SoundsDataSet.FilesJoinedNewRow))
+		Next
+		frmEdit.DataList = dataList
+		If dataList.Count > 0 AndAlso frmEdit.ShowDialog() = DialogResult.OK AndAlso frmEdit.ChangedItems.Count > 0 Then
+			Dim query As String = "UPDATE `Files` SET "
+			For Each elm In frmEdit.ChangedItems
+				query += "`" & elm.Key & "` = ?, "
+			Next
+			query = query.Remove(query.Length - 2) & " WHERE (`ID` = ?)"
+			Dim command As New OleDbCommand(query, New OleDbConnection(My.Settings.SoundsConnectionString))
+
+
+			For Each elm In frmEdit.ChangedItems
+				Select Case elm.Key
+					Case "Creators_ID"
+						command.Parameters.Add(New OleDbParameter("Creators_ID", OleDbType.[Integer], 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Creators_ID", DataRowVersion.Current, False, Nothing))
+						command.Parameters("Creators_ID").Value = Int16.Parse(frmEdit.ChangedItems("Creators_ID"))
+					Case "Libraries_ID"
+						command.Parameters.Add(New OleDbParameter("Libraries_ID", OleDbType.[Integer], 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Libraries_ID", DataRowVersion.Current, False, Nothing))
+						command.Parameters("Libraries_ID").Value = Int16.Parse(frmEdit.ChangedItems("Libraries_ID"))
+					Case "CDs_ID"
+						command.Parameters.Add(New OleDbParameter("CDs_ID", OleDbType.[Integer], 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "CDs_ID", DataRowVersion.Current, False, Nothing))
+						command.Parameters("CDs_ID").Value = Int16.Parse(frmEdit.ChangedItems("CDs_ID"))
+					Case "Year"
+						command.Parameters.Add(New OleDbParameter("Year", OleDbType.WChar, 4, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Year", DataRowVersion.Current, False, Nothing))
+						command.Parameters("Year").Value = Int16.Parse(frmEdit.ChangedItems("Year"))
+					Case "Track"
+						command.Parameters.Add(New OleDbParameter("Track", OleDbType.SmallInt, 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Track", DataRowVersion.Current, False, Nothing))
+						command.Parameters("Track").Value = Int16.Parse(frmEdit.ChangedItems("Track"))
+					Case "Index"
+						command.Parameters.Add(New OleDbParameter("Index", OleDbType.SmallInt, 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Index", DataRowVersion.Current, False, Nothing))
+						command.Parameters("Index").Value = Int16.Parse(frmEdit.ChangedItems("Index"))
+					Case "Categories_ID"
+						command.Parameters.Add(New OleDbParameter("Categories_ID", OleDbType.[Integer], 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Categories_ID", DataRowVersion.Current, False, Nothing))
+						command.Parameters("Categories_ID").Value = Int16.Parse(frmEdit.ChangedItems("Categories_ID"))
+					Case "Subcategories_ID"
+						command.Parameters.Add(New OleDbParameter("Subcategories_ID", OleDbType.[Integer], 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Subcategories_ID", DataRowVersion.Current, False, Nothing))
+						command.Parameters("Subcategories_ID").Value = Int16.Parse(frmEdit.ChangedItems("Subcategories_ID"))
+					Case "Description"
+						command.Parameters.Add(New OleDbParameter("Description", OleDbType.WChar, 255, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Description", DataRowVersion.Current, False, Nothing))
+						command.Parameters("Description").Value = frmEdit.ChangedItems("Description")
+					Case "Time"
+						command.Parameters.Add(New OleDbParameter("Time", OleDbType.WChar, 5, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Time", DataRowVersion.Current, False, Nothing))
+						command.Parameters("Time").Value = frmEdit.ChangedItems("Time")
+					Case "Rating"
+						command.Parameters.Add(New OleDbParameter("Rating", OleDbType.UnsignedTinyInt, 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Rating", DataRowVersion.Current, False, Nothing))
+						command.Parameters("Rating").Value = IIf(Int16.TryParse(frmEdit.ChangedItems("Rating"), n), n, 0)
+					Case "Tags"
+						command.Parameters.Add(New OleDbParameter("Tags", OleDbType.WChar, 255, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Tags", DataRowVersion.Current, False, Nothing))
+						command.Parameters("Tags").Value = frmEdit.ChangedItems("Tags")
+				End Select
+			Next
+			command.Parameters.Add(New OleDbParameter("Original_ID", OleDbType.[Integer], 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "ID", DataRowVersion.Original, False, Nothing))
+			Dim pt As New SoundsDataSetTableAdapters.FilesTableAdapter
+			Dim id As Integer
+			If ((command.Connection.State And ConnectionState.Open) <> ConnectionState.Open) Then
+				command.Connection.Open()
+			End If
+			For Each row In SoundsGrid.SelectedRows
+				id = Integer.Parse(SoundsGrid("ID", row.Index).Value.ToString())
+				command.Parameters("Original_ID").Value = id
+				Dim returnValue As Integer
+				Try
+					returnValue = command.ExecuteNonQuery
+				Catch ex As Exception
+					WriteToLogFile(ex.Message, False)
+				End Try
+			Next
+			If ((command.Connection.State And ConnectionState.Open) = ConnectionState.Open) Then
+				command.Connection.Close()
+			End If
+			FillGrid()
+		End If
 	End Sub
 End Class

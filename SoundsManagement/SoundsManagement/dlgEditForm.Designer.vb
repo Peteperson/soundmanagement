@@ -42,18 +42,28 @@ Partial Class dlgEditForm
 		Me.FilesJoinedNewBindingSource = New System.Windows.Forms.BindingSource(Me.components)
 		Me.FilesJoinedNewTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter()
 		Me.TableAdapterManager = New SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager()
-		Me.CreatorTextBox = New System.Windows.Forms.TextBox()
-		Me.LibraryTextBox = New System.Windows.Forms.TextBox()
-		Me.CDTextBox = New System.Windows.Forms.TextBox()
 		Me.YearTextBox = New System.Windows.Forms.TextBox()
 		Me.TrackTextBox = New System.Windows.Forms.TextBox()
 		Me.IndexTextBox = New System.Windows.Forms.TextBox()
-		Me.CategoryTextBox = New System.Windows.Forms.TextBox()
-		Me.SubCategoryTextBox = New System.Windows.Forms.TextBox()
 		Me.DescriptionTextBox = New System.Windows.Forms.TextBox()
 		Me.TimeTextBox = New System.Windows.Forms.TextBox()
 		Me.RatingTextBox = New System.Windows.Forms.TextBox()
 		Me.TagsTextBox = New System.Windows.Forms.TextBox()
+		Me.Creators_IDComboBox = New System.Windows.Forms.ComboBox()
+		Me.CreatorsBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+		Me.Libraries_IDComboBox = New System.Windows.Forms.ComboBox()
+		Me.LibrariesBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+		Me.CDs_IDComboBox = New System.Windows.Forms.ComboBox()
+		Me.CDsBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+		Me.Categories_IDComboBox = New System.Windows.Forms.ComboBox()
+		Me.CategoriesBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+		Me.Subcategories_IDComboBox = New System.Windows.Forms.ComboBox()
+		Me.SubcategoriesBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+		Me.CreatorsTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.CreatorsTableAdapter()
+		Me.LibrariesTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.LibrariesTableAdapter()
+		Me.CDsTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.CDsTableAdapter()
+		Me.CategoriesTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.CategoriesTableAdapter()
+		Me.SubcategoriesTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.SubcategoriesTableAdapter()
 		CreatorLabel = New System.Windows.Forms.Label()
 		LibraryLabel = New System.Windows.Forms.Label()
 		CDLabel = New System.Windows.Forms.Label()
@@ -69,7 +79,125 @@ Partial Class dlgEditForm
 		Me.TableLayoutPanel1.SuspendLayout()
 		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+		CType(Me.CreatorsBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+		CType(Me.LibrariesBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+		CType(Me.CDsBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+		CType(Me.CategoriesBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+		CType(Me.SubcategoriesBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
+		'
+		'CreatorLabel
+		'
+		CreatorLabel.AutoSize = True
+		CreatorLabel.Location = New System.Drawing.Point(12, 9)
+		CreatorLabel.Name = "CreatorLabel"
+		CreatorLabel.Size = New System.Drawing.Size(44, 13)
+		CreatorLabel.TabIndex = 3
+		CreatorLabel.Text = "Creator:"
+		'
+		'LibraryLabel
+		'
+		LibraryLabel.AutoSize = True
+		LibraryLabel.Location = New System.Drawing.Point(12, 35)
+		LibraryLabel.Name = "LibraryLabel"
+		LibraryLabel.Size = New System.Drawing.Size(41, 13)
+		LibraryLabel.TabIndex = 5
+		LibraryLabel.Text = "Library:"
+		'
+		'CDLabel
+		'
+		CDLabel.AutoSize = True
+		CDLabel.Location = New System.Drawing.Point(12, 61)
+		CDLabel.Name = "CDLabel"
+		CDLabel.Size = New System.Drawing.Size(25, 13)
+		CDLabel.TabIndex = 7
+		CDLabel.Text = "CD:"
+		'
+		'YearLabel
+		'
+		YearLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		YearLabel.AutoSize = True
+		YearLabel.Location = New System.Drawing.Point(535, 9)
+		YearLabel.Name = "YearLabel"
+		YearLabel.Size = New System.Drawing.Size(32, 13)
+		YearLabel.TabIndex = 9
+		YearLabel.Text = "Year:"
+		'
+		'TrackLabel
+		'
+		TrackLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		TrackLabel.AutoSize = True
+		TrackLabel.Location = New System.Drawing.Point(535, 113)
+		TrackLabel.Name = "TrackLabel"
+		TrackLabel.Size = New System.Drawing.Size(38, 13)
+		TrackLabel.TabIndex = 11
+		TrackLabel.Text = "Track:"
+		'
+		'IndexLabel
+		'
+		IndexLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		IndexLabel.AutoSize = True
+		IndexLabel.Location = New System.Drawing.Point(535, 87)
+		IndexLabel.Name = "IndexLabel"
+		IndexLabel.Size = New System.Drawing.Size(36, 13)
+		IndexLabel.TabIndex = 13
+		IndexLabel.Text = "Index:"
+		'
+		'CategoryLabel
+		'
+		CategoryLabel.AutoSize = True
+		CategoryLabel.Location = New System.Drawing.Point(12, 88)
+		CategoryLabel.Name = "CategoryLabel"
+		CategoryLabel.Size = New System.Drawing.Size(52, 13)
+		CategoryLabel.TabIndex = 15
+		CategoryLabel.Text = "Category:"
+		'
+		'SubCategoryLabel
+		'
+		SubCategoryLabel.AutoSize = True
+		SubCategoryLabel.Location = New System.Drawing.Point(12, 114)
+		SubCategoryLabel.Name = "SubCategoryLabel"
+		SubCategoryLabel.Size = New System.Drawing.Size(74, 13)
+		SubCategoryLabel.TabIndex = 17
+		SubCategoryLabel.Text = "Sub Category:"
+		'
+		'DescriptionLabel
+		'
+		DescriptionLabel.AutoSize = True
+		DescriptionLabel.Location = New System.Drawing.Point(12, 139)
+		DescriptionLabel.Name = "DescriptionLabel"
+		DescriptionLabel.Size = New System.Drawing.Size(63, 13)
+		DescriptionLabel.TabIndex = 19
+		DescriptionLabel.Text = "Description:"
+		'
+		'TimeLabel
+		'
+		TimeLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		TimeLabel.AutoSize = True
+		TimeLabel.Location = New System.Drawing.Point(535, 35)
+		TimeLabel.Name = "TimeLabel"
+		TimeLabel.Size = New System.Drawing.Size(33, 13)
+		TimeLabel.TabIndex = 21
+		TimeLabel.Text = "Time:"
+		'
+		'RatingLabel
+		'
+		RatingLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		RatingLabel.AutoSize = True
+		RatingLabel.Location = New System.Drawing.Point(535, 61)
+		RatingLabel.Name = "RatingLabel"
+		RatingLabel.Size = New System.Drawing.Size(41, 13)
+		RatingLabel.TabIndex = 23
+		RatingLabel.Text = "Rating:"
+		'
+		'TagsLabel
+		'
+		TagsLabel.AutoSize = True
+		TagsLabel.Location = New System.Drawing.Point(12, 166)
+		TagsLabel.Name = "TagsLabel"
+		TagsLabel.Size = New System.Drawing.Size(59, 13)
+		TagsLabel.TabIndex = 27
+		TagsLabel.Text = "Comments:"
 		'
 		'TableLayoutPanel1
 		'
@@ -79,7 +207,7 @@ Partial Class dlgEditForm
 		Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
 		Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
 		Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 1, 0)
-		Me.TableLayoutPanel1.Location = New System.Drawing.Point(247, 191)
+		Me.TableLayoutPanel1.Location = New System.Drawing.Point(506, 187)
 		Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
 		Me.TableLayoutPanel1.RowCount = 1
 		Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -135,209 +263,180 @@ Partial Class dlgEditForm
 		Me.TableAdapterManager.TagsTableAdapter = Nothing
 		Me.TableAdapterManager.UpdateOrder = SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
 		'
-		'CreatorLabel
-		'
-		CreatorLabel.AutoSize = True
-		CreatorLabel.Location = New System.Drawing.Point(12, 9)
-		CreatorLabel.Name = "CreatorLabel"
-		CreatorLabel.Size = New System.Drawing.Size(44, 13)
-		CreatorLabel.TabIndex = 3
-		CreatorLabel.Text = "Creator:"
-		'
-		'CreatorTextBox
-		'
-		Me.CreatorTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.FilesJoinedNewBindingSource, "Creator", True))
-		Me.CreatorTextBox.Location = New System.Drawing.Point(92, 6)
-		Me.CreatorTextBox.Name = "CreatorTextBox"
-		Me.CreatorTextBox.Size = New System.Drawing.Size(100, 20)
-		Me.CreatorTextBox.TabIndex = 4
-		'
-		'LibraryLabel
-		'
-		LibraryLabel.AutoSize = True
-		LibraryLabel.Location = New System.Drawing.Point(12, 35)
-		LibraryLabel.Name = "LibraryLabel"
-		LibraryLabel.Size = New System.Drawing.Size(41, 13)
-		LibraryLabel.TabIndex = 5
-		LibraryLabel.Text = "Library:"
-		'
-		'LibraryTextBox
-		'
-		Me.LibraryTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.FilesJoinedNewBindingSource, "Library", True))
-		Me.LibraryTextBox.Location = New System.Drawing.Point(92, 32)
-		Me.LibraryTextBox.Name = "LibraryTextBox"
-		Me.LibraryTextBox.Size = New System.Drawing.Size(100, 20)
-		Me.LibraryTextBox.TabIndex = 6
-		'
-		'CDLabel
-		'
-		CDLabel.AutoSize = True
-		CDLabel.Location = New System.Drawing.Point(12, 61)
-		CDLabel.Name = "CDLabel"
-		CDLabel.Size = New System.Drawing.Size(25, 13)
-		CDLabel.TabIndex = 7
-		CDLabel.Text = "CD:"
-		'
-		'CDTextBox
-		'
-		Me.CDTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.FilesJoinedNewBindingSource, "CD", True))
-		Me.CDTextBox.Location = New System.Drawing.Point(92, 58)
-		Me.CDTextBox.Name = "CDTextBox"
-		Me.CDTextBox.Size = New System.Drawing.Size(100, 20)
-		Me.CDTextBox.TabIndex = 8
-		'
-		'YearLabel
-		'
-		YearLabel.AutoSize = True
-		YearLabel.Location = New System.Drawing.Point(12, 87)
-		YearLabel.Name = "YearLabel"
-		YearLabel.Size = New System.Drawing.Size(32, 13)
-		YearLabel.TabIndex = 9
-		YearLabel.Text = "Year:"
-		'
 		'YearTextBox
 		'
+		Me.YearTextBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.YearTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.FilesJoinedNewBindingSource, "Year", True))
-		Me.YearTextBox.Location = New System.Drawing.Point(92, 84)
+		Me.YearTextBox.Location = New System.Drawing.Point(585, 6)
 		Me.YearTextBox.Name = "YearTextBox"
-		Me.YearTextBox.Size = New System.Drawing.Size(100, 20)
-		Me.YearTextBox.TabIndex = 10
-		'
-		'TrackLabel
-		'
-		TrackLabel.AutoSize = True
-		TrackLabel.Location = New System.Drawing.Point(214, 113)
-		TrackLabel.Name = "TrackLabel"
-		TrackLabel.Size = New System.Drawing.Size(38, 13)
-		TrackLabel.TabIndex = 11
-		TrackLabel.Text = "Track:"
+		Me.YearTextBox.Size = New System.Drawing.Size(73, 20)
+		Me.YearTextBox.TabIndex = 5
 		'
 		'TrackTextBox
 		'
+		Me.TrackTextBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.TrackTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.FilesJoinedNewBindingSource, "Track", True))
-		Me.TrackTextBox.Location = New System.Drawing.Point(294, 110)
+		Me.TrackTextBox.Location = New System.Drawing.Point(585, 110)
 		Me.TrackTextBox.Name = "TrackTextBox"
-		Me.TrackTextBox.Size = New System.Drawing.Size(100, 20)
-		Me.TrackTextBox.TabIndex = 12
-		'
-		'IndexLabel
-		'
-		IndexLabel.AutoSize = True
-		IndexLabel.Location = New System.Drawing.Point(214, 87)
-		IndexLabel.Name = "IndexLabel"
-		IndexLabel.Size = New System.Drawing.Size(36, 13)
-		IndexLabel.TabIndex = 13
-		IndexLabel.Text = "Index:"
+		Me.TrackTextBox.Size = New System.Drawing.Size(73, 20)
+		Me.TrackTextBox.TabIndex = 9
 		'
 		'IndexTextBox
 		'
+		Me.IndexTextBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.IndexTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.FilesJoinedNewBindingSource, "Index", True))
-		Me.IndexTextBox.Location = New System.Drawing.Point(294, 84)
+		Me.IndexTextBox.Location = New System.Drawing.Point(585, 84)
 		Me.IndexTextBox.Name = "IndexTextBox"
-		Me.IndexTextBox.Size = New System.Drawing.Size(100, 20)
-		Me.IndexTextBox.TabIndex = 14
-		'
-		'CategoryLabel
-		'
-		CategoryLabel.AutoSize = True
-		CategoryLabel.Location = New System.Drawing.Point(12, 113)
-		CategoryLabel.Name = "CategoryLabel"
-		CategoryLabel.Size = New System.Drawing.Size(52, 13)
-		CategoryLabel.TabIndex = 15
-		CategoryLabel.Text = "Category:"
-		'
-		'CategoryTextBox
-		'
-		Me.CategoryTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.FilesJoinedNewBindingSource, "Category", True))
-		Me.CategoryTextBox.Location = New System.Drawing.Point(92, 110)
-		Me.CategoryTextBox.Name = "CategoryTextBox"
-		Me.CategoryTextBox.Size = New System.Drawing.Size(100, 20)
-		Me.CategoryTextBox.TabIndex = 16
-		'
-		'SubCategoryLabel
-		'
-		SubCategoryLabel.AutoSize = True
-		SubCategoryLabel.Location = New System.Drawing.Point(214, 9)
-		SubCategoryLabel.Name = "SubCategoryLabel"
-		SubCategoryLabel.Size = New System.Drawing.Size(74, 13)
-		SubCategoryLabel.TabIndex = 17
-		SubCategoryLabel.Text = "Sub Category:"
-		'
-		'SubCategoryTextBox
-		'
-		Me.SubCategoryTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.FilesJoinedNewBindingSource, "SubCategory", True))
-		Me.SubCategoryTextBox.Location = New System.Drawing.Point(294, 6)
-		Me.SubCategoryTextBox.Name = "SubCategoryTextBox"
-		Me.SubCategoryTextBox.Size = New System.Drawing.Size(100, 20)
-		Me.SubCategoryTextBox.TabIndex = 18
-		'
-		'DescriptionLabel
-		'
-		DescriptionLabel.AutoSize = True
-		DescriptionLabel.Location = New System.Drawing.Point(12, 139)
-		DescriptionLabel.Name = "DescriptionLabel"
-		DescriptionLabel.Size = New System.Drawing.Size(63, 13)
-		DescriptionLabel.TabIndex = 19
-		DescriptionLabel.Text = "Description:"
+		Me.IndexTextBox.Size = New System.Drawing.Size(73, 20)
+		Me.IndexTextBox.TabIndex = 8
 		'
 		'DescriptionTextBox
 		'
+		Me.DescriptionTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.DescriptionTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.FilesJoinedNewBindingSource, "Description", True))
 		Me.DescriptionTextBox.Location = New System.Drawing.Point(92, 136)
 		Me.DescriptionTextBox.Name = "DescriptionTextBox"
-		Me.DescriptionTextBox.Size = New System.Drawing.Size(302, 20)
-		Me.DescriptionTextBox.TabIndex = 20
-		'
-		'TimeLabel
-		'
-		TimeLabel.AutoSize = True
-		TimeLabel.Location = New System.Drawing.Point(214, 35)
-		TimeLabel.Name = "TimeLabel"
-		TimeLabel.Size = New System.Drawing.Size(33, 13)
-		TimeLabel.TabIndex = 21
-		TimeLabel.Text = "Time:"
+		Me.DescriptionTextBox.Size = New System.Drawing.Size(566, 20)
+		Me.DescriptionTextBox.TabIndex = 10
 		'
 		'TimeTextBox
 		'
+		Me.TimeTextBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.TimeTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.FilesJoinedNewBindingSource, "Time", True))
-		Me.TimeTextBox.Location = New System.Drawing.Point(294, 32)
+		Me.TimeTextBox.Location = New System.Drawing.Point(585, 32)
 		Me.TimeTextBox.Name = "TimeTextBox"
-		Me.TimeTextBox.Size = New System.Drawing.Size(100, 20)
-		Me.TimeTextBox.TabIndex = 22
-		'
-		'RatingLabel
-		'
-		RatingLabel.AutoSize = True
-		RatingLabel.Location = New System.Drawing.Point(214, 61)
-		RatingLabel.Name = "RatingLabel"
-		RatingLabel.Size = New System.Drawing.Size(41, 13)
-		RatingLabel.TabIndex = 23
-		RatingLabel.Text = "Rating:"
+		Me.TimeTextBox.Size = New System.Drawing.Size(73, 20)
+		Me.TimeTextBox.TabIndex = 6
 		'
 		'RatingTextBox
 		'
+		Me.RatingTextBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.RatingTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.FilesJoinedNewBindingSource, "Rating", True))
-		Me.RatingTextBox.Location = New System.Drawing.Point(294, 58)
+		Me.RatingTextBox.Location = New System.Drawing.Point(585, 58)
 		Me.RatingTextBox.Name = "RatingTextBox"
-		Me.RatingTextBox.Size = New System.Drawing.Size(100, 20)
-		Me.RatingTextBox.TabIndex = 24
-		'
-		'TagsLabel
-		'
-		TagsLabel.AutoSize = True
-		TagsLabel.Location = New System.Drawing.Point(12, 166)
-		TagsLabel.Name = "TagsLabel"
-		TagsLabel.Size = New System.Drawing.Size(59, 13)
-		TagsLabel.TabIndex = 27
-		TagsLabel.Text = "Comments:"
+		Me.RatingTextBox.Size = New System.Drawing.Size(73, 20)
+		Me.RatingTextBox.TabIndex = 7
 		'
 		'TagsTextBox
 		'
+		Me.TagsTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.TagsTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.FilesJoinedNewBindingSource, "Tags", True))
 		Me.TagsTextBox.Location = New System.Drawing.Point(92, 163)
 		Me.TagsTextBox.Name = "TagsTextBox"
-		Me.TagsTextBox.Size = New System.Drawing.Size(302, 20)
-		Me.TagsTextBox.TabIndex = 28
+		Me.TagsTextBox.Size = New System.Drawing.Size(566, 20)
+		Me.TagsTextBox.TabIndex = 11
+		'
+		'Creators_IDComboBox
+		'
+		Me.Creators_IDComboBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.Creators_IDComboBox.DataSource = Me.CreatorsBindingSource
+		Me.Creators_IDComboBox.DisplayMember = "Creator"
+		Me.Creators_IDComboBox.FormattingEnabled = True
+		Me.Creators_IDComboBox.Location = New System.Drawing.Point(92, 5)
+		Me.Creators_IDComboBox.Name = "Creators_IDComboBox"
+		Me.Creators_IDComboBox.Size = New System.Drawing.Size(417, 21)
+		Me.Creators_IDComboBox.TabIndex = 0
+		Me.Creators_IDComboBox.ValueMember = "ID"
+		'
+		'CreatorsBindingSource
+		'
+		Me.CreatorsBindingSource.DataMember = "Creators"
+		Me.CreatorsBindingSource.DataSource = Me.SoundsDataSet
+		'
+		'Libraries_IDComboBox
+		'
+		Me.Libraries_IDComboBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.Libraries_IDComboBox.DataSource = Me.LibrariesBindingSource
+		Me.Libraries_IDComboBox.DisplayMember = "Library"
+		Me.Libraries_IDComboBox.FormattingEnabled = True
+		Me.Libraries_IDComboBox.Location = New System.Drawing.Point(92, 32)
+		Me.Libraries_IDComboBox.Name = "Libraries_IDComboBox"
+		Me.Libraries_IDComboBox.Size = New System.Drawing.Size(417, 21)
+		Me.Libraries_IDComboBox.TabIndex = 1
+		Me.Libraries_IDComboBox.ValueMember = "ID"
+		'
+		'LibrariesBindingSource
+		'
+		Me.LibrariesBindingSource.DataMember = "Libraries"
+		Me.LibrariesBindingSource.DataSource = Me.SoundsDataSet
+		'
+		'CDs_IDComboBox
+		'
+		Me.CDs_IDComboBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.CDs_IDComboBox.DataSource = Me.CDsBindingSource
+		Me.CDs_IDComboBox.DisplayMember = "CD"
+		Me.CDs_IDComboBox.FormattingEnabled = True
+		Me.CDs_IDComboBox.Location = New System.Drawing.Point(92, 58)
+		Me.CDs_IDComboBox.Name = "CDs_IDComboBox"
+		Me.CDs_IDComboBox.Size = New System.Drawing.Size(417, 21)
+		Me.CDs_IDComboBox.TabIndex = 2
+		Me.CDs_IDComboBox.ValueMember = "ID"
+		'
+		'CDsBindingSource
+		'
+		Me.CDsBindingSource.DataMember = "CDs"
+		Me.CDsBindingSource.DataSource = Me.SoundsDataSet
+		'
+		'Categories_IDComboBox
+		'
+		Me.Categories_IDComboBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.Categories_IDComboBox.DataSource = Me.CategoriesBindingSource
+		Me.Categories_IDComboBox.DisplayMember = "Category"
+		Me.Categories_IDComboBox.FormattingEnabled = True
+		Me.Categories_IDComboBox.Location = New System.Drawing.Point(92, 84)
+		Me.Categories_IDComboBox.Name = "Categories_IDComboBox"
+		Me.Categories_IDComboBox.Size = New System.Drawing.Size(417, 21)
+		Me.Categories_IDComboBox.TabIndex = 3
+		Me.Categories_IDComboBox.ValueMember = "ID"
+		'
+		'CategoriesBindingSource
+		'
+		Me.CategoriesBindingSource.DataMember = "Categories"
+		Me.CategoriesBindingSource.DataSource = Me.SoundsDataSet
+		'
+		'Subcategories_IDComboBox
+		'
+		Me.Subcategories_IDComboBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.Subcategories_IDComboBox.DataSource = Me.SubcategoriesBindingSource
+		Me.Subcategories_IDComboBox.DisplayMember = "SubCategory"
+		Me.Subcategories_IDComboBox.FormattingEnabled = True
+		Me.Subcategories_IDComboBox.Location = New System.Drawing.Point(92, 110)
+		Me.Subcategories_IDComboBox.Name = "Subcategories_IDComboBox"
+		Me.Subcategories_IDComboBox.Size = New System.Drawing.Size(417, 21)
+		Me.Subcategories_IDComboBox.TabIndex = 4
+		Me.Subcategories_IDComboBox.ValueMember = "ID"
+		'
+		'SubcategoriesBindingSource
+		'
+		Me.SubcategoriesBindingSource.DataMember = "Subcategories"
+		Me.SubcategoriesBindingSource.DataSource = Me.SoundsDataSet
+		'
+		'CreatorsTableAdapter
+		'
+		Me.CreatorsTableAdapter.ClearBeforeFill = True
+		'
+		'LibrariesTableAdapter
+		'
+		Me.LibrariesTableAdapter.ClearBeforeFill = True
+		'
+		'CDsTableAdapter
+		'
+		Me.CDsTableAdapter.ClearBeforeFill = True
+		'
+		'CategoriesTableAdapter
+		'
+		Me.CategoriesTableAdapter.ClearBeforeFill = True
+		'
+		'SubcategoriesTableAdapter
+		'
+		Me.SubcategoriesTableAdapter.ClearBeforeFill = True
 		'
 		'dlgEditForm
 		'
@@ -345,13 +444,15 @@ Partial Class dlgEditForm
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.CancelButton = Me.Cancel_Button
-		Me.ClientSize = New System.Drawing.Size(411, 227)
+		Me.ClientSize = New System.Drawing.Size(670, 223)
+		Me.Controls.Add(Me.Subcategories_IDComboBox)
+		Me.Controls.Add(Me.Categories_IDComboBox)
+		Me.Controls.Add(Me.CDs_IDComboBox)
+		Me.Controls.Add(Me.Libraries_IDComboBox)
+		Me.Controls.Add(Me.Creators_IDComboBox)
 		Me.Controls.Add(CreatorLabel)
-		Me.Controls.Add(Me.CreatorTextBox)
 		Me.Controls.Add(LibraryLabel)
-		Me.Controls.Add(Me.LibraryTextBox)
 		Me.Controls.Add(CDLabel)
-		Me.Controls.Add(Me.CDTextBox)
 		Me.Controls.Add(YearLabel)
 		Me.Controls.Add(Me.YearTextBox)
 		Me.Controls.Add(TrackLabel)
@@ -359,9 +460,7 @@ Partial Class dlgEditForm
 		Me.Controls.Add(IndexLabel)
 		Me.Controls.Add(Me.IndexTextBox)
 		Me.Controls.Add(CategoryLabel)
-		Me.Controls.Add(Me.CategoryTextBox)
 		Me.Controls.Add(SubCategoryLabel)
-		Me.Controls.Add(Me.SubCategoryTextBox)
 		Me.Controls.Add(DescriptionLabel)
 		Me.Controls.Add(Me.DescriptionTextBox)
 		Me.Controls.Add(TimeLabel)
@@ -381,28 +480,43 @@ Partial Class dlgEditForm
 		Me.TableLayoutPanel1.ResumeLayout(False)
 		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+		CType(Me.CreatorsBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+		CType(Me.LibrariesBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+		CType(Me.CDsBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+		CType(Me.CategoriesBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+		CType(Me.SubcategoriesBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
 
 	End Sub
-    Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
-    Friend WithEvents OK_Button As System.Windows.Forms.Button
+	Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
+	Friend WithEvents OK_Button As System.Windows.Forms.Button
 	Friend WithEvents Cancel_Button As System.Windows.Forms.Button
 	Friend WithEvents SoundsDataSet As SoundsManagement.SoundsDataSet
 	Friend WithEvents FilesJoinedNewBindingSource As System.Windows.Forms.BindingSource
 	Friend WithEvents FilesJoinedNewTableAdapter As SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter
 	Friend WithEvents TableAdapterManager As SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager
-	Friend WithEvents CreatorTextBox As System.Windows.Forms.TextBox
-	Friend WithEvents LibraryTextBox As System.Windows.Forms.TextBox
-	Friend WithEvents CDTextBox As System.Windows.Forms.TextBox
 	Friend WithEvents YearTextBox As System.Windows.Forms.TextBox
 	Friend WithEvents TrackTextBox As System.Windows.Forms.TextBox
 	Friend WithEvents IndexTextBox As System.Windows.Forms.TextBox
-	Friend WithEvents CategoryTextBox As System.Windows.Forms.TextBox
-	Friend WithEvents SubCategoryTextBox As System.Windows.Forms.TextBox
 	Friend WithEvents DescriptionTextBox As System.Windows.Forms.TextBox
 	Friend WithEvents TimeTextBox As System.Windows.Forms.TextBox
 	Friend WithEvents RatingTextBox As System.Windows.Forms.TextBox
 	Friend WithEvents TagsTextBox As System.Windows.Forms.TextBox
+	Friend WithEvents Creators_IDComboBox As System.Windows.Forms.ComboBox
+	Friend WithEvents Libraries_IDComboBox As System.Windows.Forms.ComboBox
+	Friend WithEvents CDs_IDComboBox As System.Windows.Forms.ComboBox
+	Friend WithEvents Categories_IDComboBox As System.Windows.Forms.ComboBox
+	Friend WithEvents Subcategories_IDComboBox As System.Windows.Forms.ComboBox
+	Friend WithEvents CreatorsBindingSource As System.Windows.Forms.BindingSource
+	Friend WithEvents CreatorsTableAdapter As SoundsManagement.SoundsDataSetTableAdapters.CreatorsTableAdapter
+	Friend WithEvents LibrariesBindingSource As System.Windows.Forms.BindingSource
+	Friend WithEvents LibrariesTableAdapter As SoundsManagement.SoundsDataSetTableAdapters.LibrariesTableAdapter
+	Friend WithEvents CDsBindingSource As System.Windows.Forms.BindingSource
+	Friend WithEvents CDsTableAdapter As SoundsManagement.SoundsDataSetTableAdapters.CDsTableAdapter
+	Friend WithEvents CategoriesBindingSource As System.Windows.Forms.BindingSource
+	Friend WithEvents CategoriesTableAdapter As SoundsManagement.SoundsDataSetTableAdapters.CategoriesTableAdapter
+	Friend WithEvents SubcategoriesBindingSource As System.Windows.Forms.BindingSource
+	Friend WithEvents SubcategoriesTableAdapter As SoundsManagement.SoundsDataSetTableAdapters.SubcategoriesTableAdapter
 
 End Class
