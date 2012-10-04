@@ -75,6 +75,7 @@ Partial Class SoundsMng
 		Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
 		Me.FilesJoinedNewTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter()
 		Me.TableAdapterManager = New SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager()
+		Me.btnClear = New System.Windows.Forms.ToolStripButton()
 		CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.FilesJoinedNewBindingNavigator.SuspendLayout()
 		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -88,8 +89,9 @@ Partial Class SoundsMng
 		Me.FilesJoinedNewBindingNavigator.AddNewItem = Nothing
 		Me.FilesJoinedNewBindingNavigator.BindingSource = Me.FilesJoinedNewBindingSource
 		Me.FilesJoinedNewBindingNavigator.CountItem = Me.BindingNavigatorCountItem
+		Me.FilesJoinedNewBindingNavigator.CountItemFormat = "{0} records"
 		Me.FilesJoinedNewBindingNavigator.DeleteItem = Nothing
-		Me.FilesJoinedNewBindingNavigator.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripFilter, Me.ToolStripLabel2, Me.lstNoOfSelRecs, Me.BindingNavigatorSeparator1, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.btnPath, Me.ToolStripSeparator2, Me.btnSetLibPath, Me.btnManageColumns, Me.ToolStripSeparator1, Me.prgBar, Me.btnExport, Me.btnImportData, Me.btnTags, Me.btnExpNotExFiles, Me.btnEditRecs})
+		Me.FilesJoinedNewBindingNavigator.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripFilter, Me.ToolStripLabel2, Me.lstNoOfSelRecs, Me.BindingNavigatorSeparator1, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.btnPath, Me.ToolStripSeparator2, Me.btnSetLibPath, Me.btnManageColumns, Me.ToolStripSeparator1, Me.prgBar, Me.btnExport, Me.btnImportData, Me.btnTags, Me.btnExpNotExFiles, Me.btnEditRecs, Me.btnClear})
 		Me.FilesJoinedNewBindingNavigator.Location = New System.Drawing.Point(0, 0)
 		Me.FilesJoinedNewBindingNavigator.MoveFirstItem = Nothing
 		Me.FilesJoinedNewBindingNavigator.MoveLastItem = Nothing
@@ -115,10 +117,9 @@ Partial Class SoundsMng
 		'BindingNavigatorCountItem
 		'
 		Me.BindingNavigatorCountItem.Name = "BindingNavigatorCountItem"
-		Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(35, 22)
-		Me.BindingNavigatorCountItem.Text = "of {0}"
+		Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(63, 22)
+		Me.BindingNavigatorCountItem.Text = "{0} records"
 		Me.BindingNavigatorCountItem.ToolTipText = "Total number of items"
-		Me.BindingNavigatorCountItem.Visible = False
 		'
 		'ToolStripLabel1
 		'
@@ -229,7 +230,7 @@ Partial Class SoundsMng
 		Me.btnImportData.Image = CType(resources.GetObject("btnImportData.Image"), System.Drawing.Image)
 		Me.btnImportData.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.btnImportData.Name = "btnImportData"
-		Me.btnImportData.Size = New System.Drawing.Size(23, 22)
+		Me.btnImportData.Size = New System.Drawing.Size(23, 20)
 		Me.btnImportData.ToolTipText = "Import sounds file"
 		'
 		'btnTags
@@ -239,7 +240,7 @@ Partial Class SoundsMng
 		Me.btnTags.Image = CType(resources.GetObject("btnTags.Image"), System.Drawing.Image)
 		Me.btnTags.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.btnTags.Name = "btnTags"
-		Me.btnTags.Size = New System.Drawing.Size(23, 22)
+		Me.btnTags.Size = New System.Drawing.Size(23, 20)
 		Me.btnTags.Text = "Add tags"
 		Me.btnTags.Visible = False
 		'
@@ -250,7 +251,7 @@ Partial Class SoundsMng
 		Me.btnExpNotExFiles.Image = CType(resources.GetObject("btnExpNotExFiles.Image"), System.Drawing.Image)
 		Me.btnExpNotExFiles.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.btnExpNotExFiles.Name = "btnExpNotExFiles"
-		Me.btnExpNotExFiles.Size = New System.Drawing.Size(23, 22)
+		Me.btnExpNotExFiles.Size = New System.Drawing.Size(23, 20)
 		Me.btnExpNotExFiles.Text = "ToolStripButton1"
 		Me.btnExpNotExFiles.ToolTipText = "Export not existing files list"
 		'
@@ -261,7 +262,7 @@ Partial Class SoundsMng
 		Me.btnEditRecs.Image = CType(resources.GetObject("btnEditRecs.Image"), System.Drawing.Image)
 		Me.btnEditRecs.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.btnEditRecs.Name = "btnEditRecs"
-		Me.btnEditRecs.Size = New System.Drawing.Size(23, 22)
+		Me.btnEditRecs.Size = New System.Drawing.Size(23, 20)
 		Me.btnEditRecs.Text = "ToolStripButton1"
 		Me.btnEditRecs.ToolTipText = "Edit records"
 		'
@@ -488,6 +489,17 @@ Partial Class SoundsMng
 		Me.TableAdapterManager.TagsTableAdapter = Nothing
 		Me.TableAdapterManager.UpdateOrder = SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
 		'
+		'btnClear
+		'
+		Me.btnClear.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+		Me.btnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+		Me.btnClear.Image = CType(resources.GetObject("btnClear.Image"), System.Drawing.Image)
+		Me.btnClear.ImageTransparentColor = System.Drawing.Color.Magenta
+		Me.btnClear.Name = "btnClear"
+		Me.btnClear.Size = New System.Drawing.Size(23, 20)
+		Me.btnClear.Text = "ToolStripButton1"
+		Me.btnClear.ToolTipText = "Clear data (archives, libraries, categories...)"
+		'
 		'SoundsMng
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -558,4 +570,5 @@ Partial Class SoundsMng
 	Friend WithEvents Tags As System.Windows.Forms.DataGridViewTextBoxColumn
 	Friend WithEvents Filename As System.Windows.Forms.DataGridViewTextBoxColumn
 	Friend WithEvents btnEditRecs As System.Windows.Forms.ToolStripButton
+	Friend WithEvents btnClear As System.Windows.Forms.ToolStripButton
 End Class

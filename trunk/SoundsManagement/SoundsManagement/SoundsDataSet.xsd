@@ -817,6 +817,54 @@ WHERE        (ParamName = 'SoundsLibraryPath')</CommandText>
               </DbCommand>
             </SelectCommand>
           </DbSource>
+          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearArchives" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearArchives" MethodsParameterType="CLR" Modifier="Public" Name="ClearArchives" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy9" UserSourceName="ClearArchives">
+            <SelectCommand>
+              <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
+                <CommandText>ClearArchives</CommandText>
+                <Parameters />
+              </DbCommand>
+            </SelectCommand>
+          </DbSource>
+          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearSubCategories" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearSubCategories" MethodsParameterType="CLR" Modifier="Public" Name="ClearSubCategories" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy11" UserSourceName="ClearSubCategories">
+            <SelectCommand>
+              <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
+                <CommandText>ClearSubCategories</CommandText>
+                <Parameters />
+              </DbCommand>
+            </SelectCommand>
+          </DbSource>
+          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearCategories" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearCategories" MethodsParameterType="CLR" Modifier="Public" Name="ClearCategories" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy21" UserSourceName="ClearCategories">
+            <SelectCommand>
+              <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
+                <CommandText>ClearCategories</CommandText>
+                <Parameters />
+              </DbCommand>
+            </SelectCommand>
+          </DbSource>
+          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearCDs" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearCDs" MethodsParameterType="CLR" Modifier="Public" Name="ClearCDs" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy31" UserSourceName="ClearCDs">
+            <SelectCommand>
+              <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
+                <CommandText>ClearCDs</CommandText>
+                <Parameters />
+              </DbCommand>
+            </SelectCommand>
+          </DbSource>
+          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearCreators" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearCreators" MethodsParameterType="CLR" Modifier="Public" Name="ClearCreators" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy41" UserSourceName="ClearCreators">
+            <SelectCommand>
+              <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
+                <CommandText>ClearCreators</CommandText>
+                <Parameters />
+              </DbCommand>
+            </SelectCommand>
+          </DbSource>
+          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearLibraries" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearLibraries" MethodsParameterType="CLR" Modifier="Public" Name="ClearLibraries" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy51" UserSourceName="ClearLibraries">
+            <SelectCommand>
+              <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
+                <CommandText>ClearLibraries</CommandText>
+                <Parameters />
+              </DbCommand>
+            </SelectCommand>
+          </DbSource>
         </Sources>
       </DataSource>
     </xs:appinfo>
@@ -1196,12 +1244,12 @@ WHERE        (ParamName = 'SoundsLibraryPath')</CommandText>
   </xs:element>
   <xs:annotation>
     <xs:appinfo>
-      <msdata:Relationship name="NormRel1" msdata:parent="Creators" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Creators_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_UserParentTable="Creators" msprop:Generator_UserRelationName="NormRel1" msprop:Generator_RelationVarName="relationNormRel1" msprop:Generator_ParentPropName="CreatorsRow" />
-      <msdata:Relationship name="NormRel2" msdata:parent="Libraries" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Libraries_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_UserParentTable="Libraries" msprop:Generator_UserRelationName="NormRel2" msprop:Generator_RelationVarName="relationNormRel2" msprop:Generator_ParentPropName="LibrariesRow" />
-      <msdata:Relationship name="NormRel3" msdata:parent="CDs" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="CDs_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_UserParentTable="CDs" msprop:Generator_UserRelationName="NormRel3" msprop:Generator_RelationVarName="relationNormRel3" msprop:Generator_ParentPropName="CDsRow" />
-      <msdata:Relationship name="NormRel4" msdata:parent="Categories" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Categories_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_UserParentTable="Categories" msprop:Generator_UserRelationName="NormRel4" msprop:Generator_RelationVarName="relationNormRel4" msprop:Generator_ParentPropName="CategoriesRow" />
-      <msdata:Relationship name="NormRel5" msdata:parent="Subcategories" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Subcategories_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_UserParentTable="Subcategories" msprop:Generator_UserRelationName="NormRel5" msprop:Generator_RelationVarName="relationNormRel5" msprop:Generator_ParentPropName="SubcategoriesRow" />
-      <msdata:Relationship name="Archives_Files" msdata:parent="Archives" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Archive_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_ParentPropName="ArchivesRow" msprop:Generator_UserRelationName="Archives_Files" msprop:Generator_RelationVarName="relationArchives_Files" msprop:Generator_UserParentTable="Archives" />
+      <msdata:Relationship name="NormRel1" msdata:parent="Creators" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Creators_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_ParentPropName="CreatorsRow" msprop:Generator_UserRelationName="NormRel1" msprop:Generator_RelationVarName="relationNormRel1" msprop:Generator_UserParentTable="Creators" />
+      <msdata:Relationship name="NormRel2" msdata:parent="Libraries" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Libraries_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_ParentPropName="LibrariesRow" msprop:Generator_UserRelationName="NormRel2" msprop:Generator_RelationVarName="relationNormRel2" msprop:Generator_UserParentTable="Libraries" />
+      <msdata:Relationship name="NormRel3" msdata:parent="CDs" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="CDs_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_ParentPropName="CDsRow" msprop:Generator_UserRelationName="NormRel3" msprop:Generator_RelationVarName="relationNormRel3" msprop:Generator_UserParentTable="CDs" />
+      <msdata:Relationship name="NormRel4" msdata:parent="Categories" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Categories_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_ParentPropName="CategoriesRow" msprop:Generator_UserRelationName="NormRel4" msprop:Generator_RelationVarName="relationNormRel4" msprop:Generator_UserParentTable="Categories" />
+      <msdata:Relationship name="NormRel5" msdata:parent="Subcategories" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Subcategories_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_ParentPropName="SubcategoriesRow" msprop:Generator_UserRelationName="NormRel5" msprop:Generator_RelationVarName="relationNormRel5" msprop:Generator_UserParentTable="Subcategories" />
+      <msdata:Relationship name="Archives_Files" msdata:parent="Archives" msdata:child="Files" msdata:parentkey="ID" msdata:childkey="Archive_ID" msprop:Generator_UserChildTable="Files" msprop:Generator_ChildPropName="GetFilesRows" msprop:Generator_UserParentTable="Archives" msprop:Generator_UserRelationName="Archives_Files" msprop:Generator_RelationVarName="relationArchives_Files" msprop:Generator_ParentPropName="ArchivesRow" />
     </xs:appinfo>
   </xs:annotation>
 </xs:schema>

@@ -180,8 +180,10 @@ Public Class SoundsMng
 					WriteToLogFile("File '" & OpenFileDialog1.FileName & "' has been imported before", True)
 				End If
 			Catch Ex As Exception
-				WriteToLogFile("Cannot read file from disk. Original error: " & Ex.Message, True)
+				ClearData()
+				WriteToLogFile("Error while importing data: " & Ex.Message, True)
 			Finally
+				Me.prgBar.Value = 0
 				Me.Cursor = Cursors.Default
 			End Try
 		End If
@@ -256,22 +258,51 @@ Public Class SoundsMng
 		WriteToLogFile("Deleted " & tmpRet & " imported records", False)
 	End Sub
 
+	Private Sub ClearData()
+		Dim qry As New SoundsDataSetTableAdapters.QueriesTableAdapter
+		Dim tmpRet As Integer
+		WriteToLogFile("Executing clearing queries", False)
+		tmpRet = qry.ClearArchives
+		WriteToLogFile("Deleted " & tmpRet & " Archives", False)
+		tmpRet = qry.ClearCreators
+		WriteToLogFile("Deleted " & tmpRet & " Creators", False)
+		tmpRet = qry.ClearLibraries
+		WriteToLogFile("Deleted " & tmpRet & " Libraries", False)
+		tmpRet = qry.ClearCDs
+		WriteToLogFile("Deleted " & tmpRet & " CDs", False)
+		tmpRet = qry.ClearCategories
+		WriteToLogFile("Deleted " & tmpRet & " Categories", False)
+		tmpRet = qry.ClearSubCategories
+		WriteToLogFile("Deleted " & tmpRet & " Subcategories", False)
+		tmpRet = qry.DeleteFilesForImport
+		WriteToLogFile("Deleted " & tmpRet & " records for import", False)
+	End Sub
+
+	Private ffita As New SoundsManagement.SoundsDataSetTableAdapters.FilesForImportTableAdapter
+	Private fta As New SoundsManagement.SoundsDataSetTableAdapters.FilesTableAdapter
 	Private Sub ImportFiles(res As SoundRecord(), fname As String)
 		Dim fta As New SoundsDataSetTableAdapters.FilesForImportTableAdapter
 		prgBar.Maximum = res.Count
 		prgBar.Value = 0
-		Application.DoEvents()
+		ffita.Adapter.InsertCommand.Connection.Open()
 		For Each snd As SoundRecord In res
-			If fta.Insert(fname, snd.Creator, snd.Library, snd.Year, snd.CD, snd.Track, snd.Index, snd.Category,
-			  snd.SubCategory, snd.Description, snd.Time, snd.Rating, snd.Filename, snd.Tags) <> 1 Then
-				WriteToLogFile("Unable to insert line: " & fname & " " & snd.Creator & " " & snd.Library & " " & snd.Year & " " &
-				   snd.CD & " " & snd.Track & " " & snd.Index & " " & snd.Category & " " &
-				   snd.SubCategory & " " & snd.Description & " " & snd.Time & " " & snd.Rating & " " &
-				   snd.Filename & " " & snd.Tags, False)
-			End If
-			prgBar.Value += 1
+			Try
+				If InsertRecord(fname, snd.Creator, snd.Library, snd.Year, snd.CD, snd.Track, snd.Index, snd.Category,
+				 snd.SubCategory, snd.Description, snd.Time, snd.Rating, snd.Filename, snd.Tags) <> 1 Then
+					WriteToLogFile("Unable to insert line: " & fname & " " & snd.Creator & " " & snd.Library & " " & snd.Year & " " &
+					snd.CD & " " & snd.Track & " " & snd.Index & " " & snd.Category & " " &
+					snd.SubCategory & " " & snd.Description & " " & snd.Time & " " & snd.Rating & " " &
+					snd.Filename & " " & snd.Tags, False)
+				End If
+				prgBar.Value += 1
+				Application.DoEvents()
+			Catch ex As Exception
+				WriteToLogFile("Error while importing data on line " & prgBar.Value + 2 & ": " & ex.Message, True)
+				Throw New Exception(ex.Message)
+			End Try
 		Next
 		prgBar.Value = 0
+		ffita.Adapter.InsertCommand.Connection.Close()
 	End Sub
 
 	Private Sub btnExport_Click(sender As System.Object, e As System.EventArgs) Handles btnExport.Click
@@ -333,13 +364,15 @@ Public Class SoundsMng
 	Private Sub SoundsGrid_KeyUp(sender As System.Object, e As KeyEventArgs) Handles SoundsGrid.KeyUp
 		If (e.KeyCode = 46 Or e.KeyCode = 8) Then
 			If SoundsGrid.SelectedRows.Count > 0 AndAlso MessageBox.Show("Really delete those records ?", "Confirmation", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+				fta.Adapter.DeleteCommand.Connection.Open()
 				Dim id As Integer
 				Dim pt As New SoundsDataSetTableAdapters.FilesTableAdapter
 				For Each row In SoundsGrid.SelectedRows
 					id = Integer.Parse(SoundsGrid("ID", row.Index).Value.ToString())
-					pt.Delete(id)
+					DeleteRecord(id)
 					SoundsGrid.Rows.Remove(row)
 				Next
+				fta.Adapter.DeleteCommand.Connection.Close()
 			End If
 		End If
 		If (e.KeyCode = 32) Then
@@ -508,5 +541,91 @@ Public Class SoundsMng
 			End If
 			FillGrid()
 		End If
+	End Sub
+
+	Private Function InsertRecord(ByVal ArchiveName As String, ByVal Creator As String, ByVal Library As String, ByVal Year As String, ByVal CD As String, ByVal Track As Global.System.Nullable(Of Short), ByVal Index As Global.System.Nullable(Of Byte), ByVal Category As String, ByVal SubCategory As String, ByVal Description As String, ByVal Time As String, ByVal Rating As Global.System.Nullable(Of Byte), ByVal Filename As String, ByVal Tags As String) As Integer
+		If (ArchiveName Is Nothing) Then
+			ffita.Adapter.InsertCommand.Parameters(0).Value = Global.System.DBNull.Value
+		Else
+			ffita.Adapter.InsertCommand.Parameters(0).Value = CType(ArchiveName, String)
+		End If
+		If (Creator Is Nothing) Then
+			ffita.Adapter.InsertCommand.Parameters(1).Value = Global.System.DBNull.Value
+		Else
+			ffita.Adapter.InsertCommand.Parameters(1).Value = CType(Creator, String)
+		End If
+		If (Library Is Nothing) Then
+			ffita.Adapter.InsertCommand.Parameters(2).Value = Global.System.DBNull.Value
+		Else
+			ffita.Adapter.InsertCommand.Parameters(2).Value = CType(Library, String)
+		End If
+		If (Year Is Nothing) Then
+			ffita.Adapter.InsertCommand.Parameters(3).Value = Global.System.DBNull.Value
+		Else
+			ffita.Adapter.InsertCommand.Parameters(3).Value = CType(Year, String)
+		End If
+		If (CD Is Nothing) Then
+			ffita.Adapter.InsertCommand.Parameters(4).Value = Global.System.DBNull.Value
+		Else
+			ffita.Adapter.InsertCommand.Parameters(4).Value = CType(CD, String)
+		End If
+		If (Track.HasValue = True) Then
+			ffita.Adapter.InsertCommand.Parameters(5).Value = CType(Track.Value, Short)
+		Else
+			ffita.Adapter.InsertCommand.Parameters(5).Value = Global.System.DBNull.Value
+		End If
+		If (Index.HasValue = True) Then
+			ffita.Adapter.InsertCommand.Parameters(6).Value = CType(Index.Value, Byte)
+		Else
+			ffita.Adapter.InsertCommand.Parameters(6).Value = Global.System.DBNull.Value
+		End If
+		If (Category Is Nothing) Then
+			ffita.Adapter.InsertCommand.Parameters(7).Value = Global.System.DBNull.Value
+		Else
+			ffita.Adapter.InsertCommand.Parameters(7).Value = CType(Category, String)
+		End If
+		If (SubCategory Is Nothing) Then
+			ffita.Adapter.InsertCommand.Parameters(8).Value = Global.System.DBNull.Value
+		Else
+			ffita.Adapter.InsertCommand.Parameters(8).Value = CType(SubCategory, String)
+		End If
+		If (Description Is Nothing) Then
+			ffita.Adapter.InsertCommand.Parameters(9).Value = Global.System.DBNull.Value
+		Else
+			ffita.Adapter.InsertCommand.Parameters(9).Value = CType(Description, String)
+		End If
+		If (Time Is Nothing) Then
+			ffita.Adapter.InsertCommand.Parameters(10).Value = Global.System.DBNull.Value
+		Else
+			ffita.Adapter.InsertCommand.Parameters(10).Value = CType(Time, String)
+		End If
+		If (Rating.HasValue = True) Then
+			ffita.Adapter.InsertCommand.Parameters(11).Value = CType(Rating.Value, Byte)
+		Else
+			ffita.Adapter.InsertCommand.Parameters(11).Value = Global.System.DBNull.Value
+		End If
+		If (Filename Is Nothing) Then
+			ffita.Adapter.InsertCommand.Parameters(12).Value = Global.System.DBNull.Value
+		Else
+			ffita.Adapter.InsertCommand.Parameters(12).Value = CType(Filename, String)
+		End If
+		If (Tags Is Nothing) Then
+			ffita.Adapter.InsertCommand.Parameters(13).Value = Global.System.DBNull.Value
+		Else
+			ffita.Adapter.InsertCommand.Parameters(13).Value = CType(Tags, String)
+		End If
+		Dim returnValue As Integer = ffita.Adapter.InsertCommand.ExecuteNonQuery
+		Return returnValue
+	End Function
+
+	Public Overridable Overloads Function DeleteRecord(ByVal ID As Integer) As Integer
+		fta.Adapter.DeleteCommand.Parameters(0).Value = CType(ID, Integer)
+		Dim returnValue As Integer = fta.Adapter.DeleteCommand.ExecuteNonQuery
+		Return returnValue
+	End Function
+
+	Private Sub btnClear_Click(sender As System.Object, e As System.EventArgs) Handles btnClear.Click
+		ClearData()
+		MessageBox.Show("Successfully cleared data")
 	End Sub
 End Class
