@@ -71,7 +71,7 @@ Public NotInheritable Class SoundRecord
 	Private mTime As String
 	Public Property Time As String
 		Get
-			Dim rx As New RegularExpressions.Regex("[0-9]{2}\:[0-9]{2}")
+			Dim rx As New RegularExpressions.Regex("[0-9]{1,2}\:[0-9]{2}")
 			If rx.IsMatch(mTime) Then
 				Return mTime
 			Else

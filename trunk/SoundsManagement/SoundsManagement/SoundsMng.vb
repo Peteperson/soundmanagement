@@ -152,7 +152,7 @@ Public Class SoundsMng
 		OpenFileDialog1.InitialDirectory = "c:\"
 		OpenFileDialog1.Filter = "tsv files (*.tab)|*.tab|All files (*.*)|*.*"
 		OpenFileDialog1.FilterIndex = 0
-		OpenFileDialog1.Multiselect = False
+		OpenFileDialog1.Multiselect = True
 		OpenFileDialog1.RestoreDirectory = True
 
 		If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
@@ -298,11 +298,15 @@ Public Class SoundsMng
 				Application.DoEvents()
 			Catch ex As Exception
 				WriteToLogFile("Error while importing data on line " & prgBar.Value + 2 & ": " & ex.Message, True)
+				ffita.Adapter.InsertCommand.Connection.Close()
+				prgBar.Value = 0
 				Throw New Exception(ex.Message)
 			End Try
 		Next
 		prgBar.Value = 0
-		ffita.Adapter.InsertCommand.Connection.Close()
+		If ffita.Adapter.InsertCommand.Connection.State = ConnectionState.Open Then
+			ffita.Adapter.InsertCommand.Connection.Close()
+		End If
 	End Sub
 
 	Private Sub btnExport_Click(sender As System.Object, e As System.EventArgs) Handles btnExport.Click
