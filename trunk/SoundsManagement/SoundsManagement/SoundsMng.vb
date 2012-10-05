@@ -44,7 +44,7 @@ Public Class SoundsMng
 			Dim success As Boolean
 			Dim AllValues As New StringBuilder
 			Try
-				For i As Int16 = 0 To SoundsGrid.Columns.Count - 1
+				For i As Integer = 0 To SoundsGrid.Columns.Count - 1
 					AllValues.Append(IIf(SoundsGrid.Columns(i).Visible, "1", "0") & ";" & SoundsGrid.Columns(i).Width & "|")
 				Next
 				AllValues.Remove(AllValues.Length - 1, 1)
@@ -66,6 +66,7 @@ Public Class SoundsMng
 		FillGrid()
 		SetColumns()
 		lstNoOfSelRecs.SelectedIndex = 1
+		RetrieveNumberOfFiles()
 	End Sub
 
 	Private Sub SetColumns()
@@ -75,7 +76,7 @@ Public Class SoundsMng
 		Dim cols() As String
 		If dt.Count > 0 And Not dt.First.IsParamValueNull Then
 			cols = dt.First.ParamValue.Split("|")
-			For i As Int16 = 0 To SoundsGrid.Columns.Count - 1
+			For i As Integer = 0 To SoundsGrid.Columns.Count - 1
 				SoundsGrid.Columns(i).Visible = cols(i).Split(";")(0) = "1"
 				SoundsGrid.Columns(i).Width = cols(i).Split(";")(1)
 			Next
@@ -154,37 +155,42 @@ Public Class SoundsMng
 		OpenFileDialog1.FilterIndex = 0
 		OpenFileDialog1.Multiselect = True
 		OpenFileDialog1.RestoreDirectory = True
+		Dim importFilesEnded As Boolean = False
 
 		If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
 			Try
 				Dim at As New SoundsDataSetTableAdapters.ArchivesTableAdapter
 				Dim ar As SoundsDataSet.ArchivesDataTable
-				Dim fname As String = OpenFileDialog1.FileName.Split("\").Last
-				ar = at.GetDataBy(fname)
-				If ar.Rows.Count = 0 Then
-					Dim engine As New FileHelperEngine(Of SoundRecord)()
-					engine.ErrorManager.ErrorMode = ErrorMode.SaveAndContinue
-					Me.Cursor = Cursors.WaitCursor
-					WriteToLogFile("Reading file '" & OpenFileDialog1.FileName & "'", False)
-					Dim res As SoundRecord() = engine.ReadFile(OpenFileDialog1.FileName)
-					If engine.ErrorManager.ErrorCount > 0 Then
-						engine.ErrorManager.SaveErrors("Errors.txt")
-						WriteToLogFile("Error while reading file, please check 'Errors.txt'", True)
-						Exit Try
+				For Each filename As String In OpenFileDialog1.FileNames
+					Dim fname As String = filename.Split("\").Last
+					ar = at.GetDataBy(fname)
+					If ar.Rows.Count = 0 Then
+						Dim engine As New FileHelperEngine(Of SoundRecord)()
+						engine.ErrorManager.ErrorMode = ErrorMode.ThrowException
+						Me.Cursor = Cursors.WaitCursor
+						WriteToLogFile("Reading file '" & filename & "'", False)
+						Dim res As SoundRecord() = engine.ReadFile(filename)
+						If engine.ErrorManager.ErrorCount > 0 Then
+							engine.ErrorManager.SaveErrors("Errors.txt")
+							WriteToLogFile("Error while reading file, please check 'Errors.txt'", True)
+							Exit Try
+						End If
+						WriteToLogFile("File read successfully", False)
+						ImportFiles(res, fname)
+						importFilesEnded = True
+						ExecuteQueries()
+						FillGrid()
+					Else
+						WriteToLogFile("File '" & filename & "' has been imported before", True)
 					End If
-					WriteToLogFile("File read successfully", False)
-					ImportFiles(res, fname)
-					ExecuteQueries()
-					FillGrid()
-				Else
-					WriteToLogFile("File '" & OpenFileDialog1.FileName & "' has been imported before", True)
-				End If
+				Next
 			Catch Ex As Exception
-				ClearData()
+				If (importFilesEnded) Then ClearData()
 				WriteToLogFile("Error while importing data: " & Ex.Message, True)
 			Finally
 				Me.prgBar.Value = 0
 				Me.Cursor = Cursors.Default
+				RetrieveNumberOfFiles()
 			End Try
 		End If
 	End Sub
@@ -203,7 +209,7 @@ Public Class SoundsMng
 		Dim dlg As New DlgSetColumns
 		Dim ci As New List(Of ColumnMetaData)
 		Dim cmd As ColumnMetaData
-		For i As Int16 = 0 To SoundsGrid.Columns.Count - 1
+		For i As Integer = 0 To SoundsGrid.Columns.Count - 1
 			cmd = New ColumnMetaData
 			cmd.ColumnName = SoundsGrid.Columns(i).HeaderText
 			cmd.ColumnVisible = SoundsGrid.Columns(i).Visible
@@ -212,7 +218,7 @@ Public Class SoundsMng
 		Next
 		dlg.ColumnsInfo = ci
 		If dlg.ShowDialog() = DialogResult.OK Then
-			For i As Int16 = 0 To SoundsGrid.Columns.Count - 1
+			For i As Integer = 0 To SoundsGrid.Columns.Count - 1
 				SoundsGrid.Columns(i).Visible = dlg.ColumnsInfo(i).ColumnVisible
 			Next
 			ChangedColunmSettings = True
@@ -320,13 +326,13 @@ Public Class SoundsMng
 			prgBar.Maximum = dt.Rows.Count
 			prgBar.Value = 0
 			Dim str As System.Text.StringBuilder = New System.Text.StringBuilder()
-			For i As Int16 = 0 To dt.Columns.Count - 3
+			For i As Integer = 0 To dt.Columns.Count - 3
 				str.Append(dt.Columns(i).ColumnName)
 				If i < dt.Columns.Count - 3 Then str.Append(vbTab)
 			Next
 			str.Append(Environment.NewLine)
-			For i As Int16 = 0 To dt.Rows.Count - 1
-				For j As Int16 = 0 To dt.Columns.Count - 3
+			For i As Integer = 0 To dt.Rows.Count - 1
+				For j As Integer = 0 To dt.Columns.Count - 3
 					str.Append(dt.Rows(i)(j).ToString())
 					If j < dt.Columns.Count - 3 Then str.Append(vbTab)
 				Next
@@ -471,7 +477,7 @@ Public Class SoundsMng
 	Private Sub EditRecords()
 		Dim frmEdit As New dlgEditForm
 		Dim dataList As New List(Of SoundsDataSet.FilesJoinedNewRow)
-		Dim n As Int16
+		Dim n As Integer
 		For Each row In SoundsGrid.SelectedRows
 			dataList.Add(CType(CType(CType(row, DataGridViewRow).DataBoundItem, DataRowView).Row, SoundsDataSet.FilesJoinedNewRow))
 		Next
@@ -488,13 +494,13 @@ Public Class SoundsMng
 				Select Case elm.Key
 					Case "Creators_ID"
 						command.Parameters.Add(New OleDbParameter("Creators_ID", OleDbType.[Integer], 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Creators_ID", DataRowVersion.Current, False, Nothing))
-						command.Parameters("Creators_ID").Value = Int16.Parse(frmEdit.ChangedItems("Creators_ID"))
+						command.Parameters("Creators_ID").Value = Integer.Parse(frmEdit.ChangedItems("Creators_ID"))
 					Case "Libraries_ID"
 						command.Parameters.Add(New OleDbParameter("Libraries_ID", OleDbType.[Integer], 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Libraries_ID", DataRowVersion.Current, False, Nothing))
-						command.Parameters("Libraries_ID").Value = Int16.Parse(frmEdit.ChangedItems("Libraries_ID"))
+						command.Parameters("Libraries_ID").Value = Integer.Parse(frmEdit.ChangedItems("Libraries_ID"))
 					Case "CDs_ID"
 						command.Parameters.Add(New OleDbParameter("CDs_ID", OleDbType.[Integer], 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "CDs_ID", DataRowVersion.Current, False, Nothing))
-						command.Parameters("CDs_ID").Value = Int16.Parse(frmEdit.ChangedItems("CDs_ID"))
+						command.Parameters("CDs_ID").Value = Integer.Parse(frmEdit.ChangedItems("CDs_ID"))
 					Case "Year"
 						command.Parameters.Add(New OleDbParameter("Year", OleDbType.WChar, 4, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Year", DataRowVersion.Current, False, Nothing))
 						command.Parameters("Year").Value = Int16.Parse(frmEdit.ChangedItems("Year"))
@@ -506,10 +512,10 @@ Public Class SoundsMng
 						command.Parameters("Index").Value = Int16.Parse(frmEdit.ChangedItems("Index"))
 					Case "Categories_ID"
 						command.Parameters.Add(New OleDbParameter("Categories_ID", OleDbType.[Integer], 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Categories_ID", DataRowVersion.Current, False, Nothing))
-						command.Parameters("Categories_ID").Value = Int16.Parse(frmEdit.ChangedItems("Categories_ID"))
+						command.Parameters("Categories_ID").Value = Integer.Parse(frmEdit.ChangedItems("Categories_ID"))
 					Case "Subcategories_ID"
 						command.Parameters.Add(New OleDbParameter("Subcategories_ID", OleDbType.[Integer], 0, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Subcategories_ID", DataRowVersion.Current, False, Nothing))
-						command.Parameters("Subcategories_ID").Value = Int16.Parse(frmEdit.ChangedItems("Subcategories_ID"))
+						command.Parameters("Subcategories_ID").Value = Integer.Parse(frmEdit.ChangedItems("Subcategories_ID"))
 					Case "Description"
 						command.Parameters.Add(New OleDbParameter("Description", OleDbType.WChar, 255, ParameterDirection.Input, CType(0, Byte), CType(0, Byte), "Description", DataRowVersion.Current, False, Nothing))
 						command.Parameters("Description").Value = frmEdit.ChangedItems("Description")
@@ -631,5 +637,15 @@ Public Class SoundsMng
 	Private Sub btnClear_Click(sender As System.Object, e As System.EventArgs) Handles btnClear.Click
 		ClearData()
 		MessageBox.Show("Successfully cleared data")
+	End Sub
+
+	Private Sub RetrieveNumberOfFiles()
+		Dim qt As New SoundsDataSetTableAdapters.QueriesTableAdapter
+		Dim s As Integer? = qt.NumberOfFiles()
+		If s.HasValue AndAlso s.Value > 0 Then
+			lblNoOfFiles.Text = s.ToString() & " records in DB"
+		Else
+			lblNoOfFiles.Text = "Empty DB"
+		End If
 	End Sub
 End Class

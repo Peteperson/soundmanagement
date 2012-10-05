@@ -825,7 +825,7 @@ WHERE        (ParamName = 'SoundsLibraryPath')</CommandText>
               </DbCommand>
             </SelectCommand>
           </DbSource>
-          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearSubCategories" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearSubCategories" MethodsParameterType="CLR" Modifier="Public" Name="ClearSubCategories" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy11" UserSourceName="ClearSubCategories">
+          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearSubCategories" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearSubCategories" MethodsParameterType="CLR" Modifier="Public" Name="ClearSubCategories" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy10" UserSourceName="ClearSubCategories">
             <SelectCommand>
               <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                 <CommandText>ClearSubCategories</CommandText>
@@ -833,7 +833,7 @@ WHERE        (ParamName = 'SoundsLibraryPath')</CommandText>
               </DbCommand>
             </SelectCommand>
           </DbSource>
-          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearCategories" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearCategories" MethodsParameterType="CLR" Modifier="Public" Name="ClearCategories" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy21" UserSourceName="ClearCategories">
+          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearCategories" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearCategories" MethodsParameterType="CLR" Modifier="Public" Name="ClearCategories" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy11" UserSourceName="ClearCategories">
             <SelectCommand>
               <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                 <CommandText>ClearCategories</CommandText>
@@ -841,7 +841,7 @@ WHERE        (ParamName = 'SoundsLibraryPath')</CommandText>
               </DbCommand>
             </SelectCommand>
           </DbSource>
-          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearCDs" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearCDs" MethodsParameterType="CLR" Modifier="Public" Name="ClearCDs" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy31" UserSourceName="ClearCDs">
+          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearCDs" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearCDs" MethodsParameterType="CLR" Modifier="Public" Name="ClearCDs" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy12" UserSourceName="ClearCDs">
             <SelectCommand>
               <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                 <CommandText>ClearCDs</CommandText>
@@ -849,7 +849,7 @@ WHERE        (ParamName = 'SoundsLibraryPath')</CommandText>
               </DbCommand>
             </SelectCommand>
           </DbSource>
-          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearCreators" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearCreators" MethodsParameterType="CLR" Modifier="Public" Name="ClearCreators" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy41" UserSourceName="ClearCreators">
+          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearCreators" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearCreators" MethodsParameterType="CLR" Modifier="Public" Name="ClearCreators" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy13" UserSourceName="ClearCreators">
             <SelectCommand>
               <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                 <CommandText>ClearCreators</CommandText>
@@ -857,10 +857,19 @@ WHERE        (ParamName = 'SoundsLibraryPath')</CommandText>
               </DbCommand>
             </SelectCommand>
           </DbSource>
-          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearLibraries" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearLibraries" MethodsParameterType="CLR" Modifier="Public" Name="ClearLibraries" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy51" UserSourceName="ClearLibraries">
+          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectName="ClearLibraries" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="ClearLibraries" MethodsParameterType="CLR" Modifier="Public" Name="ClearLibraries" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy14" UserSourceName="ClearLibraries">
             <SelectCommand>
               <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                 <CommandText>ClearLibraries</CommandText>
+                <Parameters />
+              </DbCommand>
+            </SelectCommand>
+          </DbSource>
+          <DbSource ConnectionRef="SoundsConnectionString (MySettings)" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="NumberOfFiles" MethodsParameterType="CLR" Modifier="Public" Name="NumberOfFiles" QueryType="Scalar" ScalarCallRetval="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy15" UserSourceName="NumberOfFiles">
+            <SelectCommand>
+              <DbCommand CommandType="Text" ModifiedByUser="true">
+                <CommandText>SELECT        COUNT(*) AS NoOfFiles
+FROM            Files</CommandText>
                 <Parameters />
               </DbCommand>
             </SelectCommand>
