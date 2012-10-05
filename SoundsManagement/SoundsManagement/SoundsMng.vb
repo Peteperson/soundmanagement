@@ -266,6 +266,7 @@ Public Class SoundsMng
 
 	Private Sub ClearData()
 		Dim qry As New SoundsDataSetTableAdapters.QueriesTableAdapter
+		Me.Cursor = Cursors.WaitCursor
 		Dim tmpRet As Integer
 		WriteToLogFile("Executing clearing queries", False)
 		tmpRet = qry.ClearArchives
@@ -282,7 +283,7 @@ Public Class SoundsMng
 		WriteToLogFile("Deleted " & tmpRet & " Subcategories", False)
 		tmpRet = qry.DeleteFilesForImport
 		WriteToLogFile("Deleted " & tmpRet & " records for import", False)
-		Dim s As 
+		Me.Cursor = Cursors.Default
 	End Sub
 
 	Private ffita As New SoundsManagement.SoundsDataSetTableAdapters.FilesForImportTableAdapter
