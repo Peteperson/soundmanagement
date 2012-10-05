@@ -150,11 +150,9 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub btnImportData_Click(sender As System.Object, e As System.EventArgs) Handles btnImportData.Click
-		OpenFileDialog1.InitialDirectory = "c:\"
 		OpenFileDialog1.Filter = "tsv files (*.tab)|*.tab|All files (*.*)|*.*"
 		OpenFileDialog1.FilterIndex = 0
 		OpenFileDialog1.Multiselect = True
-		OpenFileDialog1.RestoreDirectory = True
 		Dim importFilesEnded As Boolean = False
 
 		If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
