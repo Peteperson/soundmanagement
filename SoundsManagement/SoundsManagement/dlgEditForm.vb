@@ -1,4 +1,5 @@
 ﻿Imports System.Windows.Forms
+Imports System.Linq
 
 Public Class dlgEditForm
 	Public Property DataList As New List(Of SoundsDataSet.FilesJoinedNewRow)
@@ -125,5 +126,55 @@ Public Class dlgEditForm
 
 	Private Sub TagsTextBox_TextChanged(sender As System.Object, e As System.EventArgs) Handles TagsTextBox.TextChanged
 		ItemChangedValue(sender)
+	End Sub
+
+	Private Sub Creators_IDComboBox_Leave(sender As System.Object, e As System.EventArgs) Handles Creators_IDComboBox.Leave
+		Dim currentText As String = Creators_IDComboBox.Text
+		If Creators_IDComboBox.FindString(currentText) = -1 Then
+			Dim cta As New SoundsDataSetTableAdapters.CreatorsTableAdapter
+			cta.Insert(currentText)
+			Creators_IDComboBox.DataSource = cta.GetData()
+			Creators_IDComboBox.SelectedIndex = Creators_IDComboBox.FindStringExact(currentText)
+		End If
+	End Sub
+
+	Private Sub Libraries_IDComboBox_Leave(sender As System.Object, e As System.EventArgs) Handles Libraries_IDComboBox.Leave
+		Dim currentText As String = Libraries_IDComboBox.Text
+		If Libraries_IDComboBox.FindString(currentText) = -1 Then
+			Dim cta As New SoundsDataSetTableAdapters.LibrariesTableAdapter
+			cta.Insert(currentText)
+			Libraries_IDComboBox.DataSource = cta.GetData()
+			Libraries_IDComboBox.SelectedIndex = Libraries_IDComboBox.FindStringExact(currentText)
+		End If
+	End Sub
+
+	Private Sub CDs_IDComboBox_Leave(sender As System.Object, e As System.EventArgs) Handles CDs_IDComboBox.Leave
+		Dim currentText As String = CDs_IDComboBox.Text
+		If CDs_IDComboBox.FindString(currentText) = -1 Then
+			Dim cta As New SoundsDataSetTableAdapters.CDsTableAdapter
+			cta.Insert(currentText)
+			CDs_IDComboBox.DataSource = cta.GetData()
+			CDs_IDComboBox.SelectedIndex = CDs_IDComboBox.FindStringExact(currentText)
+		End If
+	End Sub
+
+	Private Sub Categories_IDComboBox_Leave(sender As System.Object, e As System.EventArgs) Handles Categories_IDComboBox.Leave
+		Dim currentText As String = Categories_IDComboBox.Text
+		If Categories_IDComboBox.FindString(currentText) = -1 Then
+			Dim cta As New SoundsDataSetTableAdapters.CategoriesTableAdapter
+			cta.Insert(currentText)
+			Categories_IDComboBox.DataSource = cta.GetData()
+			Categories_IDComboBox.SelectedIndex = Categories_IDComboBox.FindStringExact(currentText)
+		End If
+	End Sub
+
+	Private Sub Subcategories_IDComboBox_Leave(sender As System.Object, e As System.EventArgs) Handles Subcategories_IDComboBox.Leave
+		Dim currentText As String = Subcategories_IDComboBox.Text
+		If Subcategories_IDComboBox.FindString(currentText) = -1 Then
+			Dim cta As New SoundsDataSetTableAdapters.SubcategoriesTableAdapter
+			cta.Insert(currentText)
+			Subcategories_IDComboBox.DataSource = cta.GetData()
+			Subcategories_IDComboBox.SelectedIndex = Subcategories_IDComboBox.FindStringExact(currentText)
+		End If
 	End Sub
 End Class

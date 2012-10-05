@@ -282,6 +282,7 @@ Public Class SoundsMng
 		WriteToLogFile("Deleted " & tmpRet & " Subcategories", False)
 		tmpRet = qry.DeleteFilesForImport
 		WriteToLogFile("Deleted " & tmpRet & " records for import", False)
+		Dim s As 
 	End Sub
 
 	Private ffita As New SoundsManagement.SoundsDataSetTableAdapters.FilesForImportTableAdapter
