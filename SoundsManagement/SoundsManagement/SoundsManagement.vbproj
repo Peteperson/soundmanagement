@@ -31,7 +31,7 @@
     <PublisherName>Pete</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>Publish.htm</WebPage>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>11</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -75,10 +75,10 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>69DFF2462406B83B1CA94680A2AFEB6DFE277813</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>B4ECE5BF666BF03BC6BDAC78A625D44D65D9F234</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>SoundsManagement_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>SoundsManagement_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -133,7 +133,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FileHelpers">
-      <HintPath>..\packages\FileHelpers.2.0.0.0\lib\FileHelpers.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\FileHelpers\Binaries\DotNet 2.0\FileHelpers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -260,6 +260,7 @@
     <None Include="SoundsDataSet.xss">
       <DependentUpon>SoundsDataSet.xsd</DependentUpon>
     </None>
+    <None Include="SoundsManagement_1_TemporaryKey.pfx" />
     <None Include="SoundsManagement_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

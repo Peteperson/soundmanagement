@@ -195,6 +195,7 @@ Public Class SoundsMng
 
 	Private Sub WriteToLogFile(msg As String, ShowMessage As Boolean)
 		If ShowMessage Then MessageBox.Show(msg)
+		txtOutput.Text += msg & vbCrLf
 		File.AppendAllText(My.Application.Info.DirectoryPath & "\LogFile.txt", Date.Now.ToString("dd/MM/yyyy HH:mm:ss") & " = " & msg & Environment.NewLine)
 	End Sub
 
@@ -646,6 +647,17 @@ Public Class SoundsMng
 			lblNoOfFiles.Text = s.ToString() & " records in DB"
 		Else
 			lblNoOfFiles.Text = "Empty DB"
+		End If
+	End Sub
+
+	Private Sub btnDeleteFiles_Click(sender As System.Object, e As System.EventArgs) Handles btnDeleteFiles.Click
+		If MessageBox.Show("Really delete all files ???", "LOOK OUT", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+			Dim qry As New SoundsDataSetTableAdapters.QueriesTableAdapter
+			Dim tmpRet As Integer
+			WriteToLogFile("Deleting all records in table Files", False)
+			tmpRet = qry.DeleteFiles
+			WriteToLogFile("Deleted " & tmpRet & " files", False)
+			FillGrid()
 		End If
 	End Sub
 End Class
