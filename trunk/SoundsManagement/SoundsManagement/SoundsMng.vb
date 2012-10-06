@@ -196,6 +196,8 @@ Public Class SoundsMng
 	Private Sub WriteToLogFile(msg As String, ShowMessage As Boolean)
 		If ShowMessage Then MessageBox.Show(msg)
 		txtOutput.Text += msg & vbCrLf
+		txtOutput.SelectAll()
+		txtOutput.ScrollToCaret()
 		File.AppendAllText(My.Application.Info.DirectoryPath & "\LogFile.txt", Date.Now.ToString("dd/MM/yyyy HH:mm:ss") & " = " & msg & Environment.NewLine)
 	End Sub
 
