@@ -176,7 +176,7 @@ Public Class SoundsMng
 						WriteToLogFile("File read successfully", False)
 						ImportFiles(res, fname)
 						importFilesEnded = True
-						ExecuteQueries()
+						ExecuteQueries(Not (OpenFileDialog1.FileNames.Count > 1))
 						FillGrid()
 					Else
 						WriteToLogFile("File '" & filename & "' has been imported before", True)
@@ -241,7 +241,7 @@ Public Class SoundsMng
 		End If
 	End Sub
 
-	Private Sub ExecuteQueries()
+	Private Sub ExecuteQueries(ShowResults As Boolean)
 		Dim qry As New SoundsDataSetTableAdapters.QueriesTableAdapter
 		Dim tmpRet As Integer
 		WriteToLogFile("Executing queries", False)
@@ -258,7 +258,7 @@ Public Class SoundsMng
 		tmpRet = qry.ImportSubCategories
 		WriteToLogFile("Imported " & tmpRet & " Subcategories", False)
 		tmpRet = qry.ImportFiles
-		WriteToLogFile("Imported " & tmpRet & " Files", True)
+		WriteToLogFile("Imported " & tmpRet & " Files", ShowResults)
 		tmpRet = qry.DeleteFilesForImport
 		WriteToLogFile("Deleted " & tmpRet & " imported records", False)
 	End Sub
