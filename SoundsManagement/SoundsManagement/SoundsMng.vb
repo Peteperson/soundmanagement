@@ -319,6 +319,7 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub btnExport_Click(sender As System.Object, e As System.EventArgs) Handles btnExport.Click
+		Dim HeaderNames() As String = {"Creator", "Library", "Year", "CD", "Track", "Index", "Category", "SubCategory", "Description", "Time", "Rating", "Filename", "Tags"}
 		SaveFileDialog1.Filter = "Tab Files (*.tab)|*.tab|All Files (*.*)|*.*"
 		SaveFileDialog1.FilterIndex = 0
 		If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
@@ -329,15 +330,14 @@ Public Class SoundsMng
 			prgBar.Maximum = dt.Rows.Count
 			prgBar.Value = 0
 			Dim str As System.Text.StringBuilder = New System.Text.StringBuilder()
-			For i As Integer = 0 To dt.Columns.Count - 3
-				str.Append(dt.Columns(i).ColumnName)
-				If i < dt.Columns.Count - 3 Then str.Append(vbTab)
+			For Each s In HeaderNames
+				str.Append(s & vbTab)
 			Next
 			str.Append(Environment.NewLine)
 			For i As Integer = 0 To dt.Rows.Count - 1
-				For j As Integer = 0 To dt.Columns.Count - 3
-					str.Append(dt.Rows(i)(j).ToString())
-					If j < dt.Columns.Count - 3 Then str.Append(vbTab)
+				For j As Integer = 0 To HeaderNames.Length - 1
+					str.Append(dt.Rows(i)(HeaderNames(j)).ToString())
+					If j < HeaderNames.Length - 1 Then str.Append(vbTab)
 				Next
 				If i < dt.Rows.Count - 1 Then str.Append(Environment.NewLine)
 				prgBar.Value += 1
@@ -371,21 +371,26 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub btnPath_Click(sender As System.Object, e As System.EventArgs) Handles btnPath.Click
-		InputBox("Useful message! ", "Application Path: ", My.Application.Info.DirectoryPath)
+		System.Diagnostics.Process.Start(My.Application.Info.DirectoryPath)
+		'InputBox("Useful message! ", "Application Path: ", My.Application.Info.DirectoryPath)
 	End Sub
 
 	Private Sub SoundsGrid_KeyUp(sender As System.Object, e As KeyEventArgs) Handles SoundsGrid.KeyUp
 		If (e.KeyCode = 46 Or e.KeyCode = 8) Then
 			If SoundsGrid.SelectedRows.Count > 0 AndAlso MessageBox.Show("Really delete those records ?", "Confirmation", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+				prgBar.Maximum = SoundsGrid.SelectedRows.Count
+				prgBar.Value = 0
 				fta.Adapter.DeleteCommand.Connection.Open()
 				Dim id As Integer
 				Dim pt As New SoundsDataSetTableAdapters.FilesTableAdapter
 				For Each row In SoundsGrid.SelectedRows
 					id = Integer.Parse(SoundsGrid("ID", row.Index).Value.ToString())
 					DeleteRecord(id)
-					SoundsGrid.Rows.Remove(row)
+					prgBar.Value += 1
 				Next
 				fta.Adapter.DeleteCommand.Connection.Close()
+				FillGrid()
+				prgBar.Value = 0
 			End If
 		End If
 		If (e.KeyCode = 32) Then
@@ -661,5 +666,29 @@ Public Class SoundsMng
 			WriteToLogFile("Deleted " & tmpRet & " files", False)
 			FillGrid()
 		End If
+	End Sub
+
+	Private Sub CompactDatabase()
+		Dim jro As New JRO.JetEngine
+		Dim datapath As String
+		If (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed) Then
+			datapath = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.DataDirectory
+		Else
+			datapath = My.Application.Info.DirectoryPath
+		End If
+		jro.CompactDatabase("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & datapath & "\Sounds.accdb;Persist Security Info=True",
+		  "Provider=Microsoft.ACE.OLEDB.12.0;Data Source==" & datapath & "\Sounds1.accdb;Persist Security Info=True")
+
+		MsgBox("Database compacted successfully")
+	End Sub
+
+	Private Sub btnCompact_Click(sender As System.Object, e As System.EventArgs) Handles btnCompact.Click
+		Dim datapath As String
+		If (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed) Then
+			datapath = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.DataDirectory
+		Else
+			datapath = My.Application.Info.DirectoryPath
+		End If
+		System.Diagnostics.Process.Start(datapath & "\Sounds.accdb")
 	End Sub
 End Class
