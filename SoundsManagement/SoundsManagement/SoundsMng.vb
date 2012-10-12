@@ -5,6 +5,15 @@ Imports System.IO
 Imports System.Data.OleDb
 
 Public Class SoundsMng
+	Private ReadOnly Property DataPath As String
+		Get
+			If (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed) Then
+				Return System.Deployment.Application.ApplicationDeployment.CurrentDeployment.DataDirectory
+			Else
+				Return My.Application.Info.DirectoryPath
+			End If
+		End Get
+	End Property
 	Private _FilesPath As String = ""
 	Public ReadOnly Property FilesPath(Optional ByVal RetrieveFromDB As Boolean = True) As String
 		Get
@@ -372,7 +381,7 @@ Public Class SoundsMng
 
 	Private Sub btnPath_Click(sender As System.Object, e As System.EventArgs) Handles btnPath.Click
 		System.Diagnostics.Process.Start(My.Application.Info.DirectoryPath)
-		'InputBox("Useful message! ", "Application Path: ", My.Application.Info.DirectoryPath)
+		System.Diagnostics.Process.Start(Me.DataPath)
 	End Sub
 
 	Private Sub SoundsGrid_KeyUp(sender As System.Object, e As KeyEventArgs) Handles SoundsGrid.KeyUp
@@ -683,12 +692,6 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub btnCompact_Click(sender As System.Object, e As System.EventArgs) Handles btnCompact.Click
-		Dim datapath As String
-		If (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed) Then
-			datapath = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.DataDirectory
-		Else
-			datapath = My.Application.Info.DirectoryPath
-		End If
-		System.Diagnostics.Process.Start(datapath & "\Sounds.accdb")
+		System.Diagnostics.Process.Start(DataPath & "\Sounds.accdb")
 	End Sub
 End Class
