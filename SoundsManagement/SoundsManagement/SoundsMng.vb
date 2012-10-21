@@ -190,6 +190,7 @@ Public Class SoundsMng
 					Else
 						WriteToLogFile("File '" & filename & "' has been imported before", True)
 					End If
+					RetrieveNumberOfFiles()
 				Next
 			Catch Ex As Exception
 				If (importFilesEnded) Then ClearData()
@@ -197,7 +198,6 @@ Public Class SoundsMng
 			Finally
 				Me.prgBar.Value = 0
 				Me.Cursor = Cursors.Default
-				RetrieveNumberOfFiles()
 			End Try
 		End If
 	End Sub
@@ -386,21 +386,7 @@ Public Class SoundsMng
 
 	Private Sub SoundsGrid_KeyUp(sender As System.Object, e As KeyEventArgs) Handles SoundsGrid.KeyUp
 		If (e.KeyCode = 46 Or e.KeyCode = 8) Then
-			If SoundsGrid.SelectedRows.Count > 0 AndAlso MessageBox.Show("Really delete those records ?", "Confirmation", MessageBoxButtons.YesNo) = DialogResult.Yes Then
-				prgBar.Maximum = SoundsGrid.SelectedRows.Count
-				prgBar.Value = 0
-				fta.Adapter.DeleteCommand.Connection.Open()
-				Dim id As Integer
-				Dim pt As New SoundsDataSetTableAdapters.FilesTableAdapter
-				For Each row In SoundsGrid.SelectedRows
-					id = Integer.Parse(SoundsGrid("ID", row.Index).Value.ToString())
-					DeleteRecord(id)
-					prgBar.Value += 1
-				Next
-				fta.Adapter.DeleteCommand.Connection.Close()
-				FillGrid()
-				prgBar.Value = 0
-			End If
+			DeleteSelectedRecords()
 		End If
 		If (e.KeyCode = 32) Then
 			PlaySound()
@@ -410,6 +396,23 @@ Public Class SoundsMng
 		End If
 	End Sub
 
+	Private Sub DeleteSelectedRecords()
+		If SoundsGrid.SelectedRows.Count > 0 AndAlso MessageBox.Show("Really delete those records ?", "Confirmation", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+			prgBar.Maximum = SoundsGrid.SelectedRows.Count
+			prgBar.Value = 0
+			fta.Adapter.DeleteCommand.Connection.Open()
+			Dim id As Integer
+			Dim pt As New SoundsDataSetTableAdapters.FilesTableAdapter
+			For Each row In SoundsGrid.SelectedRows
+				id = Integer.Parse(SoundsGrid("ID", row.Index).Value.ToString())
+				DeleteRecord(id)
+				prgBar.Value += 1
+			Next
+			fta.Adapter.DeleteCommand.Connection.Close()
+			FillGrid()
+			prgBar.Value = 0
+		End If
+	End Sub
 	Private Sub btnTags_Click(sender As System.Object, e As System.EventArgs) Handles btnTags.Click
 		ShowTagsDialog()
 	End Sub
@@ -693,5 +696,25 @@ Public Class SoundsMng
 
 	Private Sub btnCompact_Click(sender As System.Object, e As System.EventArgs) Handles btnCompact.Click
 		System.Diagnostics.Process.Start(DataPath & "\Sounds.accdb")
+	End Sub
+
+	Private Sub EditFilesToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles EditFilesToolStripMenuItem.Click
+		EditRecords()
+	End Sub
+
+	Private Sub DeleteFileToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles DeleteFileToolStripMenuItem.Click
+		DeleteSelectedRecords()
+	End Sub
+
+	Private Sub OpenFileLocationToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles OpenFileLocationToolStripMenuItem.Click
+		OpenFilesLocation()
+	End Sub
+
+	Private Sub OpenFilesLocation()
+		For Each row In SoundsGrid.SelectedRows
+			ID = Integer.Parse(SoundsGrid("ID", row.Index).Value.ToString())
+			DeleteRecord(ID)
+			prgBar.Value += 1
+		Next
 	End Sub
 End Class

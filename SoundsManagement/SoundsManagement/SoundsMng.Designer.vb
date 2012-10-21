@@ -38,6 +38,7 @@ Partial Class SoundsMng
 		Me.BindingNavigatorSeparator1 = New System.Windows.Forms.ToolStripSeparator()
 		Me.BindingNavigatorPositionItem = New System.Windows.Forms.ToolStripTextBox()
 		Me.btnPath = New System.Windows.Forms.ToolStripButton()
+		Me.btnCompact = New System.Windows.Forms.ToolStripButton()
 		Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
 		Me.btnSetLibPath = New System.Windows.Forms.ToolStripButton()
 		Me.btnManageColumns = New System.Windows.Forms.ToolStripButton()
@@ -51,7 +52,6 @@ Partial Class SoundsMng
 		Me.btnClear = New System.Windows.Forms.ToolStripButton()
 		Me.lblNoOfFiles = New System.Windows.Forms.ToolStripLabel()
 		Me.btnDeleteFiles = New System.Windows.Forms.ToolStripButton()
-		Me.btnCompact = New System.Windows.Forms.ToolStripButton()
 		Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
 		Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
 		Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
@@ -80,12 +80,17 @@ Partial Class SoundsMng
 		Me.txtOutput = New System.Windows.Forms.TextBox()
 		Me.FilesJoinedNewTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter()
 		Me.TableAdapterManager = New SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager()
+		Me.cntxMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+		Me.DeleteFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.OpenFileLocationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.EditFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.FilesJoinedNewBindingNavigator.SuspendLayout()
 		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.wmp, System.ComponentModel.ISupportInitialize).BeginInit()
+		Me.cntxMenu.SuspendLayout()
 		Me.SuspendLayout()
 		'
 		'FilesJoinedNewBindingNavigator
@@ -176,6 +181,16 @@ Partial Class SoundsMng
 		Me.btnPath.Size = New System.Drawing.Size(23, 22)
 		Me.btnPath.ToolTipText = "Open application path"
 		'
+		'btnCompact
+		'
+		Me.btnCompact.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+		Me.btnCompact.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+		Me.btnCompact.Image = CType(resources.GetObject("btnCompact.Image"), System.Drawing.Image)
+		Me.btnCompact.ImageTransparentColor = System.Drawing.Color.Magenta
+		Me.btnCompact.Name = "btnCompact"
+		Me.btnCompact.Size = New System.Drawing.Size(23, 22)
+		Me.btnCompact.ToolTipText = "Open database"
+		'
 		'ToolStripSeparator2
 		'
 		Me.ToolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
@@ -224,7 +239,7 @@ Partial Class SoundsMng
 		Me.btnExport.Image = CType(resources.GetObject("btnExport.Image"), System.Drawing.Image)
 		Me.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.btnExport.Name = "btnExport"
-		Me.btnExport.Size = New System.Drawing.Size(23, 20)
+		Me.btnExport.Size = New System.Drawing.Size(23, 22)
 		Me.btnExport.ToolTipText = "Export data to .tab file"
 		'
 		'btnImportData
@@ -234,7 +249,7 @@ Partial Class SoundsMng
 		Me.btnImportData.Image = CType(resources.GetObject("btnImportData.Image"), System.Drawing.Image)
 		Me.btnImportData.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.btnImportData.Name = "btnImportData"
-		Me.btnImportData.Size = New System.Drawing.Size(23, 20)
+		Me.btnImportData.Size = New System.Drawing.Size(23, 22)
 		Me.btnImportData.ToolTipText = "Import sounds file"
 		'
 		'btnTags
@@ -244,7 +259,7 @@ Partial Class SoundsMng
 		Me.btnTags.Image = CType(resources.GetObject("btnTags.Image"), System.Drawing.Image)
 		Me.btnTags.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.btnTags.Name = "btnTags"
-		Me.btnTags.Size = New System.Drawing.Size(23, 20)
+		Me.btnTags.Size = New System.Drawing.Size(23, 22)
 		Me.btnTags.Text = "Add tags"
 		Me.btnTags.Visible = False
 		'
@@ -255,7 +270,7 @@ Partial Class SoundsMng
 		Me.btnExpNotExFiles.Image = CType(resources.GetObject("btnExpNotExFiles.Image"), System.Drawing.Image)
 		Me.btnExpNotExFiles.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.btnExpNotExFiles.Name = "btnExpNotExFiles"
-		Me.btnExpNotExFiles.Size = New System.Drawing.Size(23, 20)
+		Me.btnExpNotExFiles.Size = New System.Drawing.Size(23, 22)
 		Me.btnExpNotExFiles.Text = "ToolStripButton1"
 		Me.btnExpNotExFiles.ToolTipText = "Export not existing files list"
 		'
@@ -266,8 +281,7 @@ Partial Class SoundsMng
 		Me.btnEditRecs.Image = CType(resources.GetObject("btnEditRecs.Image"), System.Drawing.Image)
 		Me.btnEditRecs.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.btnEditRecs.Name = "btnEditRecs"
-		Me.btnEditRecs.Size = New System.Drawing.Size(23, 20)
-		Me.btnEditRecs.Text = "ToolStripButton1"
+		Me.btnEditRecs.Size = New System.Drawing.Size(23, 22)
 		Me.btnEditRecs.ToolTipText = "Edit records"
 		'
 		'btnClear
@@ -277,7 +291,7 @@ Partial Class SoundsMng
 		Me.btnClear.Image = CType(resources.GetObject("btnClear.Image"), System.Drawing.Image)
 		Me.btnClear.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.btnClear.Name = "btnClear"
-		Me.btnClear.Size = New System.Drawing.Size(23, 20)
+		Me.btnClear.Size = New System.Drawing.Size(23, 22)
 		Me.btnClear.Text = "ToolStripButton1"
 		Me.btnClear.ToolTipText = "Clear data (archives, libraries, categories...)"
 		'
@@ -296,16 +310,6 @@ Partial Class SoundsMng
 		Me.btnDeleteFiles.Name = "btnDeleteFiles"
 		Me.btnDeleteFiles.Size = New System.Drawing.Size(23, 20)
 		Me.btnDeleteFiles.Text = "DeleteFiles"
-		'
-		'btnCompact
-		'
-		Me.btnCompact.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
-		Me.btnCompact.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-		Me.btnCompact.Image = CType(resources.GetObject("btnCompact.Image"), System.Drawing.Image)
-		Me.btnCompact.ImageTransparentColor = System.Drawing.Color.Magenta
-		Me.btnCompact.Name = "btnCompact"
-		Me.btnCompact.Size = New System.Drawing.Size(23, 22)
-		Me.btnCompact.ToolTipText = "Open database"
 		'
 		'Timer1
 		'
@@ -370,6 +374,7 @@ Partial Class SoundsMng
 		Me.SoundsGrid.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
 		Me.SoundsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
 		Me.SoundsGrid.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ID, Me.Creator, Me.Library, Me.CD, Me.Year, Me.Track, Me.Index1, Me.Category, Me.SubCategory, Me.Description, Me.Time, Me.Rating, Me.Tags, Me.Filename})
+		Me.SoundsGrid.ContextMenuStrip = Me.cntxMenu
 		Me.SoundsGrid.DataSource = Me.FilesJoinedNewBindingSource
 		DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
 		DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
@@ -541,6 +546,33 @@ Partial Class SoundsMng
 		Me.TableAdapterManager.TagsTableAdapter = Nothing
 		Me.TableAdapterManager.UpdateOrder = SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
 		'
+		'cntxMenu
+		'
+		Me.cntxMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeleteFileToolStripMenuItem, Me.OpenFileLocationToolStripMenuItem, Me.EditFilesToolStripMenuItem})
+		Me.cntxMenu.Name = "cntxMenu"
+		Me.cntxMenu.Size = New System.Drawing.Size(187, 92)
+		'
+		'DeleteFileToolStripMenuItem
+		'
+		Me.DeleteFileToolStripMenuItem.Image = Global.SoundsManagement.My.Resources.Resources._1350756237_Remove
+		Me.DeleteFileToolStripMenuItem.Name = "DeleteFileToolStripMenuItem"
+		Me.DeleteFileToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+		Me.DeleteFileToolStripMenuItem.Text = "Delete File(s)"
+		'
+		'OpenFileLocationToolStripMenuItem
+		'
+		Me.OpenFileLocationToolStripMenuItem.Image = Global.SoundsManagement.My.Resources.Resources._1350756535_system_file_manager
+		Me.OpenFileLocationToolStripMenuItem.Name = "OpenFileLocationToolStripMenuItem"
+		Me.OpenFileLocationToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+		Me.OpenFileLocationToolStripMenuItem.Text = "Open File(s) Location"
+		'
+		'EditFilesToolStripMenuItem
+		'
+		Me.EditFilesToolStripMenuItem.Image = Global.SoundsManagement.My.Resources.Resources._1350756491_page_edit
+		Me.EditFilesToolStripMenuItem.Name = "EditFilesToolStripMenuItem"
+		Me.EditFilesToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+		Me.EditFilesToolStripMenuItem.Text = "Edit File(s)"
+		'
 		'SoundsMng
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -560,6 +592,7 @@ Partial Class SoundsMng
 		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.wmp, System.ComponentModel.ISupportInitialize).EndInit()
+		Me.cntxMenu.ResumeLayout(False)
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
 
@@ -617,4 +650,8 @@ Partial Class SoundsMng
 	Friend WithEvents txtOutput As System.Windows.Forms.TextBox
 	Friend WithEvents btnDeleteFiles As System.Windows.Forms.ToolStripButton
 	Friend WithEvents btnCompact As System.Windows.Forms.ToolStripButton
+	Friend WithEvents cntxMenu As System.Windows.Forms.ContextMenuStrip
+	Friend WithEvents DeleteFileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents OpenFileLocationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents EditFilesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class
