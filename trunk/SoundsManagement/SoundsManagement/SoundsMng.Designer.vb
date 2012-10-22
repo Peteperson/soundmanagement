@@ -47,13 +47,12 @@ Partial Class SoundsMng
 		Me.btnExport = New System.Windows.Forms.ToolStripButton()
 		Me.btnImportData = New System.Windows.Forms.ToolStripButton()
 		Me.btnTags = New System.Windows.Forms.ToolStripButton()
-		Me.btnExpNotExFiles = New System.Windows.Forms.ToolStripButton()
 		Me.btnEditRecs = New System.Windows.Forms.ToolStripButton()
 		Me.btnClear = New System.Windows.Forms.ToolStripButton()
 		Me.lblNoOfFiles = New System.Windows.Forms.ToolStripLabel()
 		Me.btnDeleteFiles = New System.Windows.Forms.ToolStripButton()
 		Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-		Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+		Me.TimerSearch = New System.Windows.Forms.Timer(Me.components)
 		Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
 		Me.BottomToolStripPanel = New System.Windows.Forms.ToolStripPanel()
 		Me.TopToolStripPanel = New System.Windows.Forms.ToolStripPanel()
@@ -75,22 +74,28 @@ Partial Class SoundsMng
 		Me.Rating = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.Tags = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.Filename = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.cntxMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+		Me.DeleteFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.OpenFileLocationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.EditFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.CopyToFolderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.CopyToFolderToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.CopyToPreviousFolderToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
 		Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
 		Me.txtOutput = New System.Windows.Forms.TextBox()
 		Me.FilesJoinedNewTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter()
 		Me.TableAdapterManager = New SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager()
-		Me.cntxMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
-		Me.DeleteFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-		Me.OpenFileLocationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-		Me.EditFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.lblMediaPosition = New System.Windows.Forms.Label()
+		Me.TimerWMP = New System.Windows.Forms.Timer(Me.components)
+		Me.PlaySelectedFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.FilesJoinedNewBindingNavigator.SuspendLayout()
 		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).BeginInit()
-		CType(Me.wmp, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.cntxMenu.SuspendLayout()
+		CType(Me.wmp, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
 		'
 		'FilesJoinedNewBindingNavigator
@@ -100,7 +105,7 @@ Partial Class SoundsMng
 		Me.FilesJoinedNewBindingNavigator.CountItem = Me.BindingNavigatorCountItem
 		Me.FilesJoinedNewBindingNavigator.CountItemFormat = "{0} records"
 		Me.FilesJoinedNewBindingNavigator.DeleteItem = Nothing
-		Me.FilesJoinedNewBindingNavigator.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripFilter, Me.ToolStripLabel2, Me.lstNoOfSelRecs, Me.BindingNavigatorSeparator1, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.btnPath, Me.btnCompact, Me.ToolStripSeparator2, Me.btnSetLibPath, Me.btnManageColumns, Me.ToolStripSeparator1, Me.prgBar, Me.btnExport, Me.btnImportData, Me.btnTags, Me.btnExpNotExFiles, Me.btnEditRecs, Me.btnClear, Me.lblNoOfFiles, Me.btnDeleteFiles})
+		Me.FilesJoinedNewBindingNavigator.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripFilter, Me.ToolStripLabel2, Me.lstNoOfSelRecs, Me.BindingNavigatorSeparator1, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.btnPath, Me.btnCompact, Me.ToolStripSeparator2, Me.btnSetLibPath, Me.btnManageColumns, Me.ToolStripSeparator1, Me.prgBar, Me.btnExport, Me.btnImportData, Me.btnTags, Me.btnEditRecs, Me.btnClear, Me.lblNoOfFiles, Me.btnDeleteFiles})
 		Me.FilesJoinedNewBindingNavigator.Location = New System.Drawing.Point(0, 0)
 		Me.FilesJoinedNewBindingNavigator.MoveFirstItem = Nothing
 		Me.FilesJoinedNewBindingNavigator.MoveLastItem = Nothing
@@ -263,25 +268,15 @@ Partial Class SoundsMng
 		Me.btnTags.Text = "Add tags"
 		Me.btnTags.Visible = False
 		'
-		'btnExpNotExFiles
-		'
-		Me.btnExpNotExFiles.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
-		Me.btnExpNotExFiles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-		Me.btnExpNotExFiles.Image = CType(resources.GetObject("btnExpNotExFiles.Image"), System.Drawing.Image)
-		Me.btnExpNotExFiles.ImageTransparentColor = System.Drawing.Color.Magenta
-		Me.btnExpNotExFiles.Name = "btnExpNotExFiles"
-		Me.btnExpNotExFiles.Size = New System.Drawing.Size(23, 22)
-		Me.btnExpNotExFiles.Text = "ToolStripButton1"
-		Me.btnExpNotExFiles.ToolTipText = "Export not existing files list"
-		'
 		'btnEditRecs
 		'
 		Me.btnEditRecs.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
 		Me.btnEditRecs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-		Me.btnEditRecs.Image = CType(resources.GetObject("btnEditRecs.Image"), System.Drawing.Image)
+		Me.btnEditRecs.Image = Global.SoundsManagement.My.Resources.Resources.page_edit
 		Me.btnEditRecs.ImageTransparentColor = System.Drawing.Color.Magenta
 		Me.btnEditRecs.Name = "btnEditRecs"
 		Me.btnEditRecs.Size = New System.Drawing.Size(23, 22)
+		Me.btnEditRecs.Text = "ToolStripButton1"
 		Me.btnEditRecs.ToolTipText = "Edit records"
 		'
 		'btnClear
@@ -311,9 +306,9 @@ Partial Class SoundsMng
 		Me.btnDeleteFiles.Size = New System.Drawing.Size(23, 20)
 		Me.btnDeleteFiles.Text = "DeleteFiles"
 		'
-		'Timer1
+		'TimerSearch
 		'
-		Me.Timer1.Interval = 1000
+		Me.TimerSearch.Interval = 1000
 		'
 		'OpenFileDialog1
 		'
@@ -504,6 +499,56 @@ Partial Class SoundsMng
 		Me.Filename.ReadOnly = True
 		Me.Filename.Width = 51
 		'
+		'cntxMenu
+		'
+		Me.cntxMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeleteFileToolStripMenuItem, Me.OpenFileLocationToolStripMenuItem, Me.EditFilesToolStripMenuItem, Me.CopyToFolderToolStripMenuItem, Me.PlaySelectedFilesToolStripMenuItem})
+		Me.cntxMenu.Name = "cntxMenu"
+		Me.cntxMenu.Size = New System.Drawing.Size(187, 136)
+		'
+		'DeleteFileToolStripMenuItem
+		'
+		Me.DeleteFileToolStripMenuItem.Image = Global.SoundsManagement.My.Resources.Resources.Remove
+		Me.DeleteFileToolStripMenuItem.Name = "DeleteFileToolStripMenuItem"
+		Me.DeleteFileToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+		Me.DeleteFileToolStripMenuItem.Text = "Delete File(s)"
+		'
+		'OpenFileLocationToolStripMenuItem
+		'
+		Me.OpenFileLocationToolStripMenuItem.Image = Global.SoundsManagement.My.Resources.Resources.system_file_manager
+		Me.OpenFileLocationToolStripMenuItem.Name = "OpenFileLocationToolStripMenuItem"
+		Me.OpenFileLocationToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+		Me.OpenFileLocationToolStripMenuItem.Text = "Open File(s) Location"
+		'
+		'EditFilesToolStripMenuItem
+		'
+		Me.EditFilesToolStripMenuItem.Image = Global.SoundsManagement.My.Resources.Resources.page_edit
+		Me.EditFilesToolStripMenuItem.Name = "EditFilesToolStripMenuItem"
+		Me.EditFilesToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+		Me.EditFilesToolStripMenuItem.Text = "Edit File(s)"
+		'
+		'CopyToFolderToolStripMenuItem
+		'
+		Me.CopyToFolderToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyToFolderToolStripMenuItem1, Me.CopyToPreviousFolderToolStripMenuItem1})
+		Me.CopyToFolderToolStripMenuItem.Image = Global.SoundsManagement.My.Resources.Resources.copy
+		Me.CopyToFolderToolStripMenuItem.Name = "CopyToFolderToolStripMenuItem"
+		Me.CopyToFolderToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+		Me.CopyToFolderToolStripMenuItem.Text = "Copy"
+		'
+		'CopyToFolderToolStripMenuItem1
+		'
+		Me.CopyToFolderToolStripMenuItem1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+		Me.CopyToFolderToolStripMenuItem1.Name = "CopyToFolderToolStripMenuItem1"
+		Me.CopyToFolderToolStripMenuItem1.Size = New System.Drawing.Size(198, 22)
+		Me.CopyToFolderToolStripMenuItem1.Text = "Copy to folder..."
+		'
+		'CopyToPreviousFolderToolStripMenuItem1
+		'
+		Me.CopyToPreviousFolderToolStripMenuItem1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+		Me.CopyToPreviousFolderToolStripMenuItem1.Enabled = False
+		Me.CopyToPreviousFolderToolStripMenuItem1.Name = "CopyToPreviousFolderToolStripMenuItem1"
+		Me.CopyToPreviousFolderToolStripMenuItem1.Size = New System.Drawing.Size(198, 22)
+		Me.CopyToPreviousFolderToolStripMenuItem1.Text = "Copy to previous folder"
+		'
 		'wmp
 		'
 		Me.wmp.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
@@ -546,38 +591,34 @@ Partial Class SoundsMng
 		Me.TableAdapterManager.TagsTableAdapter = Nothing
 		Me.TableAdapterManager.UpdateOrder = SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
 		'
-		'cntxMenu
+		'lblMediaPosition
 		'
-		Me.cntxMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeleteFileToolStripMenuItem, Me.OpenFileLocationToolStripMenuItem, Me.EditFilesToolStripMenuItem})
-		Me.cntxMenu.Name = "cntxMenu"
-		Me.cntxMenu.Size = New System.Drawing.Size(187, 92)
+		Me.lblMediaPosition.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+		Me.lblMediaPosition.AutoSize = True
+		Me.lblMediaPosition.BackColor = System.Drawing.Color.Transparent
+		Me.lblMediaPosition.Location = New System.Drawing.Point(218, 550)
+		Me.lblMediaPosition.Name = "lblMediaPosition"
+		Me.lblMediaPosition.Size = New System.Drawing.Size(16, 13)
+		Me.lblMediaPosition.TabIndex = 5
+		Me.lblMediaPosition.Text = "..."
 		'
-		'DeleteFileToolStripMenuItem
+		'TimerWMP
 		'
-		Me.DeleteFileToolStripMenuItem.Image = Global.SoundsManagement.My.Resources.Resources._1350756237_Remove
-		Me.DeleteFileToolStripMenuItem.Name = "DeleteFileToolStripMenuItem"
-		Me.DeleteFileToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
-		Me.DeleteFileToolStripMenuItem.Text = "Delete File(s)"
+		Me.TimerWMP.Interval = 500
 		'
-		'OpenFileLocationToolStripMenuItem
+		'PlaySelectedFilesToolStripMenuItem
 		'
-		Me.OpenFileLocationToolStripMenuItem.Image = Global.SoundsManagement.My.Resources.Resources._1350756535_system_file_manager
-		Me.OpenFileLocationToolStripMenuItem.Name = "OpenFileLocationToolStripMenuItem"
-		Me.OpenFileLocationToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
-		Me.OpenFileLocationToolStripMenuItem.Text = "Open File(s) Location"
-		'
-		'EditFilesToolStripMenuItem
-		'
-		Me.EditFilesToolStripMenuItem.Image = Global.SoundsManagement.My.Resources.Resources._1350756491_page_edit
-		Me.EditFilesToolStripMenuItem.Name = "EditFilesToolStripMenuItem"
-		Me.EditFilesToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
-		Me.EditFilesToolStripMenuItem.Text = "Edit File(s)"
+		Me.PlaySelectedFilesToolStripMenuItem.Image = Global.SoundsManagement.My.Resources.Resources.PlayNormal
+		Me.PlaySelectedFilesToolStripMenuItem.Name = "PlaySelectedFilesToolStripMenuItem"
+		Me.PlaySelectedFilesToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+		Me.PlaySelectedFilesToolStripMenuItem.Text = "Play selected file(s)"
 		'
 		'SoundsMng
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.ClientSize = New System.Drawing.Size(766, 572)
+		Me.Controls.Add(Me.lblMediaPosition)
 		Me.Controls.Add(Me.txtOutput)
 		Me.Controls.Add(Me.wmp)
 		Me.Controls.Add(Me.SoundsGrid)
@@ -591,8 +632,8 @@ Partial Class SoundsMng
 		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).EndInit()
-		CType(Me.wmp, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.cntxMenu.ResumeLayout(False)
+		CType(Me.wmp, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
 
@@ -608,7 +649,7 @@ Partial Class SoundsMng
 	Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
 	Friend WithEvents ToolStripLabel1 As System.Windows.Forms.ToolStripLabel
 	Friend WithEvents ToolStripFilter As System.Windows.Forms.ToolStripTextBox
-	Friend WithEvents Timer1 As System.Windows.Forms.Timer
+	Friend WithEvents TimerSearch As System.Windows.Forms.Timer
 	Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
 	Friend WithEvents btnSetLibPath As System.Windows.Forms.ToolStripButton
 	Friend WithEvents btnImportData As System.Windows.Forms.ToolStripButton
@@ -629,7 +670,6 @@ Partial Class SoundsMng
 	Friend WithEvents btnPath As System.Windows.Forms.ToolStripButton
 	Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
 	Friend WithEvents btnTags As System.Windows.Forms.ToolStripButton
-	Friend WithEvents btnExpNotExFiles As System.Windows.Forms.ToolStripButton
 	Friend WithEvents ID As System.Windows.Forms.DataGridViewTextBoxColumn
 	Friend WithEvents Creator As System.Windows.Forms.DataGridViewTextBoxColumn
 	Friend WithEvents Library As System.Windows.Forms.DataGridViewTextBoxColumn
@@ -654,4 +694,10 @@ Partial Class SoundsMng
 	Friend WithEvents DeleteFileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 	Friend WithEvents OpenFileLocationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 	Friend WithEvents EditFilesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents CopyToFolderToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents CopyToFolderToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents CopyToPreviousFolderToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+	Friend WithEvents lblMediaPosition As System.Windows.Forms.Label
+	Friend WithEvents TimerWMP As System.Windows.Forms.Timer
+	Friend WithEvents PlaySelectedFilesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class
