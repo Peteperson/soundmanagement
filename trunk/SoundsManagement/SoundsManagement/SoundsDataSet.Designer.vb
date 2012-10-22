@@ -1509,8 +1509,6 @@ Partial Public Class SoundsDataSet
 		
 		Private columnTrack As Global.System.Data.DataColumn
 		
-		Private columnIndex As Global.System.Data.DataColumn
-		
 		Private columnCategories_ID As Global.System.Data.DataColumn
 		
 		Private columnSubcategories_ID As Global.System.Data.DataColumn
@@ -1611,15 +1609,7 @@ Partial Public Class SoundsDataSet
 				Return Me.columnTrack
 			End Get
 		End Property
-		
-		<Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-		 Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-		Public ReadOnly Property IndexColumn() As Global.System.Data.DataColumn
-			Get
-				Return Me.columnIndex
-			End Get
-		End Property
-		
+
 		<Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
 		 Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
 		Public ReadOnly Property Categories_IDColumn() As Global.System.Data.DataColumn
@@ -1784,7 +1774,6 @@ Partial Public Class SoundsDataSet
 			Me.columnCDs_ID = MyBase.Columns("CDs_ID")
 			Me.columnYear = MyBase.Columns("Year")
 			Me.columnTrack = MyBase.Columns("Track")
-			Me.columnIndex = MyBase.Columns("Index")
 			Me.columnCategories_ID = MyBase.Columns("Categories_ID")
 			Me.columnSubcategories_ID = MyBase.Columns("Subcategories_ID")
 			Me.columnDescription = MyBase.Columns("Description")
@@ -1811,8 +1800,6 @@ Partial Public Class SoundsDataSet
 			MyBase.Columns.Add(Me.columnYear)
 			Me.columnTrack = New Global.System.Data.DataColumn("Track", GetType(Short), Nothing, Global.System.Data.MappingType.Element)
 			MyBase.Columns.Add(Me.columnTrack)
-			Me.columnIndex = New Global.System.Data.DataColumn("Index", GetType(Byte), Nothing, Global.System.Data.MappingType.Element)
-			MyBase.Columns.Add(Me.columnIndex)
 			Me.columnCategories_ID = New Global.System.Data.DataColumn("Categories_ID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
 			MyBase.Columns.Add(Me.columnCategories_ID)
 			Me.columnSubcategories_ID = New Global.System.Data.DataColumn("Subcategories_ID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
@@ -4568,22 +4555,7 @@ Partial Public Class SoundsDataSet
 				Me(Me.tableFiles.TrackColumn) = value
 			End Set
 		End Property
-		
-		<Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-		 Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-		Public Property Index() As Byte
-			Get
-				Try 
-					Return CType(Me(Me.tableFiles.IndexColumn),Byte)
-				Catch e As Global.System.InvalidCastException
-					Throw New Global.System.Data.StrongTypingException("The value for column 'Index' in table 'Files' is DBNull.", e)
-				End Try
-			End Get
-			Set
-				Me(Me.tableFiles.IndexColumn) = value
-			End Set
-		End Property
-		
+
 		<Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
 		 Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
 		Public Property Categories_ID() As Integer
@@ -4844,19 +4816,7 @@ Partial Public Class SoundsDataSet
 		Public Sub SetTrackNull()
 			Me(Me.tableFiles.TrackColumn) = Global.System.Convert.DBNull
 		End Sub
-		
-		<Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-		 Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-		Public Function IsIndexNull() As Boolean
-			Return Me.IsNull(Me.tableFiles.IndexColumn)
-		End Function
-		
-		<Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-		 Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-		Public Sub SetIndexNull()
-			Me(Me.tableFiles.IndexColumn) = Global.System.Convert.DBNull
-		End Sub
-		
+
 		<Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
 		 Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
 		Public Function IsCategories_IDNull() As Boolean
