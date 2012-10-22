@@ -60,23 +60,51 @@ Namespace My.Resources
             End Set
         End Property
         
-        Friend ReadOnly Property _1350756237_Remove() As System.Drawing.Bitmap
+        Friend ReadOnly Property application() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("_1350756237_Remove", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("application", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
         
-        Friend ReadOnly Property _1350756491_page_edit() As System.Drawing.Bitmap
+        Friend ReadOnly Property copy() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("_1350756491_page_edit", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("copy", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
         
-        Friend ReadOnly Property _1350756535_system_file_manager() As System.Drawing.Bitmap
+        Friend ReadOnly Property Database() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("_1350756535_system_file_manager", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("Database", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property page_edit() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("page_edit", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property PlayNormal() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("PlayNormal", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property Remove() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Remove", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property system_file_manager() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("system_file_manager", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

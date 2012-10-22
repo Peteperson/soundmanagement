@@ -306,6 +306,10 @@
     <None Include="Resources\1350756237_Remove.png" />
     <None Include="Resources\1350756491_page_edit.png" />
     <None Include="Resources\1350756535_system-file-manager.png" />
+    <None Include="Resources\1349700366_application.png" />
+    <None Include="Resources\1349700459_Database.png" />
+    <None Include="Resources\1350903890_copy.png" />
+    <None Include="Resources\PlayNormal.png" />
     <Content Include="Sounds.accdb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

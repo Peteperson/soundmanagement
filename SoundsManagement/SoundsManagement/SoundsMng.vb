@@ -5,6 +5,17 @@ Imports System.IO
 Imports System.Data.OleDb
 
 Public Class SoundsMng
+	Private Property _CopyPreviousFolder As String
+	Public Property CopyPreviousFolder As String
+		Get
+			Return _CopyPreviousFolder
+		End Get
+		Set(value As String)
+			_CopyPreviousFolder = value
+			CopyToPreviousFolderToolStripMenuItem1.Enabled = True
+		End Set
+	End Property
+
 	Private ReadOnly Property DataPath As String
 		Get
 			If (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed) Then
@@ -75,7 +86,6 @@ Public Class SoundsMng
 		FillGrid()
 		SetColumns()
 		lstNoOfSelRecs.SelectedIndex = 1
-		RetrieveNumberOfFiles()
 	End Sub
 
 	Private Sub SetColumns()
@@ -96,6 +106,7 @@ Public Class SoundsMng
 		Dim row As SoundsDataSet.FilesJoinedNewRow
 		Dim CurrentFile As String = ""
 		Dim tr As System.Data.DataRowView
+		'		For Each r In SoundsGrid.SelectedRows
 		tr = SoundsGrid.CurrentRow.DataBoundItem
 		row = tr.Row
 		For Each ext In AudioFileTypes
@@ -106,6 +117,7 @@ Public Class SoundsMng
 			End If
 		Next
 		WriteToLogFile("File: " & CurrentFile & " does not exist", True)
+		'		Next
 	End Sub
 
 	Private Sub FillGrid()
@@ -125,6 +137,7 @@ Public Class SoundsMng
 			  , fltrprm(1), fltrprm(1), fltrprm(1), fltrprm(1) _
 			  , fltrprm(2), fltrprm(2), fltrprm(2), fltrprm(2) _
 			  , fltrprm(3), fltrprm(3), fltrprm(3), fltrprm(3))
+			RetrieveNumberOfFiles()
 		Catch ex As System.Exception
 			WriteToLogFile(ex.Message, True)
 		Finally
@@ -137,16 +150,16 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub ToolStripFilter_KeyDown(ByVal sender As Object, ByVal e As KeyEventArgs) Handles ToolStripFilter.KeyDown
-		Timer1.Enabled = False
+		TimerSearch.Enabled = False
 	End Sub
 
 	Private Sub ToolStripFilter_KeyUp(ByVal sender As System.Object, ByVal e As KeyEventArgs) Handles ToolStripFilter.KeyUp
-		Timer1.Enabled = True
+		TimerSearch.Enabled = True
 	End Sub
 
-	Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
+	Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerSearch.Tick
 		FillGrid()
-		Timer1.Enabled = False
+		TimerSearch.Enabled = False
 	End Sub
 
 	Private Sub SoundsMng_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
@@ -190,7 +203,6 @@ Public Class SoundsMng
 					Else
 						WriteToLogFile("File '" & filename & "' has been imported before", True)
 					End If
-					RetrieveNumberOfFiles()
 				Next
 			Catch Ex As Exception
 				If (importFilesEnded) Then ClearData()
@@ -202,7 +214,7 @@ Public Class SoundsMng
 		End If
 	End Sub
 
-	Private Sub WriteToLogFile(msg As String, ShowMessage As Boolean)
+	Private Sub WriteToLogFile(msg As String, Optional ShowMessage As Boolean = False)
 		If ShowMessage Then MessageBox.Show(msg)
 		txtOutput.Text += msg & vbCrLf
 		txtOutput.SelectAll()
@@ -432,7 +444,7 @@ Public Class SoundsMng
 		End If
 	End Sub
 
-	Private Sub btnExpNotExFiles_Click(sender As System.Object, e As System.EventArgs) Handles btnExpNotExFiles.Click
+	Private Sub btnExpNotExFiles_Click(sender As System.Object, e As System.EventArgs)
 		SaveFileDialog1.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*"
 		SaveFileDialog1.FilterIndex = 0
 		If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
@@ -472,23 +484,25 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub SoundsGrid_RowPrePaint(sender As System.Object, e As System.Windows.Forms.DataGridViewRowPrePaintEventArgs) Handles SoundsGrid.RowPrePaint
-		Dim row As SoundsDataSet.FilesJoinedNewRow
-		Dim fileExists As Boolean
-		Dim CurrentFile As String = ""
-		row = SoundsGrid.Rows(e.RowIndex).DataBoundItem.Row
-		fileExists = False
-		For Each ext In AudioFileTypes
-			CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
-			If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
-				fileExists = True
-				Exit For
-			End If
-		Next
-		If Not fileExists Then
+		If Not CheckIfRowFileExists(e.RowIndex) Then
 			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.Font = New Font(Me.Font, FontStyle.Italic)
 			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(90, 80, 80)
 		End If
 	End Sub
+
+	Private Function CheckIfRowFileExists(rowIndex As Integer)
+		Dim row As SoundsDataSet.FilesJoinedNewRow
+		Dim CurrentFile As String = ""
+		row = SoundsGrid.Rows(rowIndex).DataBoundItem.Row
+		For Each ext In AudioFileTypes
+			CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
+			If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
+				Return True
+				Exit For
+			End If
+		Next
+		Return False
+	End Function
 
 	Private Sub btnEditRecs_Click(sender As System.Object, e As System.EventArgs) Handles btnEditRecs.Click
 		EditRecords()
@@ -663,7 +677,7 @@ Public Class SoundsMng
 		Dim qt As New SoundsDataSetTableAdapters.QueriesTableAdapter
 		Dim s As Integer? = qt.NumberOfFiles()
 		If s.HasValue AndAlso s.Value > 0 Then
-			lblNoOfFiles.Text = s.ToString() & " records in DB"
+			lblNoOfFiles.Text = "Showing " & SoundsGrid.RowCount & " from " & s.ToString() & " records in DB"
 		Else
 			lblNoOfFiles.Text = "Empty DB"
 		End If
@@ -711,10 +725,82 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub OpenFilesLocation()
-		For Each row In SoundsGrid.SelectedRows
-			ID = Integer.Parse(SoundsGrid("ID", row.Index).Value.ToString())
-			DeleteRecord(ID)
-			prgBar.Value += 1
+		Dim row As SoundsDataSet.FilesJoinedNewRow
+		Dim CurrentFilePath As String = "", CurrentFile As String = ""
+		Dim tr As System.Data.DataRowView
+		For Each r In SoundsGrid.SelectedRows
+			tr = r.DataBoundItem
+			row = tr.Row
+			CurrentFilePath = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & ExtractFolderFromFname(row.Filename)).Replace("/", "\")
+			CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
+			For Each ext In AudioFileTypes
+				If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
+					System.Diagnostics.Process.Start(CurrentFilePath)
+					Exit For
+				End If
+			Next
 		Next
+	End Sub
+
+	Private Function ExtractFolderFromFname(fname As String) As String
+		Dim pos As Integer = fname.LastIndexOfAny("\/".ToCharArray())
+		If pos > 0 Then
+			Return "\" & fname.Substring(0, pos)
+		End If
+		Return ""
+	End Function
+
+	Private Sub CopyToFolderToolStripMenuItem1_Click(sender As System.Object, e As System.EventArgs) Handles CopyToFolderToolStripMenuItem1.Click
+		If FolderBrowserDialog1.ShowDialog = vbOK Then
+			CopyPreviousFolder = FolderBrowserDialog1.SelectedPath
+		End If
+		CopyFilesToPreviousFolder()
+	End Sub
+
+	Private Sub CopyToPreviousFolderToolStripMenuItem1_Click(sender As System.Object, e As System.EventArgs) Handles CopyToPreviousFolderToolStripMenuItem1.Click
+		CopyFilesToPreviousFolder()
+	End Sub
+
+	Private Sub CopyFilesToPreviousFolder()
+		Dim row As SoundsDataSet.FilesJoinedNewRow
+		Dim CurrentFile, DestFile As String
+		Dim tr As System.Data.DataRowView
+		For Each r In SoundsGrid.SelectedRows
+			tr = r.DataBoundItem
+			row = tr.Row
+			CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
+			For Each ext In AudioFileTypes
+				If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
+					DestFile = (CopyPreviousFolder & "\" & row.Filename & ".").Replace("/", "\") & ext
+					Dim folder As String = Path.GetDirectoryName(DestFile)
+					If Not Directory.Exists(folder) Then Directory.CreateDirectory(folder)
+					File.Copy(CurrentFile & ext, DestFile)
+					Exit For
+				End If
+			Next
+		Next
+	End Sub
+
+	Private Sub TimerWMP_Tick(sender As System.Object, e As System.EventArgs) Handles TimerWMP.Tick
+		ShowCurrentMediaPosition()
+	End Sub
+
+	Private Sub wmp_PlayStateChange(sender As System.Object, e As AxWMPLib._WMPOCXEvents_PlayStateChangeEvent) Handles wmp.PlayStateChange
+		If e.newState = 3 Or e.newState = 9 Then
+			lblMediaPosition.Visible = True
+			TimerWMP.Enabled = True
+		Else
+			lblMediaPosition.Visible = False
+			TimerWMP.Enabled = False
+			ShowCurrentMediaPosition()
+		End If
+	End Sub
+
+	Private Sub ShowCurrentMediaPosition()
+		lblMediaPosition.Text = wmp.Ctlcontrols.currentPositionString & "/" & wmp.currentMedia.durationString
+	End Sub
+
+	Private Sub PlaySelectedFilesToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles PlaySelectedFilesToolStripMenuItem.Click
+
 	End Sub
 End Class
