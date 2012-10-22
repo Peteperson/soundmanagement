@@ -2,6 +2,7 @@
 Imports System.Windows.Forms
 Imports System.Text
 Imports System.IO
+Imports System.Linq
 Imports System.Data.OleDb
 
 Public Class SoundsMng
@@ -106,18 +107,23 @@ Public Class SoundsMng
 		Dim row As SoundsDataSet.FilesJoinedNewRow
 		Dim CurrentFile As String = ""
 		Dim tr As System.Data.DataRowView
-		'		For Each r In SoundsGrid.SelectedRows
-		tr = SoundsGrid.CurrentRow.DataBoundItem
-		row = tr.Row
-		For Each ext In AudioFileTypes
-			CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
-			If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
-				wmp.URL = CurrentFile & ext
-				Return
-			End If
+		wmp.currentPlaylist.clear()
+		Dim fileFound As Boolean
+
+		For Each r In SoundsGrid.SelectedRows
+			fileFound = False
+			tr = r.DataBoundItem
+			row = tr.Row
+			For Each ext In AudioFileTypes
+				CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
+				If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
+					fileFound = True
+					wmp.currentPlaylist.appendItem(wmp.newMedia(CurrentFile & ext))
+				End If
+			Next
+			If Not fileFound Then WriteToLogFile("File: " & CurrentFile & " does not exist", True)
 		Next
-		WriteToLogFile("File: " & CurrentFile & " does not exist", True)
-		'		Next
+		wmp.Ctlcontrols.play()
 	End Sub
 
 	Private Sub FillGrid()
@@ -797,10 +803,11 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub ShowCurrentMediaPosition()
-		lblMediaPosition.Text = wmp.Ctlcontrols.currentPositionString & "/" & wmp.currentMedia.durationString
+		lblMediaPosition.Text = "Playing: " & wmp.currentMedia.name & " (" & _
+		 wmp.Ctlcontrols.currentPositionString & "/" & wmp.currentMedia.durationString & ")"
 	End Sub
 
 	Private Sub PlaySelectedFilesToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles PlaySelectedFilesToolStripMenuItem.Click
-
+		PlaySound()
 	End Sub
 End Class
