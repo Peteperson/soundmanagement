@@ -32,7 +32,7 @@ Public Class dlgEditForm
 				If tmp.Count() = 1 Then TimeTextBox.Text = tmp(0)
 				tmp = DataList.Select(Function(x) CType(x.Rating, Object)).Distinct().ToArray()
 				If tmp.Count() = 1 Then RatingTextBox.Text = tmp(0)
-				tmp = DataList.Select(Function(x) CType(x.Index1, Object)).Distinct().ToArray()
+				tmp = DataList.Select(Function(x) CType(x.Index, Object)).Distinct().ToArray()
 				If tmp.Count() = 1 Then IndexTextBox.Text = tmp(0)
 				tmp = DataList.Select(Function(x) CType(x.Track, Object)).Distinct().ToArray()
 				If tmp.Count() = 1 Then TrackTextBox.Text = tmp(0)
