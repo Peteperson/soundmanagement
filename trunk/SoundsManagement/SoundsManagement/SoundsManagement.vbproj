@@ -310,6 +310,7 @@
     <None Include="Resources\1349700459_Database.png" />
     <None Include="Resources\1350903890_copy.png" />
     <None Include="Resources\PlayNormal.png" />
+    <None Include="Resources\file_missing.gif" />
     <Content Include="Sounds.accdb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

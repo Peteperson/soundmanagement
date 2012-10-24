@@ -4,6 +4,7 @@ Imports System.Text
 Imports System.IO
 Imports System.Linq
 Imports System.Data.OleDb
+Imports System.Deployment.Application
 
 Public Class SoundsMng
 	Private Property _CopyPreviousFolder As String
@@ -81,6 +82,14 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub SoundsMng_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+		Dim ver As String
+		If ApplicationDeployment.IsNetworkDeployed Then
+			ver = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
+		Else
+			ver = Application.ProductVersion
+		End If
+
+		Me.Text = "Sounds management application - (Version: " & ver & ")"
 		wmp.settings.autoStart = True
 		Dim s As String = FilesPath
 		WindowState = FormWindowState.Maximized
@@ -387,7 +396,7 @@ Public Class SoundsMng
 			Case 0
 				newval = regex.Replace(prevval, "SELECT TOP 50 Files.ID")
 			Case 1
-				newval = regex.Replace(prevval, "SELECT     TOP 500 Files.ID")
+				newval = regex.Replace(prevval, "SELECT TOP 500 Files.ID")
 			Case 2
 				newval = regex.Replace(prevval, "SELECT Files.ID")
 		End Select
@@ -398,8 +407,8 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub btnPath_Click(sender As System.Object, e As System.EventArgs) Handles btnPath.Click
-		System.Diagnostics.Process.Start(My.Application.Info.DirectoryPath)
-		System.Diagnostics.Process.Start(Me.DataPath)
+		Process.Start(My.Application.Info.DirectoryPath)
+		Process.Start(Me.DataPath)
 	End Sub
 
 	Private Sub SoundsGrid_KeyUp(sender As System.Object, e As KeyEventArgs) Handles SoundsGrid.KeyUp
@@ -450,7 +459,7 @@ Public Class SoundsMng
 		End If
 	End Sub
 
-	Private Sub btnExpNotExFiles_Click(sender As System.Object, e As System.EventArgs)
+	Private Sub ExportNotExFiles()
 		SaveFileDialog1.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*"
 		SaveFileDialog1.FilterIndex = 0
 		If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
@@ -715,7 +724,7 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub btnCompact_Click(sender As System.Object, e As System.EventArgs) Handles btnCompact.Click
-		System.Diagnostics.Process.Start(DataPath & "\Sounds.accdb")
+		Process.Start(DataPath & "\Sounds.accdb")
 	End Sub
 
 	Private Sub EditFilesToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles EditFilesToolStripMenuItem.Click
@@ -741,7 +750,7 @@ Public Class SoundsMng
 			CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
 			For Each ext In AudioFileTypes
 				If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
-					System.Diagnostics.Process.Start(CurrentFilePath)
+					Process.Start(CurrentFilePath)
 					Exit For
 				End If
 			Next
@@ -778,9 +787,9 @@ Public Class SoundsMng
 			For Each ext In AudioFileTypes
 				If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
 					DestFile = (CopyPreviousFolder & "\" & row.Filename & ".").Replace("/", "\") & ext
-					Dim folder As String = Path.GetDirectoryName(DestFile)
-					If Not Directory.Exists(folder) Then Directory.CreateDirectory(folder)
-					File.Copy(CurrentFile & ext, DestFile)
+					'Dim folder As String = Path.GetDirectoryName(DestFile)
+					'If Not Directory.Exists(folder) Then Directory.CreateDirectory(folder)
+					File.Copy(CurrentFile & ext, CopyPreviousFolder & "\" & Path.GetFileName(DestFile))
 					Exit For
 				End If
 			Next
@@ -809,5 +818,9 @@ Public Class SoundsMng
 
 	Private Sub PlaySelectedFilesToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles PlaySelectedFilesToolStripMenuItem.Click
 		PlaySound()
+	End Sub
+
+	Private Sub btnExpNotExFiles_Click(sender As System.Object, e As System.EventArgs) Handles btnExpNotExFiles.Click
+		ExportNotExFiles()
 	End Sub
 End Class
