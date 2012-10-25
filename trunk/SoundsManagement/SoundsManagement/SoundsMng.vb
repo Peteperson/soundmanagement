@@ -113,24 +113,14 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub PlaySound()
-		Dim row As SoundsDataSet.FilesJoinedNewRow
-		Dim CurrentFile As String = ""
-		Dim tr As DataRowView
 		wmp.currentPlaylist.clear()
-		Dim fileFound As Boolean
-
 		For Each r In SoundsGrid.SelectedRows
-			fileFound = False
-			tr = r.DataBoundItem
-			row = tr.Row
-			For Each ext In AudioFileTypes
-				CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
-				If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
-					fileFound = True
-					wmp.currentPlaylist.appendItem(wmp.newMedia(CurrentFile & ext))
-				End If
-			Next
-			If Not fileFound Then WriteToLogFile("File: " & CurrentFile & " does not exist", True)
+			Dim ret = CheckIfFileExists(r.DataBoundItem)
+			If ret.FileFound Then
+				wmp.currentPlaylist.appendItem(wmp.newMedia(ret.FilePath))
+			Else
+				WriteToLogFile("File: " & ret.FilePath & " does not exist", True)
+			End If
 		Next
 		wmp.Ctlcontrols.play()
 	End Sub
@@ -169,7 +159,10 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub ToolStripFilter_KeyUp(ByVal sender As Object, ByVal e As KeyEventArgs) Handles ToolStripFilter.KeyUp
-		TimerSearch.Enabled = True
+		Dim EmptyChars As List(Of Keys) = New List(Of Keys) From {Keys.Apps, Keys.NumLock, Keys.Menu, Keys.Tab, Keys.ShiftKey, Keys.CapsLock, Keys.ControlKey}
+		If Not EmptyChars.Contains(e.KeyCode) Then
+			TimerSearch.Enabled = True
+		End If
 	End Sub
 
 	Private Sub Timer1_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles TimerSearch.Tick
@@ -464,11 +457,8 @@ Public Class SoundsMng
 		SaveFileDialog1.FilterIndex = 0
 		If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
 			Dim fname As String = SaveFileDialog1.FileName
-			Dim row As SoundsDataSet.FilesJoinedNewRow
-			Dim CurrentFile As String = ""
 			Dim finalText As New StringBuilder
 			Dim count As Integer = 0
-			Dim fileExists As Boolean
 			Dim tr As DataGridViewRow
 
 			prgBar.Maximum = SoundsGrid.Rows.Count
@@ -478,46 +468,24 @@ Public Class SoundsMng
 			finalText.Append("FileNames:" & Environment.NewLine)
 			For Each tr In SoundsGrid.Rows
 				prgBar.Value += 1
-				row = tr.DataBoundItem.Row
-				fileExists = False
-				For Each ext In AudioFileTypes
-					CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
-					If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
-						fileExists = True
-						Exit For
-					End If
-				Next
-				If Not fileExists Then
+				Dim ret = CheckIfFileExists(tr.DataBoundItem)
+				If Not ret.FileFound Then
 					count += 1
-					finalText.Append(count.ToString() & ") " & CurrentFile & Environment.NewLine)
+					finalText.Append(count.ToString() & ") " & ret.FilePath & Environment.NewLine)
 				End If
 			Next
 			File.WriteAllText(fname, finalText.ToString())
 			prgBar.Value = 0
-			MessageBox.Show("From " & SoundsGrid.Rows.Count & " files shown in DataGrid, " & count & " does not exist.")
+			MessageBox.Show("From " & SoundsGrid.Rows.Count & " files shown in DataGrid, " & count & " do not exist.")
 		End If
 	End Sub
 
 	Private Sub SoundsGrid_RowPrePaint(sender As Object, e As DataGridViewRowPrePaintEventArgs) Handles SoundsGrid.RowPrePaint
-		If Not CheckIfRowFileExists(e.RowIndex) Then
+		If Not CheckIfFileExists(SoundsGrid.Rows(e.RowIndex).DataBoundItem).FileFound Then
 			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.Font = New Font(Me.Font, FontStyle.Italic)
 			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(90, 80, 80)
 		End If
 	End Sub
-
-	Private Function CheckIfRowFileExists(rowIndex As Integer)
-		Dim row As SoundsDataSet.FilesJoinedNewRow
-		Dim CurrentFile As String = ""
-		row = SoundsGrid.Rows(rowIndex).DataBoundItem.Row
-		For Each ext In AudioFileTypes
-			CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
-			If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
-				Return True
-				Exit For
-			End If
-		Next
-		Return False
-	End Function
 
 	Private Sub btnEditRecs_Click(sender As Object, e As EventArgs) Handles btnEditRecs.Click
 		EditRecords()
@@ -744,20 +712,11 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub OpenFilesLocation()
-		Dim row As SoundsDataSet.FilesJoinedNewRow
-		Dim CurrentFilePath As String = "", CurrentFile As String = ""
-		Dim tr As DataRowView
 		For Each r In SoundsGrid.SelectedRows
-			tr = r.DataBoundItem
-			row = tr.Row
-			CurrentFilePath = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & ExtractFolderFromFname(row.Filename)).Replace("/", "\")
-			CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
-			For Each ext In AudioFileTypes
-				If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
-					Process.Start(CurrentFilePath)
-					Exit For
-				End If
-			Next
+			Dim ret = CheckIfFileExists(r.DataBoundItem)
+			If ret.FileFound Then
+				Process.Start(Path.GetDirectoryName(ret.FilePath))
+			End If
 		Next
 	End Sub
 
@@ -781,22 +740,13 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub CopyFilesToPreviousFolder()
-		Dim row As SoundsDataSet.FilesJoinedNewRow
-		Dim CurrentFile, DestFile As String
-		Dim tr As DataRowView
+		Dim DestFile As String
 		For Each r In SoundsGrid.SelectedRows
-			tr = r.DataBoundItem
-			row = tr.Row
-			CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
-			For Each ext In AudioFileTypes
-				If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
-					DestFile = (CopyPreviousFolder & "\" & row.Filename & ".").Replace("/", "\") & ext
-					'Dim folder As String = Path.GetDirectoryName(DestFile)
-					'If Not Directory.Exists(folder) Then Directory.CreateDirectory(folder)
-					File.Copy(CurrentFile & ext, CopyPreviousFolder & "\" & Path.GetFileName(DestFile))
-					Exit For
-				End If
-			Next
+			Dim ret = CheckIfFileExists(r.DataBoundItem)
+			If ret.FileFound Then
+				DestFile = CopyPreviousFolder & "\" & Path.GetFileName(ret.FilePath)
+				File.Copy(ret.FilePath, CopyPreviousFolder & "\" & Path.GetFileName(DestFile))
+			End If
 		Next
 	End Sub
 
@@ -831,25 +781,26 @@ Public Class SoundsMng
 	Private Sub btnHideNotExFiles_Click(sender As Object, e As EventArgs) Handles btnHideNotExFiles.Click
 		SoundsGrid.CurrentCell = Nothing
 		For Each row In SoundsGrid.Rows
-			If (Not btnHideNotExFiles.Checked Or CheckIfFileExists(CType(row, DataGridViewRow).DataBoundItem)) Then
+			If (Not btnHideNotExFiles.Checked Or CheckIfFileExists(CType(row, DataGridViewRow).DataBoundItem).FileFound) Then
 				CType(row, DataGridViewRow).Visible = True
 			Else
 				CType(row, DataGridViewRow).Visible = False
 			End If
 		Next
+		If Not btnHideNotExFiles.Checked Then SoundsGrid.FirstDisplayedScrollingRowIndex = 0
 		RetrieveNumberOfFiles()
 	End Sub
 
-	Private Function CheckIfFileExists(drv As DataRowView) As Boolean
+	Private Function CheckIfFileExists(drv As DataRowView) As FileExistance
 		Dim row As SoundsDataSet.FilesJoinedNewRow
 		Dim CurrentFile As String
 		row = drv.Row
 		CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
 		For Each ext In AudioFileTypes
 			If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
-				Return True
+				Return New FileExistance(True, CurrentFile & ext)
 			End If
 		Next
-		Return False
+		Return New FileExistance(False, CurrentFile)
 	End Function
 End Class
