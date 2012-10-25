@@ -21,7 +21,7 @@ Public Class SoundsMng
 	Private ReadOnly Property DataPath As String
 		Get
 			If (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed) Then
-				Return System.Deployment.Application.ApplicationDeployment.CurrentDeployment.DataDirectory
+				Return Deployment.Application.ApplicationDeployment.CurrentDeployment.DataDirectory
 			Else
 				Return My.Application.Info.DirectoryPath
 			End If
@@ -81,7 +81,7 @@ Public Class SoundsMng
 		End If
 	End Sub
 
-	Private Sub SoundsMng_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+	Private Sub SoundsMng_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
 		Dim ver As String
 		If ApplicationDeployment.IsNetworkDeployed Then
 			ver = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
@@ -115,7 +115,7 @@ Public Class SoundsMng
 	Private Sub PlaySound()
 		Dim row As SoundsDataSet.FilesJoinedNewRow
 		Dim CurrentFile As String = ""
-		Dim tr As System.Data.DataRowView
+		Dim tr As DataRowView
 		wmp.currentPlaylist.clear()
 		Dim fileFound As Boolean
 
@@ -153,14 +153,14 @@ Public Class SoundsMng
 			  , fltrprm(2), fltrprm(2), fltrprm(2), fltrprm(2) _
 			  , fltrprm(3), fltrprm(3), fltrprm(3), fltrprm(3))
 			RetrieveNumberOfFiles()
-		Catch ex As System.Exception
+		Catch ex As Exception
 			WriteToLogFile(ex.Message, True)
 		Finally
 			Me.Cursor = Cursors.Default
 		End Try
 	End Sub
 
-	Private Sub SoundsGrid_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SoundsGrid.DoubleClick
+	Private Sub SoundsGrid_DoubleClick(ByVal sender As Object, ByVal e As EventArgs) Handles SoundsGrid.DoubleClick
 		PlaySound()
 	End Sub
 
@@ -168,25 +168,25 @@ Public Class SoundsMng
 		TimerSearch.Enabled = False
 	End Sub
 
-	Private Sub ToolStripFilter_KeyUp(ByVal sender As System.Object, ByVal e As KeyEventArgs) Handles ToolStripFilter.KeyUp
+	Private Sub ToolStripFilter_KeyUp(ByVal sender As Object, ByVal e As KeyEventArgs) Handles ToolStripFilter.KeyUp
 		TimerSearch.Enabled = True
 	End Sub
 
-	Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerSearch.Tick
+	Private Sub Timer1_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles TimerSearch.Tick
 		FillGrid()
 		TimerSearch.Enabled = False
 	End Sub
 
-	Private Sub SoundsMng_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
+	Private Sub SoundsMng_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shown
 		ToolStripFilter.Focus()
 	End Sub
 
-	Private Sub btnSetLibPath_Click(sender As System.Object, e As System.EventArgs) Handles btnSetLibPath.Click
+	Private Sub btnSetLibPath_Click(sender As Object, e As EventArgs) Handles btnSetLibPath.Click
 		_FilesPath = ""
 		Dim s As String = FilesPath(False)
 	End Sub
 
-	Private Sub btnImportData_Click(sender As System.Object, e As System.EventArgs) Handles btnImportData.Click
+	Private Sub btnImportData_Click(sender As Object, e As EventArgs) Handles btnImportData.Click
 		OpenFileDialog1.Filter = "tsv files (*.tab)|*.tab|All files (*.*)|*.*"
 		OpenFileDialog1.FilterIndex = 0
 		OpenFileDialog1.Multiselect = True
@@ -237,12 +237,12 @@ Public Class SoundsMng
 		File.AppendAllText(My.Application.Info.DirectoryPath & "\LogFile.txt", Date.Now.ToString("dd/MM/yyyy HH:mm:ss") & " = " & msg & Environment.NewLine)
 	End Sub
 
-	Private Sub btnPlaySound_Click(sender As System.Object, e As System.EventArgs)
+	Private Sub btnPlaySound_Click(sender As Object, e As EventArgs)
 		PlaySound()
 	End Sub
 
 	Private ChangedColunmSettings As Boolean = False
-	Private Sub btnManageColumns_Click(sender As System.Object, e As System.EventArgs) Handles btnManageColumns.Click
+	Private Sub btnManageColumns_Click(sender As Object, e As EventArgs) Handles btnManageColumns.Click
 		Dim dlg As New DlgSetColumns
 		Dim ci As New List(Of ColumnMetaData)
 		Dim cmd As ColumnMetaData
@@ -268,7 +268,7 @@ Public Class SoundsMng
 		OldValue = SoundsGrid.CurrentCell.Value.ToString
 	End Sub
 
-	Private Sub SoundsGrid_CellEndEdit(sender As System.Object, e As DataGridViewCellEventArgs) Handles SoundsGrid.CellEndEdit
+	Private Sub SoundsGrid_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles SoundsGrid.CellEndEdit
 		Dim NewValue = SoundsGrid.CurrentCell.Value.ToString
 		If NewValue <> OldValue Then
 			Dim pt As New SoundsDataSetTableAdapters.FilesTableAdapter
@@ -354,7 +354,7 @@ Public Class SoundsMng
 		End If
 	End Sub
 
-	Private Sub btnExport_Click(sender As System.Object, e As System.EventArgs) Handles btnExport.Click
+	Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
 		Dim HeaderNames() As String = {"Creator", "Library", "Year", "CD", "Track", "Index", "Category", "SubCategory", "Description", "Time", "Rating", "Filename", "Tags"}
 		SaveFileDialog1.Filter = "Tab Files (*.tab)|*.tab|All Files (*.*)|*.*"
 		SaveFileDialog1.FilterIndex = 0
@@ -365,7 +365,7 @@ Public Class SoundsMng
 			dt = ft.GetDataBy()
 			prgBar.Maximum = dt.Rows.Count
 			prgBar.Value = 0
-			Dim str As System.Text.StringBuilder = New System.Text.StringBuilder()
+			Dim str As StringBuilder = New StringBuilder()
 			For Each s In HeaderNames
 				str.Append(s & vbTab)
 			Next
@@ -388,7 +388,7 @@ Public Class SoundsMng
 		End If
 	End Sub
 
-	Private Sub lstNoOfSelRecs_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles lstNoOfSelRecs.SelectedIndexChanged
+	Private Sub lstNoOfSelRecs_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstNoOfSelRecs.SelectedIndexChanged
 		Dim prevval As String = FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText
 		Dim newval As String = FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText
 		Dim regex As New RegularExpressions.Regex("SELECT.+Files\.ID")
@@ -406,12 +406,12 @@ Public Class SoundsMng
 		End If
 	End Sub
 
-	Private Sub btnPath_Click(sender As System.Object, e As System.EventArgs) Handles btnPath.Click
+	Private Sub btnPath_Click(sender As Object, e As EventArgs) Handles btnPath.Click
 		Process.Start(My.Application.Info.DirectoryPath)
 		Process.Start(Me.DataPath)
 	End Sub
 
-	Private Sub SoundsGrid_KeyUp(sender As System.Object, e As KeyEventArgs) Handles SoundsGrid.KeyUp
+	Private Sub SoundsGrid_KeyUp(sender As Object, e As KeyEventArgs) Handles SoundsGrid.KeyUp
 		If (e.KeyCode = 46 Or e.KeyCode = 8) Then
 			DeleteSelectedRecords()
 		End If
@@ -440,7 +440,7 @@ Public Class SoundsMng
 			prgBar.Value = 0
 		End If
 	End Sub
-	Private Sub btnTags_Click(sender As System.Object, e As System.EventArgs) Handles btnTags.Click
+	Private Sub btnTags_Click(sender As Object, e As EventArgs) Handles btnTags.Click
 		ShowTagsDialog()
 	End Sub
 
@@ -498,7 +498,7 @@ Public Class SoundsMng
 		End If
 	End Sub
 
-	Private Sub SoundsGrid_RowPrePaint(sender As System.Object, e As System.Windows.Forms.DataGridViewRowPrePaintEventArgs) Handles SoundsGrid.RowPrePaint
+	Private Sub SoundsGrid_RowPrePaint(sender As Object, e As DataGridViewRowPrePaintEventArgs) Handles SoundsGrid.RowPrePaint
 		If Not CheckIfRowFileExists(e.RowIndex) Then
 			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.Font = New Font(Me.Font, FontStyle.Italic)
 			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(90, 80, 80)
@@ -519,7 +519,7 @@ Public Class SoundsMng
 		Return False
 	End Function
 
-	Private Sub btnEditRecs_Click(sender As System.Object, e As System.EventArgs) Handles btnEditRecs.Click
+	Private Sub btnEditRecs_Click(sender As Object, e As EventArgs) Handles btnEditRecs.Click
 		EditRecords()
 	End Sub
 
@@ -683,7 +683,7 @@ Public Class SoundsMng
 		Return returnValue
 	End Function
 
-	Private Sub btnClear_Click(sender As System.Object, e As System.EventArgs) Handles btnClear.Click
+	Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
 		ClearData()
 		MessageBox.Show("Successfully cleared data")
 	End Sub
@@ -691,14 +691,18 @@ Public Class SoundsMng
 	Private Sub RetrieveNumberOfFiles()
 		Dim qt As New SoundsDataSetTableAdapters.QueriesTableAdapter
 		Dim s As Integer? = qt.NumberOfFiles()
+		Dim query As Integer = (From o In SoundsGrid.Rows _
+		  Select o _
+		  Where CType(o, DataGridViewRow).Visible).Count
+
 		If s.HasValue AndAlso s.Value > 0 Then
-			lblNoOfFiles.Text = "Showing " & SoundsGrid.RowCount & " from " & s.ToString() & " records in DB"
+			lblNoOfFiles.Text = "Showing " & query & " from " & s.ToString() & " records in DB"
 		Else
 			lblNoOfFiles.Text = "Empty DB"
 		End If
 	End Sub
 
-	Private Sub btnDeleteFiles_Click(sender As System.Object, e As System.EventArgs) Handles btnDeleteFiles.Click
+	Private Sub btnDeleteFiles_Click(sender As Object, e As EventArgs) Handles btnDeleteFiles.Click
 		If MessageBox.Show("Really delete all files ???", "LOOK OUT", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
 			Dim qry As New SoundsDataSetTableAdapters.QueriesTableAdapter
 			Dim tmpRet As Integer
@@ -723,26 +727,26 @@ Public Class SoundsMng
 		MsgBox("Database compacted successfully")
 	End Sub
 
-	Private Sub btnCompact_Click(sender As System.Object, e As System.EventArgs) Handles btnCompact.Click
+	Private Sub btnCompact_Click(sender As Object, e As EventArgs) Handles btnCompact.Click
 		Process.Start(DataPath & "\Sounds.accdb")
 	End Sub
 
-	Private Sub EditFilesToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles EditFilesToolStripMenuItem.Click
+	Private Sub EditFilesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditFilesToolStripMenuItem.Click
 		EditRecords()
 	End Sub
 
-	Private Sub DeleteFileToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles DeleteFileToolStripMenuItem.Click
+	Private Sub DeleteFileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteFileToolStripMenuItem.Click
 		DeleteSelectedRecords()
 	End Sub
 
-	Private Sub OpenFileLocationToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles OpenFileLocationToolStripMenuItem.Click
+	Private Sub OpenFileLocationToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenFileLocationToolStripMenuItem.Click
 		OpenFilesLocation()
 	End Sub
 
 	Private Sub OpenFilesLocation()
 		Dim row As SoundsDataSet.FilesJoinedNewRow
 		Dim CurrentFilePath As String = "", CurrentFile As String = ""
-		Dim tr As System.Data.DataRowView
+		Dim tr As DataRowView
 		For Each r In SoundsGrid.SelectedRows
 			tr = r.DataBoundItem
 			row = tr.Row
@@ -765,21 +769,21 @@ Public Class SoundsMng
 		Return ""
 	End Function
 
-	Private Sub CopyToFolderToolStripMenuItem1_Click(sender As System.Object, e As System.EventArgs) Handles CopyToFolderToolStripMenuItem1.Click
+	Private Sub CopyToFolderToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles CopyToFolderToolStripMenuItem1.Click
 		If FolderBrowserDialog1.ShowDialog = vbOK Then
 			CopyPreviousFolder = FolderBrowserDialog1.SelectedPath
 		End If
 		CopyFilesToPreviousFolder()
 	End Sub
 
-	Private Sub CopyToPreviousFolderToolStripMenuItem1_Click(sender As System.Object, e As System.EventArgs) Handles CopyToPreviousFolderToolStripMenuItem1.Click
+	Private Sub CopyToPreviousFolderToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles CopyToPreviousFolderToolStripMenuItem1.Click
 		CopyFilesToPreviousFolder()
 	End Sub
 
 	Private Sub CopyFilesToPreviousFolder()
 		Dim row As SoundsDataSet.FilesJoinedNewRow
 		Dim CurrentFile, DestFile As String
-		Dim tr As System.Data.DataRowView
+		Dim tr As DataRowView
 		For Each r In SoundsGrid.SelectedRows
 			tr = r.DataBoundItem
 			row = tr.Row
@@ -796,11 +800,11 @@ Public Class SoundsMng
 		Next
 	End Sub
 
-	Private Sub TimerWMP_Tick(sender As System.Object, e As System.EventArgs) Handles TimerWMP.Tick
+	Private Sub TimerWMP_Tick(sender As Object, e As EventArgs) Handles TimerWMP.Tick
 		ShowCurrentMediaPosition()
 	End Sub
 
-	Private Sub wmp_PlayStateChange(sender As System.Object, e As AxWMPLib._WMPOCXEvents_PlayStateChangeEvent) Handles wmp.PlayStateChange
+	Private Sub wmp_PlayStateChange(sender As Object, e As AxWMPLib._WMPOCXEvents_PlayStateChangeEvent) Handles wmp.PlayStateChange
 		If e.newState = 3 Or e.newState = 9 Then
 			lblMediaPosition.Visible = True
 			TimerWMP.Enabled = True
@@ -816,11 +820,36 @@ Public Class SoundsMng
 		 wmp.Ctlcontrols.currentPositionString & "/" & wmp.currentMedia.durationString & ")"
 	End Sub
 
-	Private Sub PlaySelectedFilesToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles PlaySelectedFilesToolStripMenuItem.Click
+	Private Sub PlaySelectedFilesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PlaySelectedFilesToolStripMenuItem.Click
 		PlaySound()
 	End Sub
 
-	Private Sub btnExpNotExFiles_Click(sender As System.Object, e As System.EventArgs) Handles btnExpNotExFiles.Click
+	Private Sub btnExpNotExFiles_Click(sender As Object, e As EventArgs) Handles btnExpNotExFiles.Click
 		ExportNotExFiles()
 	End Sub
+
+	Private Sub btnHideNotExFiles_Click(sender As Object, e As EventArgs) Handles btnHideNotExFiles.Click
+		SoundsGrid.CurrentCell = Nothing
+		For Each row In SoundsGrid.Rows
+			If (Not btnHideNotExFiles.Checked Or CheckIfFileExists(CType(row, DataGridViewRow).DataBoundItem)) Then
+				CType(row, DataGridViewRow).Visible = True
+			Else
+				CType(row, DataGridViewRow).Visible = False
+			End If
+		Next
+		RetrieveNumberOfFiles()
+	End Sub
+
+	Private Function CheckIfFileExists(drv As DataRowView) As Boolean
+		Dim row As SoundsDataSet.FilesJoinedNewRow
+		Dim CurrentFile As String
+		row = drv.Row
+		CurrentFile = FilesPath & "\" & (row.Creator & " - " & row.Library & "\" & row.CD & "\" & row.Filename & ".").Replace("/", "\")
+		For Each ext In AudioFileTypes
+			If My.Computer.FileSystem.FileExists(CurrentFile & ext) Then
+				Return True
+			End If
+		Next
+		Return False
+	End Function
 End Class
