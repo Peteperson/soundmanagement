@@ -5,8 +5,10 @@ Imports System.IO
 Imports System.Linq
 Imports System.Data.OleDb
 Imports System.Deployment.Application
+Imports NAudio.Wave
 
 Public Class SoundsMng
+	Private Const TmpWavFileExtension As String = "\tmp.wav"
 	Private Property _CopyPreviousFolder As String
 	Public Property CopyPreviousFolder As String
 		Get
@@ -143,6 +145,7 @@ Public Class SoundsMng
 			  , fltrprm(2), fltrprm(2), fltrprm(2), fltrprm(2) _
 			  , fltrprm(3), fltrprm(3), fltrprm(3), fltrprm(3))
 			RetrieveNumberOfFiles()
+			If btnHideNotExFiles.Checked Then HideNotExistingFiles()
 		Catch ex As Exception
 			WriteToLogFile(ex.Message, True)
 		Finally
@@ -224,9 +227,6 @@ Public Class SoundsMng
 
 	Private Sub WriteToLogFile(msg As String, Optional ShowMessage As Boolean = False)
 		If ShowMessage Then MessageBox.Show(msg)
-		txtOutput.Text += msg & vbCrLf
-		txtOutput.SelectAll()
-		txtOutput.ScrollToCaret()
 		File.AppendAllText(My.Application.Info.DirectoryPath & "\LogFile.txt", Date.Now.ToString("dd/MM/yyyy HH:mm:ss") & " = " & msg & Environment.NewLine)
 	End Sub
 
@@ -745,7 +745,9 @@ Public Class SoundsMng
 			Dim ret = CheckIfFileExists(r.DataBoundItem)
 			If ret.FileFound Then
 				DestFile = CopyPreviousFolder & "\" & Path.GetFileName(ret.FilePath)
-				File.Copy(ret.FilePath, CopyPreviousFolder & "\" & Path.GetFileName(DestFile))
+				If Not My.Computer.FileSystem.FileExists(DestFile) Then
+					File.Copy(ret.FilePath, DestFile) 'CopyPreviousFolder & "\" & Path.GetFileName(DestFile))
+				End If
 			End If
 		Next
 	End Sub
@@ -755,14 +757,40 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub wmp_PlayStateChange(sender As Object, e As AxWMPLib._WMPOCXEvents_PlayStateChangeEvent) Handles wmp.PlayStateChange
-		If e.newState = 3 Or e.newState = 9 Then
+		If e.newState = 3 Then
 			lblMediaPosition.Visible = True
 			TimerWMP.Enabled = True
+			DrawWaveForm()
 		Else
 			lblMediaPosition.Visible = False
 			TimerWMP.Enabled = False
 			ShowCurrentMediaPosition()
 		End If
+	End Sub
+
+	Private Sub DrawWaveForm()
+		If wmp.currentMedia.duration > 10 And Path.GetExtension(wmp.currentMedia.sourceURL) = ".mp3" Then
+			ConvertMp3ToWav(wmp.currentMedia.sourceURL)
+			wv.SamplesPerPixel = 10000
+			wv.WaveStream = New NAudio.Wave.WaveFileReader(My.Application.Info.DirectoryPath & TmpWavFileExtension)
+		End If
+	End Sub
+
+	Private Sub ConvertMp3ToWav(mp3file As String)
+		Dim destFile As String
+		destFile = My.Application.Info.DirectoryPath & TmpWavFileExtension
+		If File.Exists(destFile) Then
+			Try
+				File.Delete(destFile)
+			Catch ex As Exception
+				WriteToLogFile(ex.Message, True)
+			End Try
+		End If
+		Using reader As New Mp3FileReader(mp3file)
+			Using pcmStream As WaveStream = WaveFormatConversionStream.CreatePcmStream(reader)
+				WaveFileWriter.CreateWaveFile(destFile, pcmStream)
+			End Using
+		End Using
 	End Sub
 
 	Private Sub ShowCurrentMediaPosition()
@@ -779,6 +807,10 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub btnHideNotExFiles_Click(sender As Object, e As EventArgs) Handles btnHideNotExFiles.Click
+		HideNotExistingFiles()
+	End Sub
+
+	Private Sub HideNotExistingFiles()
 		SoundsGrid.CurrentCell = Nothing
 		For Each row In SoundsGrid.Rows
 			If (Not btnHideNotExFiles.Checked Or CheckIfFileExists(CType(row, DataGridViewRow).DataBoundItem).FileFound) Then
