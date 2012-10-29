@@ -769,7 +769,6 @@ Public Class SoundsMng
 			TimerWMP.Enabled = True
 			DrawWaveForm()
 		Else
-			'lblMediaPosition.Visible = False
 			TimerWMP.Enabled = False
 			ShowCurrentMediaPosition()
 		End If
