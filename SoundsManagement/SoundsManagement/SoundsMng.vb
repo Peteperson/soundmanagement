@@ -6,9 +6,19 @@ Imports System.Linq
 Imports System.Data.OleDb
 Imports System.Deployment.Application
 Imports NAudio.Wave
+Imports NAudio.Wave.Compression
 
 Public Class SoundsMng
 	Private Const TmpWavFileExtension As String = "\tmp.wav"
+	Private Const MAXvisibleRecords As Integer = 1000
+	Public ReadOnly Property NoOfVisibleRecords As Integer
+		Get
+			Dim n = (From o In SoundsGrid.Rows Select o Where CType(o, DataGridViewRow).Visible).Count
+			If n > MAXvisibleRecords Then btnHideNotExFiles.Enabled = False Else btnHideNotExFiles.Enabled = True
+			Return n
+		End Get
+	End Property
+
 	Private Property _CopyPreviousFolder As String
 	Public Property CopyPreviousFolder As String
 		Get
@@ -64,6 +74,7 @@ Public Class SoundsMng
 	End Property
 
 	Private Sub SoundsMng_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+		If Not wv.WaveStream Is Nothing Then wv.WaveStream.Dispose()
 		If ChangedColunmSettings Then
 			Dim success As Boolean
 			Dim AllValues As New StringBuilder
@@ -659,12 +670,8 @@ Public Class SoundsMng
 	Private Sub RetrieveNumberOfFiles()
 		Dim qt As New SoundsDataSetTableAdapters.QueriesTableAdapter
 		Dim s As Integer? = qt.NumberOfFiles()
-		Dim query As Integer = (From o In SoundsGrid.Rows _
-		  Select o _
-		  Where CType(o, DataGridViewRow).Visible).Count
-
 		If s.HasValue AndAlso s.Value > 0 Then
-			lblNoOfFiles.Text = "Showing " & query & " from " & s.ToString() & " records in DB"
+			lblNoOfFiles.Text = "Showing " & NoOfVisibleRecords & " from " & s.ToString() & " records in DB"
 		Else
 			lblNoOfFiles.Text = "Empty DB"
 		End If
@@ -762,18 +769,42 @@ Public Class SoundsMng
 			TimerWMP.Enabled = True
 			DrawWaveForm()
 		Else
-			lblMediaPosition.Visible = False
+			'lblMediaPosition.Visible = False
 			TimerWMP.Enabled = False
 			ShowCurrentMediaPosition()
 		End If
 	End Sub
 
 	Private Sub DrawWaveForm()
-		If wmp.currentMedia.duration > 10 And Path.GetExtension(wmp.currentMedia.sourceURL) = ".mp3" Then
-			ConvertMp3ToWav(wmp.currentMedia.sourceURL)
-			wv.SamplesPerPixel = 10000
-			wv.WaveStream = New NAudio.Wave.WaveFileReader(My.Application.Info.DirectoryPath & TmpWavFileExtension)
+		If Not wv.WaveStream Is Nothing Then wv.WaveStream.Dispose()
+		wv.SamplesPerPixel = wmp.currentMedia.duration * wv.Size.Width * 0.38
+		Select Case Path.GetExtension(wmp.currentMedia.sourceURL)
+			Case ".mp3"
+				ConvertMp3ToWav(wmp.currentMedia.sourceURL)
+				wv.WaveStream = New NAudio.Wave.WaveFileReader(My.Application.Info.DirectoryPath & TmpWavFileExtension)
+			Case ".wav"
+				wv.WaveStream = New NAudio.Wave.WaveFileReader(wmp.currentMedia.sourceURL)
+			Case ".aif"
+				ConvertMp3ToWav(wmp.currentMedia.sourceURL)
+				wv.WaveStream = New NAudio.Wave.WaveFileReader(My.Application.Info.DirectoryPath & TmpWavFileExtension)
+		End Select
+	End Sub
+
+	Private Sub ConvertAifToWav(aifFile As String)
+		Dim destFile As String
+		destFile = My.Application.Info.DirectoryPath & TmpWavFileExtension
+		If File.Exists(destFile) Then
+			Try
+				File.Delete(destFile)
+			Catch ex As Exception
+				WriteToLogFile(ex.Message, True)
+			End Try
 		End If
+		Using reader As New AiffFileReader(aifFile)
+			Using pcmStream As WaveStream = WaveFormatConversionStream.CreatePcmStream(reader)
+				WaveFileWriter.CreateWaveFile(destFile, pcmStream)
+			End Using
+		End Using
 	End Sub
 
 	Private Sub ConvertMp3ToWav(mp3file As String)
@@ -811,16 +842,24 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub HideNotExistingFiles()
-		SoundsGrid.CurrentCell = Nothing
-		For Each row In SoundsGrid.Rows
-			If (Not btnHideNotExFiles.Checked Or CheckIfFileExists(CType(row, DataGridViewRow).DataBoundItem).FileFound) Then
-				CType(row, DataGridViewRow).Visible = True
-			Else
-				CType(row, DataGridViewRow).Visible = False
-			End If
-		Next
-		If Not btnHideNotExFiles.Checked Then SoundsGrid.FirstDisplayedScrollingRowIndex = 0
-		RetrieveNumberOfFiles()
+		Dim noofvr As Integer = NoOfVisibleRecords
+		If noofvr < MAXvisibleRecords Then
+			SoundsGrid.CurrentCell = Nothing
+			prgBar.Maximum = SoundsGrid.Rows.Count
+			prgBar.Value = 0
+			For Each row In SoundsGrid.Rows
+				prgBar.Value += 1
+				If prgBar.Value Mod (0.1 * Math.Max(noofvr, 500)) = 0 Then Application.DoEvents()
+				If (Not btnHideNotExFiles.Checked Or CheckIfFileExists(CType(row, DataGridViewRow).DataBoundItem).FileFound) Then
+					CType(row, DataGridViewRow).Visible = True
+				Else
+					CType(row, DataGridViewRow).Visible = False
+				End If
+			Next
+			prgBar.Value = 0
+			If Not btnHideNotExFiles.Checked Then SoundsGrid.FirstDisplayedScrollingRowIndex = 0
+			RetrieveNumberOfFiles()
+		End If
 	End Sub
 
 	Private Function CheckIfFileExists(drv As DataRowView) As FileExistance
@@ -835,4 +874,8 @@ Public Class SoundsMng
 		Next
 		Return New FileExistance(False, CurrentFile)
 	End Function
+
+	Private Sub wv_MouseClick(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles wv.MouseClick
+		wmp.Ctlcontrols.currentPosition = wmp.currentMedia.duration * (e.X / wv.Size.Width)
+	End Sub
 End Class
