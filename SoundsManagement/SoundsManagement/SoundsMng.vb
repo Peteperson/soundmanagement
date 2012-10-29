@@ -824,8 +824,10 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub ShowCurrentMediaPosition()
-		lblMediaPosition.Text = "Playing: " & wmp.currentMedia.name & " (" & _
-		 wmp.Ctlcontrols.currentPositionString & "/" & wmp.currentMedia.durationString & ")"
+		If Not wmp.currentMedia Is Nothing Then
+			lblMediaPosition.Text = "Playing: " & wmp.currentMedia.name & " (" & _
+			 wmp.Ctlcontrols.currentPositionString & "/" & wmp.currentMedia.durationString & ")"
+		End If
 	End Sub
 
 	Private Sub PlaySelectedFilesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PlaySelectedFilesToolStripMenuItem.Click
