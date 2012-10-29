@@ -24,12 +24,10 @@ Partial Class SoundsMng
 	Private Sub InitializeComponent()
 		Me.components = New System.ComponentModel.Container()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SoundsMng))
-		Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Me.FilesJoinedNewBindingNavigator = New System.Windows.Forms.BindingNavigator(Me.components)
-		Me.FilesJoinedNewBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-		Me.SoundsDataSet = New SoundsManagement.SoundsDataSet()
 		Me.BindingNavigatorCountItem = New System.Windows.Forms.ToolStripLabel()
 		Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
 		Me.ToolStripFilter = New System.Windows.Forms.ToolStripTextBox()
@@ -63,19 +61,7 @@ Partial Class SoundsMng
 		Me.ContentPanel = New System.Windows.Forms.ToolStripContentPanel()
 		Me.SoundsGrid = New System.Windows.Forms.DataGridView()
 		Me.ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Creator = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Library = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.CD = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Year = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Track = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.Index = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Category = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.SubCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Description = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Time = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Rating = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Tags = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Filename = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.cntxMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
 		Me.DeleteFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.OpenFileLocationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -86,18 +72,32 @@ Partial Class SoundsMng
 		Me.PlaySelectedFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
 		Me.wmp = New AxWMPLib.AxWindowsMediaPlayer()
-		Me.FilesJoinedNewTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter()
-		Me.TableAdapterManager = New SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager()
 		Me.lblMediaPosition = New System.Windows.Forms.Label()
 		Me.TimerWMP = New System.Windows.Forms.Timer(Me.components)
 		Me.wv = New NAudio.Gui.WaveViewer()
+		Me.Creator = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Library = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.CD = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Year = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Track = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Category = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.SubCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Description = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Time = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Rating = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Tags = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Filename = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.FilesJoinedNewBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+		Me.SoundsDataSet = New SoundsManagement.SoundsDataSet()
+		Me.FilesJoinedNewTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter()
+		Me.TableAdapterManager = New SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager()
 		CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.FilesJoinedNewBindingNavigator.SuspendLayout()
-		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
-		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.cntxMenu.SuspendLayout()
 		CType(Me.wmp, System.ComponentModel.ISupportInitialize).BeginInit()
+		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
 		'
 		'FilesJoinedNewBindingNavigator
@@ -119,16 +119,6 @@ Partial Class SoundsMng
 		Me.FilesJoinedNewBindingNavigator.Size = New System.Drawing.Size(766, 25)
 		Me.FilesJoinedNewBindingNavigator.TabIndex = 0
 		Me.FilesJoinedNewBindingNavigator.Text = "BindingNavigator1"
-		'
-		'FilesJoinedNewBindingSource
-		'
-		Me.FilesJoinedNewBindingSource.DataMember = "FilesJoinedNew"
-		Me.FilesJoinedNewBindingSource.DataSource = Me.SoundsDataSet
-		'
-		'SoundsDataSet
-		'
-		Me.SoundsDataSet.DataSetName = "SoundsDataSet"
-		Me.SoundsDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
 		'
 		'BindingNavigatorCountItem
 		'
@@ -382,36 +372,36 @@ Partial Class SoundsMng
 				  Or System.Windows.Forms.AnchorStyles.Left) _
 				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.SoundsGrid.AutoGenerateColumns = False
-		DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
-		DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
-		DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText
-		DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.SoundsGrid.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
+		DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+		DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
+		DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+		DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.SoundsGrid.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
 		Me.SoundsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
 		Me.SoundsGrid.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ID, Me.Creator, Me.Library, Me.CD, Me.Year, Me.Track, Me.Index, Me.Category, Me.SubCategory, Me.Description, Me.Time, Me.Rating, Me.Tags, Me.Filename})
 		Me.SoundsGrid.ContextMenuStrip = Me.cntxMenu
 		Me.SoundsGrid.DataSource = Me.FilesJoinedNewBindingSource
-		DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window
-		DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
-		DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText
-		DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-		Me.SoundsGrid.DefaultCellStyle = DataGridViewCellStyle5
+		DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
+		DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
+		DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
+		DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+		Me.SoundsGrid.DefaultCellStyle = DataGridViewCellStyle2
 		Me.SoundsGrid.Location = New System.Drawing.Point(0, 28)
 		Me.SoundsGrid.Name = "SoundsGrid"
-		DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control
-		DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
-		DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText
-		DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.SoundsGrid.RowHeadersDefaultCellStyle = DataGridViewCellStyle6
+		DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
+		DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
+		DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
+		DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.SoundsGrid.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
 		Me.SoundsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
 		Me.SoundsGrid.Size = New System.Drawing.Size(766, 496)
 		Me.SoundsGrid.TabIndex = 2
@@ -423,104 +413,11 @@ Partial Class SoundsMng
 		Me.ID.Name = "ID"
 		Me.ID.Width = 52
 		'
-		'Creator
-		'
-		Me.Creator.DataPropertyName = "Creator"
-		Me.Creator.HeaderText = "Creator"
-		Me.Creator.Name = "Creator"
-		Me.Creator.ReadOnly = True
-		Me.Creator.Width = 51
-		'
-		'Library
-		'
-		Me.Library.DataPropertyName = "Library"
-		Me.Library.HeaderText = "Library"
-		Me.Library.Name = "Library"
-		Me.Library.ReadOnly = True
-		Me.Library.Width = 52
-		'
-		'CD
-		'
-		Me.CD.DataPropertyName = "CD"
-		Me.CD.HeaderText = "CD"
-		Me.CD.Name = "CD"
-		Me.CD.ReadOnly = True
-		Me.CD.Width = 52
-		'
-		'Year
-		'
-		Me.Year.DataPropertyName = "Year"
-		Me.Year.HeaderText = "Year"
-		Me.Year.Name = "Year"
-		Me.Year.ReadOnly = True
-		Me.Year.Width = 51
-		'
-		'Track
-		'
-		Me.Track.DataPropertyName = "Track"
-		Me.Track.HeaderText = "Track"
-		Me.Track.Name = "Track"
-		Me.Track.Width = 52
-		'
 		'Index
 		'
 		Me.Index.DataPropertyName = "Index"
 		Me.Index.HeaderText = "Index"
 		Me.Index.Name = "Index"
-		'
-		'Category
-		'
-		Me.Category.DataPropertyName = "Category"
-		Me.Category.HeaderText = "Category"
-		Me.Category.Name = "Category"
-		Me.Category.ReadOnly = True
-		Me.Category.Width = 52
-		'
-		'SubCategory
-		'
-		Me.SubCategory.DataPropertyName = "SubCategory"
-		Me.SubCategory.HeaderText = "SubCategory"
-		Me.SubCategory.Name = "SubCategory"
-		Me.SubCategory.ReadOnly = True
-		Me.SubCategory.Width = 52
-		'
-		'Description
-		'
-		Me.Description.DataPropertyName = "Description"
-		Me.Description.HeaderText = "Description"
-		Me.Description.Name = "Description"
-		Me.Description.ReadOnly = True
-		Me.Description.Width = 51
-		'
-		'Time
-		'
-		Me.Time.DataPropertyName = "Time"
-		Me.Time.HeaderText = "Time"
-		Me.Time.Name = "Time"
-		Me.Time.ReadOnly = True
-		Me.Time.Width = 52
-		'
-		'Rating
-		'
-		Me.Rating.DataPropertyName = "Rating"
-		Me.Rating.HeaderText = "Rating"
-		Me.Rating.Name = "Rating"
-		Me.Rating.Width = 52
-		'
-		'Tags
-		'
-		Me.Tags.DataPropertyName = "Tags"
-		Me.Tags.HeaderText = "Comments"
-		Me.Tags.Name = "Tags"
-		Me.Tags.Width = 52
-		'
-		'Filename
-		'
-		Me.Filename.DataPropertyName = "Filename"
-		Me.Filename.HeaderText = "Filename"
-		Me.Filename.Name = "Filename"
-		Me.Filename.ReadOnly = True
-		Me.Filename.Width = 51
 		'
 		'cntxMenu
 		'
@@ -590,26 +487,6 @@ Partial Class SoundsMng
 		Me.wmp.Size = New System.Drawing.Size(403, 45)
 		Me.wmp.TabIndex = 3
 		'
-		'FilesJoinedNewTableAdapter
-		'
-		Me.FilesJoinedNewTableAdapter.ClearBeforeFill = True
-		'
-		'TableAdapterManager
-		'
-		Me.TableAdapterManager.ArchivesTableAdapter = Nothing
-		Me.TableAdapterManager.BackupDataSetBeforeUpdate = False
-		Me.TableAdapterManager.CategoriesTableAdapter = Nothing
-		Me.TableAdapterManager.CDsTableAdapter = Nothing
-		Me.TableAdapterManager.CreatorsTableAdapter = Nothing
-		Me.TableAdapterManager.FilesForImportTableAdapter = Nothing
-		Me.TableAdapterManager.FilesJoinedNewTableAdapter = Me.FilesJoinedNewTableAdapter
-		Me.TableAdapterManager.FilesTableAdapter = Nothing
-		Me.TableAdapterManager.LibrariesTableAdapter = Nothing
-		Me.TableAdapterManager.ParametersTableAdapter = Nothing
-		Me.TableAdapterManager.SubcategoriesTableAdapter = Nothing
-		Me.TableAdapterManager.TagsTableAdapter = Nothing
-		Me.TableAdapterManager.UpdateOrder = SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
-		'
 		'lblMediaPosition
 		'
 		Me.lblMediaPosition.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -638,6 +515,129 @@ Partial Class SoundsMng
 		Me.wv.TabIndex = 6
 		Me.wv.WaveStream = Nothing
 		'
+		'Creator
+		'
+		Me.Creator.DataPropertyName = "Creator"
+		Me.Creator.HeaderText = "Creator"
+		Me.Creator.Name = "Creator"
+		Me.Creator.ReadOnly = True
+		Me.Creator.Width = 51
+		'
+		'Library
+		'
+		Me.Library.DataPropertyName = "Library"
+		Me.Library.HeaderText = "Library"
+		Me.Library.Name = "Library"
+		Me.Library.ReadOnly = True
+		Me.Library.Width = 52
+		'
+		'CD
+		'
+		Me.CD.DataPropertyName = "CD"
+		Me.CD.HeaderText = "CD"
+		Me.CD.Name = "CD"
+		Me.CD.ReadOnly = True
+		Me.CD.Width = 52
+		'
+		'Year
+		'
+		Me.Year.DataPropertyName = "Year"
+		Me.Year.HeaderText = "Year"
+		Me.Year.Name = "Year"
+		Me.Year.ReadOnly = True
+		Me.Year.Width = 51
+		'
+		'Track
+		'
+		Me.Track.DataPropertyName = "Track"
+		Me.Track.HeaderText = "Track"
+		Me.Track.Name = "Track"
+		Me.Track.Width = 52
+		'
+		'Category
+		'
+		Me.Category.DataPropertyName = "Category"
+		Me.Category.HeaderText = "Category"
+		Me.Category.Name = "Category"
+		Me.Category.ReadOnly = True
+		Me.Category.Width = 52
+		'
+		'SubCategory
+		'
+		Me.SubCategory.DataPropertyName = "SubCategory"
+		Me.SubCategory.HeaderText = "SubCategory"
+		Me.SubCategory.Name = "SubCategory"
+		Me.SubCategory.ReadOnly = True
+		Me.SubCategory.Width = 52
+		'
+		'Description
+		'
+		Me.Description.DataPropertyName = "Description"
+		Me.Description.HeaderText = "Description"
+		Me.Description.Name = "Description"
+		Me.Description.ReadOnly = True
+		Me.Description.Width = 51
+		'
+		'Time
+		'
+		Me.Time.DataPropertyName = "Time"
+		Me.Time.HeaderText = "Time"
+		Me.Time.Name = "Time"
+		Me.Time.ReadOnly = True
+		Me.Time.Width = 52
+		'
+		'Rating
+		'
+		Me.Rating.DataPropertyName = "Rating"
+		Me.Rating.HeaderText = "Rating"
+		Me.Rating.Name = "Rating"
+		Me.Rating.Width = 52
+		'
+		'Tags
+		'
+		Me.Tags.DataPropertyName = "Tags"
+		Me.Tags.HeaderText = "Comments"
+		Me.Tags.Name = "Tags"
+		Me.Tags.Width = 52
+		'
+		'Filename
+		'
+		Me.Filename.DataPropertyName = "Filename"
+		Me.Filename.HeaderText = "Filename"
+		Me.Filename.Name = "Filename"
+		Me.Filename.ReadOnly = True
+		Me.Filename.Width = 51
+		'
+		'FilesJoinedNewBindingSource
+		'
+		Me.FilesJoinedNewBindingSource.DataMember = "FilesJoinedNew"
+		Me.FilesJoinedNewBindingSource.DataSource = Me.SoundsDataSet
+		'
+		'SoundsDataSet
+		'
+		Me.SoundsDataSet.DataSetName = "SoundsDataSet"
+		Me.SoundsDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
+		'
+		'FilesJoinedNewTableAdapter
+		'
+		Me.FilesJoinedNewTableAdapter.ClearBeforeFill = True
+		'
+		'TableAdapterManager
+		'
+		Me.TableAdapterManager.ArchivesTableAdapter = Nothing
+		Me.TableAdapterManager.BackupDataSetBeforeUpdate = False
+		Me.TableAdapterManager.CategoriesTableAdapter = Nothing
+		Me.TableAdapterManager.CDsTableAdapter = Nothing
+		Me.TableAdapterManager.CreatorsTableAdapter = Nothing
+		Me.TableAdapterManager.FilesForImportTableAdapter = Nothing
+		Me.TableAdapterManager.FilesJoinedNewTableAdapter = Me.FilesJoinedNewTableAdapter
+		Me.TableAdapterManager.FilesTableAdapter = Nothing
+		Me.TableAdapterManager.LibrariesTableAdapter = Nothing
+		Me.TableAdapterManager.ParametersTableAdapter = Nothing
+		Me.TableAdapterManager.SubcategoriesTableAdapter = Nothing
+		Me.TableAdapterManager.TagsTableAdapter = Nothing
+		Me.TableAdapterManager.UpdateOrder = SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
+		'
 		'SoundsMng
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -654,11 +654,11 @@ Partial Class SoundsMng
 		CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.FilesJoinedNewBindingNavigator.ResumeLayout(False)
 		Me.FilesJoinedNewBindingNavigator.PerformLayout()
-		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
-		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.cntxMenu.ResumeLayout(False)
 		CType(Me.wmp, System.ComponentModel.ISupportInitialize).EndInit()
+		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
 
