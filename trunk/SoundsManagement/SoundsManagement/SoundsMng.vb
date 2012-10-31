@@ -103,6 +103,7 @@ Public Class SoundsMng
 		End If
 
 		Me.Text = "Sounds management application - (Version: " & ver & ")"
+		wmp.uiMode = "mini"
 		wmp.settings.autoStart = True
 		Dim s As String = FilesPath
 		WindowState = FormWindowState.Maximized
@@ -416,15 +417,16 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub SoundsGrid_KeyUp(sender As Object, e As KeyEventArgs) Handles SoundsGrid.KeyUp
-		If (e.KeyCode = 46 Or e.KeyCode = 8) Then
-			DeleteSelectedRecords()
-		End If
-		If (e.KeyCode = 32) Then
-			PlaySound()
-		End If
-		If (e.KeyCode = 107) Then
-			EditRecords()
-		End If
+		Select Case e.KeyCode
+			Case Keys.Home
+				ToolStripFilter.Focus()
+			Case 46 Or 8
+				DeleteSelectedRecords()
+			Case 32
+				PlaySound()
+			Case 107
+				EditRecords()
+		End Select
 	End Sub
 
 	Private Sub DeleteSelectedRecords()
@@ -763,20 +765,9 @@ Public Class SoundsMng
 		ShowCurrentMediaPosition()
 	End Sub
 
-	Private Sub wmp_PlayStateChange(sender As Object, e As AxWMPLib._WMPOCXEvents_PlayStateChangeEvent) Handles wmp.PlayStateChange
-		If e.newState = 3 Then
-			lblMediaPosition.Visible = True
-			TimerWMP.Enabled = True
-			DrawWaveForm()
-		Else
-			TimerWMP.Enabled = False
-			ShowCurrentMediaPosition()
-		End If
-	End Sub
-
 	Private Sub DrawWaveForm()
 		If Not wv.WaveStream Is Nothing Then wv.WaveStream.Dispose()
-		wv.SamplesPerPixel = wmp.currentMedia.duration * wv.Size.Width * 0.38
+		wv.SamplesPerPixel = (wmp.currentMedia.duration * 50000) / wv.Size.Width
 		Select Case Path.GetExtension(wmp.currentMedia.sourceURL)
 			Case ".mp3"
 				ConvertMp3ToWav(wmp.currentMedia.sourceURL)
@@ -825,7 +816,7 @@ Public Class SoundsMng
 
 	Private Sub ShowCurrentMediaPosition()
 		If Not wmp.currentMedia Is Nothing Then
-			lblMediaPosition.Text = "Playing: " & wmp.currentMedia.name & " (" & _
+			lblMediaPosition.Text = "File playing: " & wmp.currentMedia.name & " (" & _
 			 wmp.Ctlcontrols.currentPositionString & "/" & wmp.currentMedia.durationString & ")"
 		End If
 	End Sub
@@ -877,6 +868,24 @@ Public Class SoundsMng
 	End Function
 
 	Private Sub wv_MouseClick(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles wv.MouseClick
+		If wmp.currentMedia Is Nothing Then Return
 		wmp.Ctlcontrols.currentPosition = wmp.currentMedia.duration * (e.X / wv.Size.Width)
+	End Sub
+
+	Private Sub wmp_PlayStateChange(sender As System.Object, e As AxWMPLib._WMPOCXEvents_PlayStateChangeEvent) Handles wmp.PlayStateChange
+		If e.newState = 3 Then
+			lblMediaPosition.Visible = True
+			TimerWMP.Enabled = True
+			DrawWaveForm()
+		Else
+			TimerWMP.Enabled = False
+			ShowCurrentMediaPosition()
+		End If
+	End Sub
+
+	Private Sub wv_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles wv.KeyDown
+		If e.KeyCode = Keys.Home Then
+			ToolStripFilter.Focus()
+		End If
 	End Sub
 End Class
