@@ -23,10 +23,10 @@ Partial Class SoundsMng
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
 		Me.components = New System.ComponentModel.Container()
-		Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SoundsMng))
 		Me.FilesJoinedNewBindingSource = New System.Windows.Forms.BindingSource(Me.components)
 		Me.SoundsDataSet = New SoundsManagement.SoundsDataSet()
@@ -92,6 +92,8 @@ Partial Class SoundsMng
 		Me.btnExpNotExFiles = New System.Windows.Forms.ToolStripButton()
 		Me.btnHideNotExFiles = New System.Windows.Forms.ToolStripButton()
 		Me.wv = New NAudio.Gui.WaveViewer()
+		Me.pbCaret = New System.Windows.Forms.PictureBox()
+		Me.TimerCaret = New System.Windows.Forms.Timer(Me.components)
 		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,6 +101,7 @@ Partial Class SoundsMng
 		CType(Me.wmp, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.FilesJoinedNewBindingNavigator.SuspendLayout()
+		CType(Me.pbCaret, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
 		'
 		'FilesJoinedNewBindingSource
@@ -160,42 +163,42 @@ Partial Class SoundsMng
 		Me.SoundsGrid.AllowUserToAddRows = False
 		Me.SoundsGrid.AllowUserToDeleteRows = False
 		Me.SoundsGrid.AllowUserToOrderColumns = True
-		DataGridViewCellStyle1.BackColor = System.Drawing.Color.MintCream
-		Me.SoundsGrid.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+		DataGridViewCellStyle5.BackColor = System.Drawing.Color.MintCream
+		Me.SoundsGrid.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle5
 		Me.SoundsGrid.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
 				  Or System.Windows.Forms.AnchorStyles.Left) _
 				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.SoundsGrid.AutoGenerateColumns = False
-		DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
-		DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
-		DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
-		DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.SoundsGrid.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+		DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control
+		DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
+		DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText
+		DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.SoundsGrid.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle6
 		Me.SoundsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
 		Me.SoundsGrid.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ID, Me.Creator, Me.Library, Me.CD, Me.Year, Me.Track, Me.Index, Me.Category, Me.SubCategory, Me.Description, Me.Time, Me.Rating, Me.Tags, Me.Filename})
 		Me.SoundsGrid.ContextMenuStrip = Me.cntxMenu
 		Me.SoundsGrid.DataSource = Me.FilesJoinedNewBindingSource
-		DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window
-		DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
-		DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText
-		DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-		Me.SoundsGrid.DefaultCellStyle = DataGridViewCellStyle3
+		DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window
+		DataGridViewCellStyle7.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
+		DataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText
+		DataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+		Me.SoundsGrid.DefaultCellStyle = DataGridViewCellStyle7
 		Me.SoundsGrid.Location = New System.Drawing.Point(7, 35)
 		Me.SoundsGrid.Name = "SoundsGrid"
-		DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
-		DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
-		DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText
-		DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.SoundsGrid.RowHeadersDefaultCellStyle = DataGridViewCellStyle4
+		DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control
+		DataGridViewCellStyle8.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(161, Byte))
+		DataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText
+		DataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.SoundsGrid.RowHeadersDefaultCellStyle = DataGridViewCellStyle8
 		Me.SoundsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
 		Me.SoundsGrid.Size = New System.Drawing.Size(753, 448)
 		Me.SoundsGrid.TabIndex = 2
@@ -655,6 +658,20 @@ Partial Class SoundsMng
 		Me.wv.TabIndex = 6
 		Me.wv.WaveStream = Nothing
 		'
+		'pbCaret
+		'
+		Me.pbCaret.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+		Me.pbCaret.BackColor = System.Drawing.Color.White
+		Me.pbCaret.Location = New System.Drawing.Point(1, 494)
+		Me.pbCaret.Name = "pbCaret"
+		Me.pbCaret.Size = New System.Drawing.Size(2, 75)
+		Me.pbCaret.TabIndex = 9
+		Me.pbCaret.TabStop = False
+		Me.pbCaret.Visible = False
+		'
+		'TimerCaret
+		'
+		'
 		'SoundsMng
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -664,6 +681,7 @@ Partial Class SoundsMng
 		Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
 		Me.ClientSize = New System.Drawing.Size(766, 572)
 		Me.Controls.Add(Me.lblMediaPosition)
+		Me.Controls.Add(Me.pbCaret)
 		Me.Controls.Add(Me.wmp)
 		Me.Controls.Add(Me.SoundsGrid)
 		Me.Controls.Add(Me.FilesJoinedNewBindingNavigator)
@@ -679,6 +697,7 @@ Partial Class SoundsMng
 		CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.FilesJoinedNewBindingNavigator.ResumeLayout(False)
 		Me.FilesJoinedNewBindingNavigator.PerformLayout()
+		CType(Me.pbCaret, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
 
@@ -748,4 +767,6 @@ Partial Class SoundsMng
 	Friend WithEvents btnHideNotExFiles As System.Windows.Forms.ToolStripButton
 	Friend WithEvents wv As NAudio.Gui.WaveViewer
 	Friend WithEvents wmp As AxWMPLib.AxWindowsMediaPlayer
+	Friend WithEvents pbCaret As System.Windows.Forms.PictureBox
+	Friend WithEvents TimerCaret As System.Windows.Forms.Timer
 End Class
