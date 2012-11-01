@@ -7,9 +7,11 @@ Imports System.Data.OleDb
 Imports System.Deployment.Application
 Imports NAudio.Wave
 Imports NAudio.Wave.Compression
+Imports WavLib
 
 Public Class SoundsMng
-	Private Const TmpWavFileExtension As String = "\tmp.wav"
+	Private Const TmpWavFileExtension1 As String = "\tmp1.wav"
+	Private Const TmpWavFileExtension2 As String = "\tmp2.wav"
 	Private Const MAXvisibleRecords As Integer = 1000
 	Public ReadOnly Property NoOfVisibleRecords As Integer
 		Get
@@ -765,24 +767,65 @@ Public Class SoundsMng
 		ShowCurrentMediaPosition()
 	End Sub
 
+	Private Function CheckBitPerSample(fileName As String) As WAVFormat
+		If File.Exists(My.Application.Info.DirectoryPath & TmpWavFileExtension2) Then
+			Try
+				File.Delete(My.Application.Info.DirectoryPath & TmpWavFileExtension2)
+			Catch ex As Exception
+				WriteToLogFile(ex.Message, True)
+			End Try
+		End If
+		File.Copy(fileName, My.Application.Info.DirectoryPath & TmpWavFileExtension2)
+
+		Try
+			If Not WavLib.WAVFile.IsWaveFile(My.Application.Info.DirectoryPath & TmpWavFileExtension2) Then
+				MessageBox.Show("Cannot draw waveform. Invalid WAV file")
+				Return Nothing
+			End If
+			Dim ret = WavLib.WAVFile.GetAudioFormat(My.Application.Info.DirectoryPath & TmpWavFileExtension2)
+			Return ret
+		Catch ex As Exception
+			WriteToLogFile(ex.Message, True)
+			Return Nothing
+		End Try
+	End Function
+
 	Private Sub DrawWaveForm()
 		If Not wv.WaveStream Is Nothing Then wv.WaveStream.Dispose()
-		wv.SamplesPerPixel = (wmp.currentMedia.duration * 50000) / wv.Size.Width
+		Dim ws As WaveStream
+		Dim wf As WAVFormat
+		Dim fileName As String
+		If Path.GetExtension(wmp.currentMedia.sourceURL) = ".wav" Then
+			fileName = wmp.currentMedia.sourceURL
+		Else
+			fileName = My.Application.Info.DirectoryPath & TmpWavFileExtension1
+		End If
+
 		Select Case Path.GetExtension(wmp.currentMedia.sourceURL)
 			Case ".mp3"
 				ConvertMp3ToWav(wmp.currentMedia.sourceURL)
-				wv.WaveStream = New NAudio.Wave.WaveFileReader(My.Application.Info.DirectoryPath & TmpWavFileExtension)
+				wf = CheckBitPerSample(fileName)
+				If wf = Nothing Or wf.BitsPerSample > 16 Then Exit Sub
+				ws = New NAudio.Wave.WaveFileReader(fileName)
 			Case ".wav"
-				wv.WaveStream = New NAudio.Wave.WaveFileReader(wmp.currentMedia.sourceURL)
+				wf = CheckBitPerSample(fileName)
+				If wf = Nothing Or wf.BitsPerSample > 16 Then Exit Sub
+				ws = New NAudio.Wave.WaveFileReader(fileName)
 			Case ".aif"
-				ConvertMp3ToWav(wmp.currentMedia.sourceURL)
-				wv.WaveStream = New NAudio.Wave.WaveFileReader(My.Application.Info.DirectoryPath & TmpWavFileExtension)
+				ConvertAifToWav(wmp.currentMedia.sourceURL)
+				wf = CheckBitPerSample(fileName)
+				If wf = Nothing Or wf.BitsPerSample > 16 Then Exit Sub
+				ws = New NAudio.Wave.WaveFileReader(fileName)
+			Case Else
+				Exit Sub
 		End Select
+		wv.SamplesPerPixel = (wmp.currentMedia.duration * wf.SampleRateHz) / wv.Size.Width
+		wv.WaveStream = ws
 	End Sub
 
 	Private Sub ConvertAifToWav(aifFile As String)
 		Dim destFile As String
-		destFile = My.Application.Info.DirectoryPath & TmpWavFileExtension
+		destFile = My.Application.Info.DirectoryPath & TmpWavFileExtension1
 		If File.Exists(destFile) Then
 			Try
 				File.Delete(destFile)
@@ -799,7 +842,7 @@ Public Class SoundsMng
 
 	Private Sub ConvertMp3ToWav(mp3file As String)
 		Dim destFile As String
-		destFile = My.Application.Info.DirectoryPath & TmpWavFileExtension
+		destFile = My.Application.Info.DirectoryPath & TmpWavFileExtension1
 		If File.Exists(destFile) Then
 			Try
 				File.Delete(destFile)
@@ -876,9 +919,13 @@ Public Class SoundsMng
 		If e.newState = 3 Then
 			lblMediaPosition.Visible = True
 			TimerWMP.Enabled = True
+			pbCaret.Visible = True
+			TimerCaret.Enabled = True
 			DrawWaveForm()
 		Else
 			TimerWMP.Enabled = False
+			TimerCaret.Enabled = False
+			pbCaret.Visible = False
 			ShowCurrentMediaPosition()
 		End If
 	End Sub
@@ -886,6 +933,12 @@ Public Class SoundsMng
 	Private Sub wv_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles wv.KeyDown
 		If e.KeyCode = Keys.Home Then
 			ToolStripFilter.Focus()
+		End If
+	End Sub
+
+	Private Sub TimerCaret_Tick(sender As System.Object, e As System.EventArgs) Handles TimerCaret.Tick
+		If Not wmp.currentMedia Is Nothing Then
+			pbCaret.Left = (wmp.Ctlcontrols.currentPosition / wmp.currentMedia.duration) * wv.Size.Width
 		End If
 	End Sub
 End Class

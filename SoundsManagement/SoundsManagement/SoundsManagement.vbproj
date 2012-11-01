@@ -137,6 +137,7 @@
     <Reference Include="FileHelpers">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\FileHelpers\Binaries\DotNet 2.0\FileHelpers.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="NAudio">
       <HintPath>..\packages\NAudio.1.5\lib\NAudio.dll</HintPath>
     </Reference>
@@ -358,6 +359,12 @@
       <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WavLib\WavLib.csproj">
+      <Project>{82FFAAA3-CA18-4801-8DAF-F562DA9E0331}</Project>
+      <Name>WavLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
