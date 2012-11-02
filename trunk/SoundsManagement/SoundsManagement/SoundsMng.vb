@@ -16,7 +16,7 @@ Public Class SoundsMng
 	Public ReadOnly Property NoOfVisibleRecords As Integer
 		Get
 			Dim n = (From o In SoundsGrid.Rows Select o Where CType(o, DataGridViewRow).Visible).Count
-			If n > MAXvisibleRecords Then btnHideNotExFiles.Enabled = False Else btnHideNotExFiles.Enabled = True
+			'If n > MAXvisibleRecords Then btnHideNotExFiles.Enabled = False Else btnHideNotExFiles.Enabled = True
 			Return n
 		End Get
 	End Property
@@ -107,6 +107,7 @@ Public Class SoundsMng
 		Me.Text = "Sounds management application - (Version: " & ver & ")"
 		wmp.uiMode = "mini"
 		wmp.settings.autoStart = True
+		btnHideNotExFiles.BackColor = Color.Lime
 		Dim s As String = FilesPath
 		WindowState = FormWindowState.Maximized
 		FillGrid()
@@ -362,7 +363,7 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
-		Dim HeaderNames() As String = {"Creator", "Library", "Year", "CD", "Track", "Index", "Category", "SubCategory", "Description", "Time", "Rating", "Filename", "Tags"}
+		Dim HeaderNames() As String = {"Creator", "Library", "Year", "CD", "Track", "Index", "Category", "SubCategory", "Description", "Time", "Rating", "Filename", "Tags"} ' "FileExists" ?
 		SaveFileDialog1.Filter = "Tab Files (*.tab)|*.tab|All Files (*.*)|*.*"
 		SaveFileDialog1.FilterIndex = 0
 		If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
@@ -497,6 +498,7 @@ Public Class SoundsMng
 
 	Private Sub SoundsGrid_RowPrePaint(sender As Object, e As DataGridViewRowPrePaintEventArgs) Handles SoundsGrid.RowPrePaint
 		If Not CheckIfFileExists(SoundsGrid.Rows(e.RowIndex).DataBoundItem).FileFound Then
+			WriteToLogFile("SoundsGrid_RowPrePaint")
 			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.Font = New Font(Me.Font, FontStyle.Italic)
 			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(90, 80, 80)
 		End If
@@ -795,30 +797,21 @@ Public Class SoundsMng
 		Dim ws As WaveStream
 		Dim wf As WAVFormat
 		Dim fileName As String
-		If Path.GetExtension(wmp.currentMedia.sourceURL) = ".wav" Then
-			fileName = wmp.currentMedia.sourceURL
-		Else
-			fileName = My.Application.Info.DirectoryPath & TmpWavFileExtension1
-		End If
-
 		Select Case Path.GetExtension(wmp.currentMedia.sourceURL)
 			Case ".mp3"
+				fileName = My.Application.Info.DirectoryPath & TmpWavFileExtension1
 				ConvertMp3ToWav(wmp.currentMedia.sourceURL)
-				wf = CheckBitPerSample(fileName)
-				If wf = Nothing Or wf.BitsPerSample > 16 Then Exit Sub
-				ws = New NAudio.Wave.WaveFileReader(fileName)
 			Case ".wav"
-				wf = CheckBitPerSample(fileName)
-				If wf = Nothing Or wf.BitsPerSample > 16 Then Exit Sub
-				ws = New NAudio.Wave.WaveFileReader(fileName)
+				fileName = wmp.currentMedia.sourceURL
 			Case ".aif"
+				fileName = My.Application.Info.DirectoryPath & TmpWavFileExtension1
 				ConvertAifToWav(wmp.currentMedia.sourceURL)
-				wf = CheckBitPerSample(fileName)
-				If wf = Nothing Or wf.BitsPerSample > 16 Then Exit Sub
-				ws = New NAudio.Wave.WaveFileReader(fileName)
 			Case Else
-				Exit Sub
+				Throw New WAVFileException("Not accepted audio file extension", "DrawWaveForm")
 		End Select
+		wf = CheckBitPerSample(fileName)
+		If wf = Nothing Or wf.BitsPerSample > 16 Then Throw New WAVFileException("Invalid wav file", "DrawWaveForm")
+		ws = New NAudio.Wave.WaveFileReader(fileName)
 		wv.SamplesPerPixel = (wmp.currentMedia.duration * wf.SampleRateHz) / wv.Size.Width
 		wv.WaveStream = ws
 	End Sub
@@ -873,7 +866,15 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub btnHideNotExFiles_Click(sender As Object, e As EventArgs) Handles btnHideNotExFiles.Click
-		HideNotExistingFiles()
+		'HideNotExistingFiles()
+		Dim val As String = FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText
+		If btnHideNotExFiles.Checked Then
+			val = val.Replace("ORDER BY Files.ID", " AND FileExists = true ORDER BY Files.ID")
+		Else
+			val = val.Replace("AND FileExists = true ORDER BY Files.ID", "ORDER BY Files.ID")
+		End If
+		FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText = val
+		FillGrid()
 	End Sub
 
 	Private Sub HideNotExistingFiles()
@@ -912,6 +913,7 @@ Public Class SoundsMng
 
 	Private Sub wv_MouseClick(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles wv.MouseClick
 		If wmp.currentMedia Is Nothing Then Return
+		If wmp.status = "Stopped" Or wmp.status = "Paused" Then wmp.Ctlcontrols.play()
 		wmp.Ctlcontrols.currentPosition = wmp.currentMedia.duration * (e.X / wv.Size.Width)
 	End Sub
 
@@ -921,7 +923,11 @@ Public Class SoundsMng
 			TimerWMP.Enabled = True
 			pbCaret.Visible = True
 			TimerCaret.Enabled = True
-			DrawWaveForm()
+			Try
+				DrawWaveForm()
+			Catch ex As WAVFileException
+				MessageBox.Show("Cannot draw waveform: " & ex.Message)
+			End Try
 		Else
 			TimerWMP.Enabled = False
 			TimerCaret.Enabled = False
@@ -940,5 +946,15 @@ Public Class SoundsMng
 		If Not wmp.currentMedia Is Nothing Then
 			pbCaret.Left = (wmp.Ctlcontrols.currentPosition / wmp.currentMedia.duration) * wv.Size.Width
 		End If
+	End Sub
+
+	Private Sub wmp_KeyDownEvent(sender As System.Object, e As AxWMPLib._WMPOCXEvents_KeyDownEvent) Handles wmp.KeyDownEvent
+		If e.nKeyCode = Keys.Home Then
+			ToolStripFilter.Focus()
+		End If
+	End Sub
+
+	Private Sub btnHideNotExFiles_CheckStateChanged(sender As System.Object, e As System.EventArgs) Handles btnHideNotExFiles.CheckStateChanged
+		btnHideNotExFiles.BackColor = Color.Lime
 	End Sub
 End Class
