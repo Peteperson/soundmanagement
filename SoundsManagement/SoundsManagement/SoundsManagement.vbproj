@@ -322,6 +322,10 @@
     <None Include="Resources\BlackBG.png" />
     <None Include="Resources\Box_Red.png" />
     <None Include="Resources\Box_Green.png" />
+    <None Include="Resources\Box_Blue.png" />
+    <None Include="Resources\Box_Blue_Small.png" />
+    <None Include="Resources\Box_Green_Small.png" />
+    <None Include="Resources\Box_Red_Small.png" />
     <Content Include="Sounds.accdb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
