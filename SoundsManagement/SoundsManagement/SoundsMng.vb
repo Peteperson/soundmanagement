@@ -1,8 +1,6 @@
 ﻿Imports FileHelpers
-Imports System.Windows.Forms
 Imports System.Text
 Imports System.IO
-Imports System.Linq
 Imports System.Data.OleDb
 Imports System.Deployment.Application
 Imports NAudio.Wave
@@ -12,14 +10,6 @@ Imports WavLib
 Public Class SoundsMng
 	Private Const TmpWavFileExtension1 As String = "\tmp1.wav"
 	Private Const TmpWavFileExtension2 As String = "\tmp2.wav"
-	Private Const MAXvisibleRecords As Integer = 1000
-	Public ReadOnly Property NoOfVisibleRecords As Integer
-		Get
-			Dim n = (From o In SoundsGrid.Rows Select o Where CType(o, DataGridViewRow).Visible).Count
-			'If n > MAXvisibleRecords Then btnHideNotExFiles.Enabled = False Else btnHideNotExFiles.Enabled = True
-			Return n
-		End Get
-	End Property
 
 	Private Property _CopyPreviousFolder As String
 	Public Property CopyPreviousFolder As String
@@ -41,6 +31,7 @@ Public Class SoundsMng
 			End If
 		End Get
 	End Property
+
 	Private _FilesPath As String = ""
 	Public ReadOnly Property FilesPath(Optional ByVal RetrieveFromDB As Boolean = True) As String
 		Get
@@ -160,7 +151,6 @@ Public Class SoundsMng
 			  , fltrprm(2), fltrprm(2), fltrprm(2), fltrprm(2) _
 			  , fltrprm(3), fltrprm(3), fltrprm(3), fltrprm(3))
 			RetrieveNumberOfFiles()
-			If btnHideNotExFiles.Checked Then HideNotExistingFiles()
 		Catch ex As Exception
 			WriteToLogFile(ex.Message, True)
 		Finally
@@ -331,10 +321,9 @@ Public Class SoundsMng
 		Me.Cursor = Cursors.Default
 	End Sub
 
-	Private ffita As New SoundsManagement.SoundsDataSetTableAdapters.FilesForImportTableAdapter
-	Private fta As New SoundsManagement.SoundsDataSetTableAdapters.FilesTableAdapter
+	Private ffita As New SoundsDataSetTableAdapters.FilesForImportTableAdapter
+	Private fta As New SoundsDataSetTableAdapters.FilesTableAdapter
 	Private Sub ImportFiles(res As SoundRecord(), fname As String)
-		Dim fta As New SoundsDataSetTableAdapters.FilesForImportTableAdapter
 		prgBar.Maximum = res.Count
 		prgBar.Value = 0
 		ffita.Adapter.InsertCommand.Connection.Open()
@@ -449,6 +438,7 @@ Public Class SoundsMng
 			prgBar.Value = 0
 		End If
 	End Sub
+
 	Private Sub btnTags_Click(sender As Object, e As EventArgs) Handles btnTags.Click
 		ShowTagsDialog()
 	End Sub
@@ -497,8 +487,7 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub SoundsGrid_RowPrePaint(sender As Object, e As DataGridViewRowPrePaintEventArgs) Handles SoundsGrid.RowPrePaint
-		If Not CheckIfFileExists(SoundsGrid.Rows(e.RowIndex).DataBoundItem).FileFound Then
-			WriteToLogFile("SoundsGrid_RowPrePaint")
+		If Not (SoundsGrid.Rows(e.RowIndex).DataBoundItem).Row.FileExists Then
 			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.Font = New Font(Me.Font, FontStyle.Italic)
 			SoundsGrid.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(90, 80, 80)
 		End If
@@ -662,7 +651,7 @@ Public Class SoundsMng
 		Return returnValue
 	End Function
 
-	Public Overridable Overloads Function DeleteRecord(ByVal ID As Integer) As Integer
+	Public Function DeleteRecord(ByVal ID As Integer) As Integer
 		fta.Adapter.DeleteCommand.Parameters(0).Value = CType(ID, Integer)
 		Dim returnValue As Integer = fta.Adapter.DeleteCommand.ExecuteNonQuery
 		Return returnValue
@@ -677,7 +666,7 @@ Public Class SoundsMng
 		Dim qt As New SoundsDataSetTableAdapters.QueriesTableAdapter
 		Dim s As Integer? = qt.NumberOfFiles()
 		If s.HasValue AndAlso s.Value > 0 Then
-			lblNoOfFiles.Text = "Showing " & NoOfVisibleRecords & " from " & s.ToString() & " records in DB"
+			lblNoOfFiles.Text = "Showing " & SoundsGrid.RowCount & " from " & s.ToString() & " records in DB"
 		Else
 			lblNoOfFiles.Text = "Empty DB"
 		End If
@@ -770,15 +759,7 @@ Public Class SoundsMng
 	End Sub
 
 	Private Function CheckBitPerSample(fileName As String) As WAVFormat
-		If File.Exists(My.Application.Info.DirectoryPath & TmpWavFileExtension2) Then
-			Try
-				File.Delete(My.Application.Info.DirectoryPath & TmpWavFileExtension2)
-			Catch ex As Exception
-				WriteToLogFile(ex.Message, True)
-			End Try
-		End If
-		File.Copy(fileName, My.Application.Info.DirectoryPath & TmpWavFileExtension2)
-
+		File.Copy(fileName, My.Application.Info.DirectoryPath & TmpWavFileExtension2, True)
 		Try
 			If Not WavLib.WAVFile.IsWaveFile(My.Application.Info.DirectoryPath & TmpWavFileExtension2) Then
 				MessageBox.Show("Cannot draw waveform. Invalid WAV file")
@@ -866,36 +847,14 @@ Public Class SoundsMng
 	End Sub
 
 	Private Sub btnHideNotExFiles_Click(sender As Object, e As EventArgs) Handles btnHideNotExFiles.Click
-		'HideNotExistingFiles()
 		Dim val As String = FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText
 		If btnHideNotExFiles.Checked Then
-			val = val.Replace("ORDER BY Files.ID", " AND FileExists = true ORDER BY Files.ID")
+			val = val.Replace("ORDER BY Files.ID", " AND Files.FileExists <> 0 ORDER BY Files.ID")
 		Else
-			val = val.Replace("AND FileExists = true ORDER BY Files.ID", "ORDER BY Files.ID")
+			val = val.Replace("AND Files.FileExists <> 0 ORDER BY Files.ID", "ORDER BY Files.ID")
 		End If
 		FilesJoinedNewTableAdapter.Adapter.SelectCommand.CommandText = val
 		FillGrid()
-	End Sub
-
-	Private Sub HideNotExistingFiles()
-		Dim noofvr As Integer = NoOfVisibleRecords
-		If noofvr < MAXvisibleRecords Then
-			SoundsGrid.CurrentCell = Nothing
-			prgBar.Maximum = SoundsGrid.Rows.Count
-			prgBar.Value = 0
-			For Each row In SoundsGrid.Rows
-				prgBar.Value += 1
-				If prgBar.Value Mod (0.1 * Math.Max(noofvr, 500)) = 0 Then Application.DoEvents()
-				If (Not btnHideNotExFiles.Checked Or CheckIfFileExists(CType(row, DataGridViewRow).DataBoundItem).FileFound) Then
-					CType(row, DataGridViewRow).Visible = True
-				Else
-					CType(row, DataGridViewRow).Visible = False
-				End If
-			Next
-			prgBar.Value = 0
-			If Not btnHideNotExFiles.Checked Then SoundsGrid.FirstDisplayedScrollingRowIndex = 0
-			RetrieveNumberOfFiles()
-		End If
 	End Sub
 
 	Private Function CheckIfFileExists(drv As DataRowView) As FileExistance
@@ -957,4 +916,49 @@ Public Class SoundsMng
 	Private Sub btnHideNotExFiles_CheckStateChanged(sender As System.Object, e As System.EventArgs) Handles btnHideNotExFiles.CheckStateChanged
 		btnHideNotExFiles.BackColor = Color.Lime
 	End Sub
+
+	Private Sub btnUpdateExistance_Click(sender As System.Object, e As System.EventArgs) Handles btnUpdateExistance.Click
+		Me.Cursor = Cursors.WaitCursor
+		prgBar.Maximum = SoundsGrid.RowCount
+		prgBar.Value = 0
+		Dim fileexists As FileExistance
+		Dim tr As DataGridViewRow
+		Try
+			If ((fta.CommandCollection(1).Connection.State And Global.System.Data.ConnectionState.Open) _
+			  <> Global.System.Data.ConnectionState.Open) Then
+				fta.CommandCollection(1).Connection.Open()
+			End If
+
+			For Each tr In SoundsGrid.Rows
+				prgBar.Value += 1
+				fileexists = CheckIfFileExists(tr.DataBoundItem)
+				Dim row As SoundsDataSet.FilesJoinedNewRow
+				row = tr.DataBoundItem.Row
+				If fileexists.FileFound <> row.FileExists Then
+					UpdateExistance(fileexists.FileFound, row.ID)
+				End If
+			Next
+		Catch ex As Exception
+			WriteToLogFile(ex.Message, True)
+		Finally
+			If ((fta.CommandCollection(1).Connection.State And Global.System.Data.ConnectionState.Open) _
+			  = Global.System.Data.ConnectionState.Open) Then
+				fta.CommandCollection(1).Connection.Close()
+			End If
+		End Try
+
+		prgBar.Value = 0
+		Me.Cursor = Cursors.Default
+		MessageBox.Show("Files' existence completed")
+		FillGrid()
+	End Sub
+
+	Public Function UpdateExistance(ByVal FileExists As Boolean, ByVal Original_ID As Integer) As Integer
+		Dim command As Global.System.Data.OleDb.OleDbCommand = fta.CommandCollection(1)
+		command.Parameters(0).Value = CType(FileExists, Boolean)
+		command.Parameters(1).Value = CType(Original_ID, Integer)
+		Dim returnValue As Integer
+		returnValue = command.ExecuteNonQuery
+		Return returnValue
+	End Function
 End Class

@@ -33,7 +33,7 @@
     <PublisherName>Pete</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>Publish.htm</WebPage>
-    <ApplicationRevision>24</ApplicationRevision>
+    <ApplicationRevision>28</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -326,6 +326,7 @@
     <None Include="Resources\Box_Blue_Small.png" />
     <None Include="Resources\Box_Green_Small.png" />
     <None Include="Resources\Box_Red_Small.png" />
+    <None Include="Resources\Check.png" />
     <Content Include="Sounds.accdb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -355,12 +356,12 @@
   <ItemGroup>
     <PublishFile Include="Sounds.accdb">
       <Visible>False</Visible>
-      <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
