@@ -37,6 +37,21 @@ Partial Class SoundsMng
 		Me.LeftToolStripPanel = New System.Windows.Forms.ToolStripPanel()
 		Me.ContentPanel = New System.Windows.Forms.ToolStripContentPanel()
 		Me.SoundsGrid = New System.Windows.Forms.DataGridView()
+		Me.ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Creator = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Library = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.CD = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Year = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Track = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Index = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Category = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.SubCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Description = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Time = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Rating = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Tags = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Filename = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.FileExists = New System.Windows.Forms.DataGridViewCheckBoxColumn()
 		Me.cntxMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
 		Me.DeleteFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.OpenFileLocationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -45,6 +60,8 @@ Partial Class SoundsMng
 		Me.CopyToFolderToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.CopyToPreviousFolderToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.PlaySelectedFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.FilesJoinedNewBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+		Me.SoundsDataSet = New SoundsManagement.SoundsDataSet()
 		Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
 		Me.lblMediaPosition = New System.Windows.Forms.Label()
 		Me.TimerWMP = New System.Windows.Forms.Timer(Me.components)
@@ -73,36 +90,20 @@ Partial Class SoundsMng
 		Me.btnDeleteFiles = New System.Windows.Forms.ToolStripButton()
 		Me.btnExpNotExFiles = New System.Windows.Forms.ToolStripButton()
 		Me.btnHideNotExFiles = New System.Windows.Forms.ToolStripButton()
+		Me.btnUpdateExistance = New System.Windows.Forms.ToolStripButton()
 		Me.wv = New NAudio.Gui.WaveViewer()
 		Me.pbCaret = New System.Windows.Forms.PictureBox()
 		Me.TimerCaret = New System.Windows.Forms.Timer(Me.components)
-		Me.FilesJoinedNewBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-		Me.SoundsDataSet = New SoundsManagement.SoundsDataSet()
 		Me.FilesJoinedNewTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter()
 		Me.TableAdapterManager = New SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager()
-		Me.ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Creator = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Library = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.CD = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Year = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Track = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Index = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Category = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.SubCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Description = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Time = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Rating = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Tags = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Filename = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.FileExists = New System.Windows.Forms.DataGridViewCheckBoxColumn()
 		CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.cntxMenu.SuspendLayout()
+		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.wmp, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.FilesJoinedNewBindingNavigator.SuspendLayout()
 		CType(Me.pbCaret, System.ComponentModel.ISupportInitialize).BeginInit()
-		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
-		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
 		'
 		'TimerSearch
@@ -194,6 +195,119 @@ Partial Class SoundsMng
 		Me.SoundsGrid.Size = New System.Drawing.Size(753, 452)
 		Me.SoundsGrid.TabIndex = 2
 		'
+		'ID
+		'
+		Me.ID.DataPropertyName = "ID"
+		Me.ID.HeaderText = "ID"
+		Me.ID.Name = "ID"
+		Me.ID.Width = 52
+		'
+		'Creator
+		'
+		Me.Creator.DataPropertyName = "Creator"
+		Me.Creator.HeaderText = "Creator"
+		Me.Creator.Name = "Creator"
+		Me.Creator.ReadOnly = True
+		Me.Creator.Width = 51
+		'
+		'Library
+		'
+		Me.Library.DataPropertyName = "Library"
+		Me.Library.HeaderText = "Library"
+		Me.Library.Name = "Library"
+		Me.Library.ReadOnly = True
+		Me.Library.Width = 52
+		'
+		'CD
+		'
+		Me.CD.DataPropertyName = "CD"
+		Me.CD.HeaderText = "CD"
+		Me.CD.Name = "CD"
+		Me.CD.ReadOnly = True
+		Me.CD.Width = 52
+		'
+		'Year
+		'
+		Me.Year.DataPropertyName = "Year"
+		Me.Year.HeaderText = "Year"
+		Me.Year.Name = "Year"
+		Me.Year.ReadOnly = True
+		Me.Year.Width = 51
+		'
+		'Track
+		'
+		Me.Track.DataPropertyName = "Track"
+		Me.Track.HeaderText = "Track"
+		Me.Track.Name = "Track"
+		Me.Track.Width = 52
+		'
+		'Index
+		'
+		Me.Index.DataPropertyName = "Index"
+		Me.Index.HeaderText = "Index"
+		Me.Index.Name = "Index"
+		'
+		'Category
+		'
+		Me.Category.DataPropertyName = "Category"
+		Me.Category.HeaderText = "Category"
+		Me.Category.Name = "Category"
+		Me.Category.ReadOnly = True
+		Me.Category.Width = 52
+		'
+		'SubCategory
+		'
+		Me.SubCategory.DataPropertyName = "SubCategory"
+		Me.SubCategory.HeaderText = "SubCategory"
+		Me.SubCategory.Name = "SubCategory"
+		Me.SubCategory.ReadOnly = True
+		Me.SubCategory.Width = 52
+		'
+		'Description
+		'
+		Me.Description.DataPropertyName = "Description"
+		Me.Description.HeaderText = "Description"
+		Me.Description.Name = "Description"
+		Me.Description.ReadOnly = True
+		Me.Description.Width = 51
+		'
+		'Time
+		'
+		Me.Time.DataPropertyName = "Time"
+		Me.Time.HeaderText = "Time"
+		Me.Time.Name = "Time"
+		Me.Time.ReadOnly = True
+		Me.Time.Width = 52
+		'
+		'Rating
+		'
+		Me.Rating.DataPropertyName = "Rating"
+		Me.Rating.HeaderText = "Rating"
+		Me.Rating.Name = "Rating"
+		Me.Rating.Width = 52
+		'
+		'Tags
+		'
+		Me.Tags.DataPropertyName = "Tags"
+		Me.Tags.HeaderText = "Comments"
+		Me.Tags.Name = "Tags"
+		Me.Tags.Width = 52
+		'
+		'Filename
+		'
+		Me.Filename.DataPropertyName = "Filename"
+		Me.Filename.HeaderText = "Filename"
+		Me.Filename.Name = "Filename"
+		Me.Filename.ReadOnly = True
+		Me.Filename.Width = 51
+		'
+		'FileExists
+		'
+		Me.FileExists.DataPropertyName = "FileExists"
+		Me.FileExists.HeaderText = "FileExists"
+		Me.FileExists.Name = "FileExists"
+		Me.FileExists.Visible = False
+		'
 		'cntxMenu
 		'
 		Me.cntxMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeleteFileToolStripMenuItem, Me.OpenFileLocationToolStripMenuItem, Me.EditFilesToolStripMenuItem, Me.CopyToFolderToolStripMenuItem, Me.PlaySelectedFilesToolStripMenuItem})
@@ -251,6 +365,16 @@ Partial Class SoundsMng
 		Me.PlaySelectedFilesToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
 		Me.PlaySelectedFilesToolStripMenuItem.Text = "Play selected file(s)"
 		'
+		'FilesJoinedNewBindingSource
+		'
+		Me.FilesJoinedNewBindingSource.DataMember = "FilesJoinedNew"
+		Me.FilesJoinedNewBindingSource.DataSource = Me.SoundsDataSet
+		'
+		'SoundsDataSet
+		'
+		Me.SoundsDataSet.DataSetName = "SoundsDataSet"
+		Me.SoundsDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
+		'
 		'lblMediaPosition
 		'
 		Me.lblMediaPosition.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -288,7 +412,7 @@ Partial Class SoundsMng
 		Me.FilesJoinedNewBindingNavigator.CountItem = Me.BindingNavigatorCountItem
 		Me.FilesJoinedNewBindingNavigator.CountItemFormat = "{0} records"
 		Me.FilesJoinedNewBindingNavigator.DeleteItem = Nothing
-		Me.FilesJoinedNewBindingNavigator.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripFilter, Me.ToolStripLabel2, Me.lstNoOfSelRecs, Me.BindingNavigatorSeparator1, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.btnPath, Me.btnCompact, Me.ToolStripSeparator2, Me.btnSetLibPath, Me.btnManageColumns, Me.ToolStripSeparator1, Me.prgBar, Me.btnExport, Me.btnImportData, Me.btnTags, Me.btnEditRecs, Me.btnClear, Me.lblNoOfFiles, Me.btnDeleteFiles, Me.btnExpNotExFiles, Me.btnHideNotExFiles})
+		Me.FilesJoinedNewBindingNavigator.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripFilter, Me.ToolStripLabel2, Me.lstNoOfSelRecs, Me.BindingNavigatorSeparator1, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.btnPath, Me.btnCompact, Me.ToolStripSeparator2, Me.btnSetLibPath, Me.btnManageColumns, Me.ToolStripSeparator1, Me.prgBar, Me.btnExport, Me.btnImportData, Me.btnTags, Me.btnEditRecs, Me.btnClear, Me.lblNoOfFiles, Me.btnDeleteFiles, Me.btnExpNotExFiles, Me.btnHideNotExFiles, Me.btnUpdateExistance})
 		Me.FilesJoinedNewBindingNavigator.Location = New System.Drawing.Point(0, 0)
 		Me.FilesJoinedNewBindingNavigator.MoveFirstItem = Nothing
 		Me.FilesJoinedNewBindingNavigator.MoveLastItem = Nothing
@@ -506,6 +630,16 @@ Partial Class SoundsMng
 		Me.btnHideNotExFiles.Size = New System.Drawing.Size(23, 20)
 		Me.btnHideNotExFiles.ToolTipText = "Show not existing files"
 		'
+		'btnUpdateExistance
+		'
+		Me.btnUpdateExistance.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+		Me.btnUpdateExistance.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+		Me.btnUpdateExistance.Image = Global.SoundsManagement.My.Resources.Resources.Check
+		Me.btnUpdateExistance.ImageTransparentColor = System.Drawing.Color.Magenta
+		Me.btnUpdateExistance.Name = "btnUpdateExistance"
+		Me.btnUpdateExistance.Size = New System.Drawing.Size(23, 20)
+		Me.btnUpdateExistance.ToolTipText = "Update files' existance"
+		'
 		'wv
 		'
 		Me.wv.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
@@ -538,16 +672,6 @@ Partial Class SoundsMng
 		'TimerCaret
 		'
 		'
-		'FilesJoinedNewBindingSource
-		'
-		Me.FilesJoinedNewBindingSource.DataMember = "FilesJoinedNew"
-		Me.FilesJoinedNewBindingSource.DataSource = Me.SoundsDataSet
-		'
-		'SoundsDataSet
-		'
-		Me.SoundsDataSet.DataSetName = "SoundsDataSet"
-		Me.SoundsDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
-		'
 		'FilesJoinedNewTableAdapter
 		'
 		Me.FilesJoinedNewTableAdapter.ClearBeforeFill = True
@@ -568,119 +692,6 @@ Partial Class SoundsMng
 		Me.TableAdapterManager.TagsTableAdapter = Nothing
 		Me.TableAdapterManager.UpdateOrder = SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete
 		'
-		'ID
-		'
-		Me.ID.DataPropertyName = "ID"
-		Me.ID.HeaderText = "ID"
-		Me.ID.Name = "ID"
-		Me.ID.Width = 52
-		'
-		'Creator
-		'
-		Me.Creator.DataPropertyName = "Creator"
-		Me.Creator.HeaderText = "Creator"
-		Me.Creator.Name = "Creator"
-		Me.Creator.ReadOnly = True
-		Me.Creator.Width = 51
-		'
-		'Library
-		'
-		Me.Library.DataPropertyName = "Library"
-		Me.Library.HeaderText = "Library"
-		Me.Library.Name = "Library"
-		Me.Library.ReadOnly = True
-		Me.Library.Width = 52
-		'
-		'CD
-		'
-		Me.CD.DataPropertyName = "CD"
-		Me.CD.HeaderText = "CD"
-		Me.CD.Name = "CD"
-		Me.CD.ReadOnly = True
-		Me.CD.Width = 52
-		'
-		'Year
-		'
-		Me.Year.DataPropertyName = "Year"
-		Me.Year.HeaderText = "Year"
-		Me.Year.Name = "Year"
-		Me.Year.ReadOnly = True
-		Me.Year.Width = 51
-		'
-		'Track
-		'
-		Me.Track.DataPropertyName = "Track"
-		Me.Track.HeaderText = "Track"
-		Me.Track.Name = "Track"
-		Me.Track.Width = 52
-		'
-		'Index
-		'
-		Me.Index.DataPropertyName = "Index"
-		Me.Index.HeaderText = "Index"
-		Me.Index.Name = "Index"
-		'
-		'Category
-		'
-		Me.Category.DataPropertyName = "Category"
-		Me.Category.HeaderText = "Category"
-		Me.Category.Name = "Category"
-		Me.Category.ReadOnly = True
-		Me.Category.Width = 52
-		'
-		'SubCategory
-		'
-		Me.SubCategory.DataPropertyName = "SubCategory"
-		Me.SubCategory.HeaderText = "SubCategory"
-		Me.SubCategory.Name = "SubCategory"
-		Me.SubCategory.ReadOnly = True
-		Me.SubCategory.Width = 52
-		'
-		'Description
-		'
-		Me.Description.DataPropertyName = "Description"
-		Me.Description.HeaderText = "Description"
-		Me.Description.Name = "Description"
-		Me.Description.ReadOnly = True
-		Me.Description.Width = 51
-		'
-		'Time
-		'
-		Me.Time.DataPropertyName = "Time"
-		Me.Time.HeaderText = "Time"
-		Me.Time.Name = "Time"
-		Me.Time.ReadOnly = True
-		Me.Time.Width = 52
-		'
-		'Rating
-		'
-		Me.Rating.DataPropertyName = "Rating"
-		Me.Rating.HeaderText = "Rating"
-		Me.Rating.Name = "Rating"
-		Me.Rating.Width = 52
-		'
-		'Tags
-		'
-		Me.Tags.DataPropertyName = "Tags"
-		Me.Tags.HeaderText = "Comments"
-		Me.Tags.Name = "Tags"
-		Me.Tags.Width = 52
-		'
-		'Filename
-		'
-		Me.Filename.DataPropertyName = "Filename"
-		Me.Filename.HeaderText = "Filename"
-		Me.Filename.Name = "Filename"
-		Me.Filename.ReadOnly = True
-		Me.Filename.Width = 51
-		'
-		'FileExists
-		'
-		Me.FileExists.DataPropertyName = "FileExists"
-		Me.FileExists.HeaderText = "FileExists"
-		Me.FileExists.Name = "FileExists"
-		Me.FileExists.Visible = False
-		'
 		'SoundsMng
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -700,13 +711,13 @@ Partial Class SoundsMng
 		Me.Text = "SoundsMng"
 		CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.cntxMenu.ResumeLayout(False)
+		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.wmp, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.FilesJoinedNewBindingNavigator.ResumeLayout(False)
 		Me.FilesJoinedNewBindingNavigator.PerformLayout()
 		CType(Me.pbCaret, System.ComponentModel.ISupportInitialize).EndInit()
-		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
-		CType(Me.SoundsDataSet, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
 
@@ -779,4 +790,5 @@ Partial Class SoundsMng
 	Friend WithEvents Tags As System.Windows.Forms.DataGridViewTextBoxColumn
 	Friend WithEvents Filename As System.Windows.Forms.DataGridViewTextBoxColumn
 	Friend WithEvents FileExists As System.Windows.Forms.DataGridViewCheckBoxColumn
+	Friend WithEvents btnUpdateExistance As System.Windows.Forms.ToolStripButton
 End Class
