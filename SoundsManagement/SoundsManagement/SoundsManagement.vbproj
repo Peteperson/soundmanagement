@@ -310,6 +310,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MusicFolder.ico" />
+    <Content Include="tmp0.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\1350756237_Remove.png" />
     <None Include="Resources\1350756491_page_edit.png" />
     <None Include="Resources\1350756535_system-file-manager.png" />
