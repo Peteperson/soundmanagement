@@ -8,8 +8,9 @@ Imports NAudio.Wave.Compression
 Imports WavLib
 
 Public Class SoundsMng
-	Private Const TmpWavFileExtension1 As String = "\tmp1.wav"
-	Private Const TmpWavFileExtension2 As String = "\tmp2.wav"
+	Private TmpWavFile0 As String = My.Application.Info.DirectoryPath & "\tmp0.wav"
+	Private TmpWavFile1 As String = My.Application.Info.DirectoryPath & "\tmp1.wav"
+	Private TmpWavFile2 As String = My.Application.Info.DirectoryPath & "\tmp2.wav"
 
 	Private Property _CopyPreviousFolder As String
 	Public Property CopyPreviousFolder As String
@@ -733,8 +734,8 @@ Public Class SoundsMng
 	Private Sub CopyToFolderToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles CopyToFolderToolStripMenuItem1.Click
 		If FolderBrowserDialog1.ShowDialog = vbOK Then
 			CopyPreviousFolder = FolderBrowserDialog1.SelectedPath
+			CopyFilesToPreviousFolder()
 		End If
-		CopyFilesToPreviousFolder()
 	End Sub
 
 	Private Sub CopyToPreviousFolderToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles CopyToPreviousFolderToolStripMenuItem1.Click
@@ -758,14 +759,32 @@ Public Class SoundsMng
 		ShowCurrentMediaPosition()
 	End Sub
 
-	Private Function CheckBitPerSample(fileName As String) As WAVFormat
-		File.Copy(fileName, My.Application.Info.DirectoryPath & TmpWavFileExtension2, True)
-		Try
-			If Not WavLib.WAVFile.IsWaveFile(My.Application.Info.DirectoryPath & TmpWavFileExtension2) Then
-				MessageBox.Show("Cannot draw waveform. Invalid WAV file")
-				Return Nothing
+	Private WriteOnly Property InvalidWaveFileLabel As String
+		Set(value As String)
+			If value = String.Empty Then
+				lblInvWvFile.Visible = False
+			Else
+				lblInvWvFile.Visible = True
+				lblInvWvFile.Text = value
 			End If
-			Dim ret = WavLib.WAVFile.GetAudioFormat(My.Application.Info.DirectoryPath & TmpWavFileExtension2)
+		End Set
+	End Property
+
+	Private Function CheckBitPerSample(fileName As String) As WAVFormat
+		Dim ffile = TmpWavFile1
+		If fileName <> TmpWavFile1 Then
+			File.Copy(fileName, TmpWavFile2, True)
+			File.SetAttributes(TmpWavFile2, FileAttributes.Normal)
+			ffile = TmpWavFile2
+		End If
+		Try
+			If Not WavLib.WAVFile.IsWaveFile(ffile) Then
+				InvalidWaveFileLabel = "Cannot draw waveform. Invalid WAV file"
+				Return Nothing
+			Else
+				InvalidWaveFileLabel = String.Empty
+			End If
+			Dim ret = WavLib.WAVFile.GetAudioFormat(ffile)
 			Return ret
 		Catch ex As Exception
 			WriteToLogFile(ex.Message, True)
@@ -780,53 +799,54 @@ Public Class SoundsMng
 		Dim fileName As String
 		Select Case Path.GetExtension(wmp.currentMedia.sourceURL)
 			Case ".mp3"
-				fileName = My.Application.Info.DirectoryPath & TmpWavFileExtension1
+				fileName = TmpWavFile1
 				ConvertMp3ToWav(wmp.currentMedia.sourceURL)
 			Case ".wav"
 				fileName = wmp.currentMedia.sourceURL
 			Case ".aif"
-				fileName = My.Application.Info.DirectoryPath & TmpWavFileExtension1
+				fileName = TmpWavFile1
 				ConvertAifToWav(wmp.currentMedia.sourceURL)
 			Case Else
-				Throw New WAVFileException("Not accepted audio file extension", "DrawWaveForm")
+				fileName = TmpWavFile0
+				InvalidWaveFileLabel = "Not accepted audio file extension"
 		End Select
 		wf = CheckBitPerSample(fileName)
-		If wf = Nothing Or wf.BitsPerSample > 16 Then Throw New WAVFileException("Invalid wav file", "DrawWaveForm")
+		If wf = Nothing Or wf.BitsPerSample > 16 Then
+			fileName = TmpWavFile0
+			InvalidWaveFileLabel = "Invalid wav file"
+			wf.SampleRateHz = 10000
+		End If
 		ws = New NAudio.Wave.WaveFileReader(fileName)
 		wv.SamplesPerPixel = (wmp.currentMedia.duration * wf.SampleRateHz) / wv.Size.Width
 		wv.WaveStream = ws
 	End Sub
 
 	Private Sub ConvertAifToWav(aifFile As String)
-		Dim destFile As String
-		destFile = My.Application.Info.DirectoryPath & TmpWavFileExtension1
-		If File.Exists(destFile) Then
+		If File.Exists(TmpWavFile1) Then
 			Try
-				File.Delete(destFile)
+				File.Delete(TmpWavFile1)
 			Catch ex As Exception
 				WriteToLogFile(ex.Message, True)
 			End Try
 		End If
 		Using reader As New AiffFileReader(aifFile)
 			Using pcmStream As WaveStream = WaveFormatConversionStream.CreatePcmStream(reader)
-				WaveFileWriter.CreateWaveFile(destFile, pcmStream)
+				WaveFileWriter.CreateWaveFile(TmpWavFile1, pcmStream)
 			End Using
 		End Using
 	End Sub
 
 	Private Sub ConvertMp3ToWav(mp3file As String)
-		Dim destFile As String
-		destFile = My.Application.Info.DirectoryPath & TmpWavFileExtension1
-		If File.Exists(destFile) Then
+		If File.Exists(TmpWavFile1) Then
 			Try
-				File.Delete(destFile)
+				File.Delete(TmpWavFile1)
 			Catch ex As Exception
 				WriteToLogFile(ex.Message, True)
 			End Try
 		End If
 		Using reader As New Mp3FileReader(mp3file)
 			Using pcmStream As WaveStream = WaveFormatConversionStream.CreatePcmStream(reader)
-				WaveFileWriter.CreateWaveFile(destFile, pcmStream)
+				WaveFileWriter.CreateWaveFile(TmpWavFile1, pcmStream)
 			End Using
 		End Using
 	End Sub
@@ -835,6 +855,7 @@ Public Class SoundsMng
 		If Not wmp.currentMedia Is Nothing Then
 			lblMediaPosition.Text = "File playing: " & wmp.currentMedia.name & " (" & _
 			 wmp.Ctlcontrols.currentPositionString & "/" & wmp.currentMedia.durationString & ")"
+			lblInvWvFile.Left = lblMediaPosition.Right + 5
 		End If
 	End Sub
 
@@ -885,7 +906,7 @@ Public Class SoundsMng
 			Try
 				DrawWaveForm()
 			Catch ex As WAVFileException
-				MessageBox.Show("Cannot draw waveform: " & ex.Message)
+				InvalidWaveFileLabel = "Cannot draw waveform: " & ex.Message
 			End Try
 		Else
 			TimerWMP.Enabled = False
