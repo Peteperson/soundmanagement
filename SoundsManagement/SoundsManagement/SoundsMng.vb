@@ -763,7 +763,11 @@ Public Class SoundsMng
 		Set(value As String)
 			If value = String.Empty Then
 				lblInvWvFile.Visible = False
+				pbEmptyWaveView.Visible = False
+				wv.Visible = True
 			Else
+				wv.Visible = False
+				pbEmptyWaveView.Visible = True
 				lblInvWvFile.Visible = True
 				lblInvWvFile.Text = value
 			End If
@@ -813,7 +817,7 @@ Public Class SoundsMng
 		wf = CheckBitPerSample(fileName)
 		If wf = Nothing Or wf.BitsPerSample > 16 Then
 			fileName = TmpWavFile0
-			InvalidWaveFileLabel = "Invalid wav file"
+			InvalidWaveFileLabel = "Preview is not available"
 			wf.SampleRateHz = 10000
 		End If
 		ws = New NAudio.Wave.WaveFileReader(fileName)
@@ -891,10 +895,14 @@ Public Class SoundsMng
 		Return New FileExistance(False, CurrentFile)
 	End Function
 
-	Private Sub wv_MouseClick(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles wv.MouseClick
+	Private Sub wv_MouseClick(sender As System.Object, e As MouseEventArgs) Handles wv.MouseClick
+		SetMediaPosition(e)
+	End Sub
+
+	Private Sub SetMediaPosition(e As MouseEventArgs)
 		If wmp.currentMedia Is Nothing Then Return
-		If wmp.status = "Stopped" Or wmp.status = "Paused" Then wmp.Ctlcontrols.play()
 		wmp.Ctlcontrols.currentPosition = wmp.currentMedia.duration * (e.X / wv.Size.Width)
+		If wmp.status = "Stopped" Or wmp.status = "Paused" Then wmp.Ctlcontrols.play()
 	End Sub
 
 	Private Sub wmp_PlayStateChange(sender As System.Object, e As AxWMPLib._WMPOCXEvents_PlayStateChangeEvent) Handles wmp.PlayStateChange
@@ -982,4 +990,8 @@ Public Class SoundsMng
 		returnValue = command.ExecuteNonQuery
 		Return returnValue
 	End Function
+
+	Private Sub pbEmptyWaveView_MouseClick(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles pbEmptyWaveView.MouseClick
+		SetMediaPosition(e)
+	End Sub
 End Class

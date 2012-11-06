@@ -97,6 +97,7 @@ Partial Class SoundsMng
 		Me.FilesJoinedNewTableAdapter = New SoundsManagement.SoundsDataSetTableAdapters.FilesJoinedNewTableAdapter()
 		Me.TableAdapterManager = New SoundsManagement.SoundsDataSetTableAdapters.TableAdapterManager()
 		Me.lblInvWvFile = New System.Windows.Forms.Label()
+		Me.pbEmptyWaveView = New System.Windows.Forms.PictureBox()
 		CType(Me.SoundsGrid, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.cntxMenu.SuspendLayout()
 		CType(Me.FilesJoinedNewBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -105,6 +106,7 @@ Partial Class SoundsMng
 		CType(Me.FilesJoinedNewBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.FilesJoinedNewBindingNavigator.SuspendLayout()
 		CType(Me.pbCaret, System.ComponentModel.ISupportInitialize).BeginInit()
+		CType(Me.pbEmptyWaveView, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
 		'
 		'TimerSearch
@@ -708,6 +710,19 @@ Partial Class SoundsMng
 		Me.lblInvWvFile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 		Me.lblInvWvFile.Visible = False
 		'
+		'pbEmptyWaveView
+		'
+		Me.pbEmptyWaveView.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+				  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.pbEmptyWaveView.BackgroundImage = Global.SoundsManagement.My.Resources.Resources.Box_Blue
+		Me.pbEmptyWaveView.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+		Me.pbEmptyWaveView.Location = New System.Drawing.Point(1, 489)
+		Me.pbEmptyWaveView.Name = "pbEmptyWaveView"
+		Me.pbEmptyWaveView.Size = New System.Drawing.Size(600, 81)
+		Me.pbEmptyWaveView.TabIndex = 11
+		Me.pbEmptyWaveView.TabStop = False
+		Me.pbEmptyWaveView.Visible = False
+		'
 		'SoundsMng
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -723,6 +738,7 @@ Partial Class SoundsMng
 		Me.Controls.Add(Me.SoundsGrid)
 		Me.Controls.Add(Me.FilesJoinedNewBindingNavigator)
 		Me.Controls.Add(Me.wv)
+		Me.Controls.Add(Me.pbEmptyWaveView)
 		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
 		Me.Name = "SoundsMng"
 		Me.Text = "SoundsMng"
@@ -735,6 +751,7 @@ Partial Class SoundsMng
 		Me.FilesJoinedNewBindingNavigator.ResumeLayout(False)
 		Me.FilesJoinedNewBindingNavigator.PerformLayout()
 		CType(Me.pbCaret, System.ComponentModel.ISupportInitialize).EndInit()
+		CType(Me.pbEmptyWaveView, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
 
@@ -809,4 +826,5 @@ Partial Class SoundsMng
 	Friend WithEvents FileExists As System.Windows.Forms.DataGridViewCheckBoxColumn
 	Friend WithEvents btnUpdateExistance As System.Windows.Forms.ToolStripButton
 	Friend WithEvents lblInvWvFile As System.Windows.Forms.Label
+	Friend WithEvents pbEmptyWaveView As System.Windows.Forms.PictureBox
 End Class
