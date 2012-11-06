@@ -783,7 +783,7 @@ Public Class SoundsMng
 		End If
 		Try
 			If Not WavLib.WAVFile.IsWaveFile(ffile) Then
-				InvalidWaveFileLabel = "Cannot draw waveform. Invalid WAV file"
+				InvalidWaveFileLabel = "Preview is not available. Invalid WAV file"
 				Return Nothing
 			Else
 				InvalidWaveFileLabel = String.Empty
@@ -812,7 +812,7 @@ Public Class SoundsMng
 				ConvertAifToWav(wmp.currentMedia.sourceURL)
 			Case Else
 				fileName = TmpWavFile0
-				InvalidWaveFileLabel = "Not accepted audio file extension"
+				InvalidWaveFileLabel = "Preview is not available: Not accepted audio file extension"
 		End Select
 		wf = CheckBitPerSample(fileName)
 		If wf = Nothing Or wf.BitsPerSample > 16 Then
@@ -914,7 +914,7 @@ Public Class SoundsMng
 			Try
 				DrawWaveForm()
 			Catch ex As WAVFileException
-				InvalidWaveFileLabel = "Cannot draw waveform: " & ex.Message
+				InvalidWaveFileLabel = "Preview is not available: " & ex.Message
 			End Try
 		Else
 			TimerWMP.Enabled = False
